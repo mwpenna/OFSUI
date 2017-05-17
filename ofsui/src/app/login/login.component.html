@@ -1,0 +1,43 @@
+<div class="login-container">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <div class="login-box animated fadeInDown">
+    <div class="login-logo"></div>
+    <div class="login-body">
+      <div class="login-title"><strong>Welcome</strong>, Please login</div>
+        <div class="form-group">
+          <div class="col-md-12">
+            <input type="text" [(ngModel)]="user.username" class="form-control" placeholder="Username"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-12">
+            <input type="password" [(ngModel)]="user.password" class="form-control" placeholder="Password"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-6">
+            <a href="#" class="btn btn-link btn-block">Forgot your password?</a>
+          </div>
+          <div class="col-md-6">
+            <button class="btn btn-info btn-block" (click)="login()">Log In</button>
+          </div>
+        </div>
+    </div>
+    <div class="login-footer">
+      <div class="pull-left">
+        &copy; 2017 OFS
+      </div>
+      <div class="pull-right">
+        <a href="#">About</a> |
+        <a href="#">Privacy</a> |
+        <a href="#">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
