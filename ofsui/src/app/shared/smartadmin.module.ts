@@ -14,9 +14,6 @@ import {PopoverModule} from "ngx-popover";
 
 import {SmartadminLayoutModule} from './layout'
 
-import {UserService} from './user'
-
-
 import {I18nModule} from "./i18n/i18n.module";
 import {UserModule} from "./user/user.module";
 import {VoiceControlModule} from "./voice-control/voice-control.module";
@@ -24,7 +21,7 @@ import {VoiceControlModule} from "./voice-control/voice-control.module";
 import {SmartadminWidgetsModule} from "./widgets/smartadmin-widgets.module";
 
 import {UtilsModule} from "./utils/utils.module";
-import {ChatModule} from "./chat/chat.module";
+// import {ChatModule} from "./chat/chat.module";
 import {StatsModule} from "./stats/stats.module";
 import {InlineGraphsModule} from "./graphs/inline/inline-graphs.module";
 import {SmartadminFormsLiteModule} from "./forms/smartadmin-forms-lite.module";
@@ -62,7 +59,6 @@ import {SmartProgressbarModule} from "./ui/smart-progressbar/smart-progressbar.m
 
     UtilsModule,
 
-
     SmartadminFormsLiteModule,
 
     SmartProgressbarModule,
@@ -71,7 +67,7 @@ import {SmartProgressbarModule} from "./ui/smart-progressbar/smart-progressbar.m
 
     SmartadminWidgetsModule,
 
-    ChatModule,
+    // ChatModule,
 
     StatsModule,
 
