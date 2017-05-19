@@ -1,10 +1,10 @@
-import { OfsuiPage } from './app.po';
+import { UpgradeProjectPage } from './app.po';
 
-describe('ofsui App', () => {
-  let page: OfsuiPage;
+describe('upgrade-project App', () => {
+  let page: UpgradeProjectPage;
 
   beforeEach(() => {
-    page = new OfsuiPage();
+    page = new UpgradeProjectPage();
   });
 
   it('should display message saying app works', () => {
