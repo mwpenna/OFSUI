@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {AuthService} from "../../../+auth/auth.service";
 
 declare var $: any;
 
@@ -9,7 +10,7 @@ declare var $: any;
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -27,5 +28,9 @@ export class HeaderComponent implements OnInit {
   onSubmit() {
     this.router.navigate(['/miscellaneous/search']);
 
+  }
+
+  logout(event) {
+    this.authService.logout();
   }
 }
