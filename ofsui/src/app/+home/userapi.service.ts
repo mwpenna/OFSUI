@@ -59,7 +59,6 @@ export class UserAPIService {
     }
 
     retrieveUser():Observable<any> {
-        console.log("User Token: " + this.userInfo.token);
         let headers = new Headers({ "Authorization": "Bearer "+this.userInfo.token });
         let options = new RequestOptions({ "headers": headers });
         return this.http.get("http://localhost:8082/users/token", options)

@@ -16,7 +16,7 @@ export class LoginInfoComponent implements OnInit {
               private layoutService: LayoutService) {
 
     this.loggedInUser = {
-      "username": "",
+      "name": "",
       "picture": "assets/img/avatars/user-no-image.png",
       "activity": 0
     }
@@ -24,7 +24,7 @@ export class LoginInfoComponent implements OnInit {
 
   ngOnInit() {
     this.userService.getObservableUser().subscribe(user => {
-      this.loggedInUser.username = user.userName;
+      this.loggedInUser.name = user.firstName + " " + user.lastName;
     })
   }
 

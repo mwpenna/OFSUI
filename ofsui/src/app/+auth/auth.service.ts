@@ -31,7 +31,6 @@ export class AuthService {
         .subscribe(
             result => {
                 var token = result.json().token;
-                console.log("Token: "+ token);
                 this.userService.setToken(token);
                 this.isLoggedIn = true;
                 this.router.navigate(this.redirectUrl ? [this.redirectUrl] : ['/home'])
