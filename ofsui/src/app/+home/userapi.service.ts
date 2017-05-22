@@ -1,53 +1,82 @@
 import { Injectable } from '@angular/core';
-import {RequestOptions, Http, Headers} from "@angular/http";
+import {RequestOptions, Http, Headers, Response} from "@angular/http";
+import {Observable, Subject} from "rxjs";
 
 @Injectable()
 export class UserAPIService {
-    public user: any;
+    public user: Subject<any>;
 
-    constructor(private http: Http) {
-        this.user = {
+    public userInfo = {
+        "href": "",
+        "id": "",
+        "firstName": "",
+        "lastName": "",
+        "company": {
             "href": "",
-            "id": "",
-            "firstName": "",
-            "lastName": "",
-            "company": {
-                "href": "",
-                "name": "",
-                "id": ""
-            },
-            "role": "",
-            "userName": "",
-            "emailAddress": "",
-            "token": "",
-            "tokenExpDate": "",
-            "activeFlag": false,
-            "password": ""
-        }
+            "name": "",
+            "id": ""
+        },
+        "role": "",
+        "userName": "",
+        "emailAddress": "",
+        "token": "",
+        "tokenExpDate": "",
+        "activeFlag": false,
+        "password": ""
     }
 
-    getUser() {
-        return this.user;
+    private observableUser: Observable<any>;
+
+    constructor(private http: Http) {
+        this.user = new Subject();
     }
 
     setToken(token: any) {
-        this.user.token = token;
+        this.userInfo.token = token;
     }
 
-    retrieveUser() {
-        console.log("User Token: " + this.user.token);
-        let headers = new Headers({ "Authorization": "Bearer "+this.user.token });
+    getObservableUser():Observable<any> {
+
+        if(this.observableUser == null) {
+            this.observableUser = this.retrieveUser()
+                .do((user)=> {
+                    this.userInfo = user;
+                    this.user.next(user)
+                })
+        }
+
+        return this.observableUser;
+    }
+
+    updateObservableUser():Observable<any> {
+        this.observableUser = this.retrieveUser()
+            .do((user)=> {
+                this.userInfo = user;
+                this.user.next(user)
+            })
+
+        return this.observableUser;
+    }
+
+    retrieveUser():Observable<any> {
+        console.log("User Token: " + this.userInfo.token);
+        let headers = new Headers({ "Authorization": "Bearer "+this.userInfo.token });
         let options = new RequestOptions({ "headers": headers });
-        this.http.get("http://localhost:8082/users/token", options)
-            .subscribe(
-                result => {
-                    this.user = result.json();
-                    console.log("User with id: " + this.user.id + " retrieved");
-                },
-                error => {
-                    console.error('\n', error);
-                    console.log('\n', 'Unable to get user by token', '\n\n');
-                }
-            );
+        return this.http.get("http://localhost:8082/users/token", options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    private extractData(res:Response) {
+        return res.json();
+    }
+
+    private handleError(error:any) {
+        // In a real world app, we might use a remote logging infrastructure
+        // We'd also dig deeper into the error to get a better message
+        let errMsg = (error.message) ? error.message :
+            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+        console.error(errMsg); // log to console instead
+        return Observable.throw(errMsg);
     }
 }

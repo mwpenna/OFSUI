@@ -19,8 +19,6 @@ import {UserAPIService} from "../+home/userapi.service";
 @NgModule({
   imports: [
     CommonModule,
-
-
     TooltipModule.forRoot(),
     BsDropdownModule.forRoot(),
     ProgressbarModule.forRoot(),
@@ -38,9 +36,6 @@ import {UserAPIService} from "../+home/userapi.service";
     AuthService,
     AuthGuard,
     UserAPIService
-
-
-
   ]
 })
 export class CoreModule {

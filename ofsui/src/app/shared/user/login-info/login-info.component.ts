@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from "../user.service";
 import {LayoutService} from "../../layout/layout.service";
+import {UserAPIService} from "../../../+home/userapi.service";
 
 @Component({
 
@@ -9,18 +9,23 @@ import {LayoutService} from "../../layout/layout.service";
 })
 export class LoginInfoComponent implements OnInit {
 
-  user:any;
+  loggedInUser:any;
 
   constructor(
-    private userService: UserService,
+    private userService: UserAPIService,
               private layoutService: LayoutService) {
+
+    this.loggedInUser = {
+      "username": "",
+      "picture": "assets/img/avatars/user-no-image.png",
+      "activity": 0
+    }
   }
 
   ngOnInit() {
-    this.userService.getLoginInfo().subscribe(user => {
-      this.user = user
+    this.userService.getObservableUser().subscribe(user => {
+      this.loggedInUser.username = user.userName;
     })
-
   }
 
   toggleShortcut() {

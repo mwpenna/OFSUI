@@ -23,27 +23,25 @@ export class AuthService {
   }
 
   login(username: any, password: any) {
-      console.log("Username is: " + username);
-      console.log("Password is: " + password);
-
       var encodedString = btoa(username + ":"+ password);
-      console.log("Encoded Basic Auth: " + encodedString);
 
       let headers = new Headers({ "Authorization": "Basic "+encodedString });
       let options = new RequestOptions({ "headers": headers });
       this.http.get("http://localhost:8082/users/getToken", options)
-        .subscribe(result => {
+        .subscribe(
+            result => {
                 var token = result.json().token;
                 console.log("Token: "+ token);
                 this.userService.setToken(token);
                 this.isLoggedIn = true;
                 this.router.navigate(this.redirectUrl ? [this.redirectUrl] : ['/home'])
-        },
-        error => {
-            console.log('\n', error);
-            console.log('\n', 'user credentials not valid', '\n\n');
-        });
-      }
+            },
+            error => {
+                console.log('\n', error);
+                console.log('\n', 'user credentials not valid', '\n\n');
+            }
+        );
+  }
 
   logout(): void {
       console.log("Logging out");
@@ -52,11 +50,11 @@ export class AuthService {
                 +":" + pad(now.getUTCMinutes()) + ":" + pad(now.getUTCSeconds()) + "Z";
       this.updateUser.tokenExpDate = stringDate;
 
-      let headers = new Headers({ "Authorization": "Bearer "+ this.userService.user.token,
+      let headers = new Headers({ "Authorization": "Bearer "+ this.userService.userInfo.token,
                                   "Content-Type" : "application/json"});
       let options = new RequestOptions({ "headers": headers });
 
-      this.http.post("http://localhost:8082/users/id/" + this.userService.user.id, JSON.stringify(this.updateUser), options)
+      this.http.post("http://localhost:8082/users/id/" + this.userService.userInfo.id, JSON.stringify(this.updateUser), options)
           .subscribe(
               result => {
                   console.log("Successfully logged out")

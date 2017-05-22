@@ -1,5 +1,5 @@
 {
-    "username": "John Doe",
-    "picture": "assets/img/avatars/sunny.png",
+    "firstname": "John Doe",
+    "picture": "assets/img/avatars/user-no-image.png",
     "activity": 12
 }
