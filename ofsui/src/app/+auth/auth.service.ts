@@ -5,6 +5,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
 import {Router} from "@angular/router";
 import {RequestOptions, Http, Headers} from "@angular/http";
+import {UserAPIService} from "../+home/userapi.service";
 
 @Injectable()
 export class AuthService {
@@ -13,8 +14,12 @@ export class AuthService {
   // store the URL so we can redirect after logging in
   redirectUrl: string;
 
-  constructor(private router: Router, private http: Http) {
+  private updateUser : any;
 
+  constructor(private router: Router, private http: Http, private userService: UserAPIService) {
+      this.updateUser = {
+          "tokenExpDate": "",
+      }
   }
 
   login(username: any, password: any) {
@@ -28,11 +33,11 @@ export class AuthService {
       let options = new RequestOptions({ "headers": headers });
       this.http.get("http://localhost:8082/users/getToken", options)
         .subscribe(result => {
-            var token = result.json().token;
-            console.log("Token: "+ token);
-            window.sessionStorage.setItem("token", token);
-            this.isLoggedIn = true;
-            this.router.navigate(this.redirectUrl ? [this.redirectUrl] : ['/home'])
+                var token = result.json().token;
+                console.log("Token: "+ token);
+                this.userService.setToken(token);
+                this.isLoggedIn = true;
+                this.router.navigate(this.redirectUrl ? [this.redirectUrl] : ['/home'])
         },
         error => {
             console.log('\n', error);
@@ -41,8 +46,29 @@ export class AuthService {
       }
 
   logout(): void {
-    console.log("Logging out");
-    window.sessionStorage.clear();
-    this.isLoggedIn = false;
+      console.log("Logging out");
+      var now = new Date;
+      var stringDate = now.getUTCFullYear() + "-" + pad(now.getUTCMonth()) + "-" + pad(now.getUTCDate()) + "T" + pad(now.getUTCHours())
+                +":" + pad(now.getUTCMinutes()) + ":" + pad(now.getUTCSeconds()) + "Z";
+      this.updateUser.tokenExpDate = stringDate;
+
+      let headers = new Headers({ "Authorization": "Bearer "+ this.userService.user.token,
+                                  "Content-Type" : "application/json"});
+      let options = new RequestOptions({ "headers": headers });
+
+      this.http.post("http://localhost:8082/users/id/" + this.userService.user.id, JSON.stringify(this.updateUser), options)
+          .subscribe(
+              result => {
+                  console.log("Successfully logged out")
+              },
+              error => {
+                  console.error('\n', error);
+              }
+          );
+
+      window.sessionStorage.clear();
+      this.isLoggedIn = false;
+
+      function pad(n){return n<10 ? '0'+n : n}
   }
 }

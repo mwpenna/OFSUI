@@ -14,6 +14,7 @@ import {VoiceRecognitionService} from "../shared/voice-control/voice-recognition
 import {TabsModule, ProgressbarModule, TooltipModule, BsDropdownModule, AlertModule} from "ngx-bootstrap";
 import {AuthService} from "../+auth/auth.service";
 import {AuthGuard} from "../+auth/auth-guard.service";
+import {UserAPIService} from "../+home/userapi.service";
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import {AuthGuard} from "../+auth/auth-guard.service";
     VoiceRecognitionService,
     SoundService,
     AuthService,
-    AuthGuard
+    AuthGuard,
+    UserAPIService
 
 
 
