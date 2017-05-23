@@ -23,7 +23,7 @@
           <header>
             <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
 
-            <h2>Registration form </h2>
+            <h2>Registration Form </h2>
 
           </header>
 
@@ -50,6 +50,41 @@
     </div>
 
     <!-- END ROW -->
+
+    <div class="row">
+
+      <!-- NEW COL START -->
+      <article class="col-sm-12 col-md-12 col-lg-6">
+
+        <!-- Widget ID (each widget will need unique ID)-->
+        <sa-widget [editbutton]="false" [custombutton]="false">
+          <header>
+            <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+
+            <h2>CSV Registration Form <small>in-progress</small></h2>
+
+          </header>
+
+          <!-- widget div-->
+          <div>
+
+            <!-- widget content -->
+            <div class="widget-body no-padding">
+
+              <sa-csv-form></sa-csv-form>
+
+            </div>
+            <!-- end widget content -->
+
+          </div>
+          <!-- end widget div -->
+
+        </sa-widget>
+        <!-- end widget -->
+
+      </article>
+      <!-- END COL -->
+    </div>
 
   </sa-widgets-grid>
 

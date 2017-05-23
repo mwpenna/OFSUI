@@ -6,6 +6,7 @@ import {FormLayoutsComponent} from "./form-layouts.component";
 import {formLayoutsRouting} from "./form-layouts.routing";
 import {SmartadminValidationModule} from "../../shared/forms/validation/smartadmin-validation.module";
 import {SmartadminInputModule} from "../../shared/forms/input/smartadmin-input.module";
+import {CSVFormComponent} from "./csv-form/csv-form.component";
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import {SmartadminInputModule} from "../../shared/forms/input/smartadmin-input.m
     SmartadminValidationModule,
     SmartadminInputModule
   ],
-  declarations: [RegistrationFormComponent, FormLayoutsComponent
+  declarations: [RegistrationFormComponent, CSVFormComponent, FormLayoutsComponent
   ],
 })
 export class FormLayoutsModule {}

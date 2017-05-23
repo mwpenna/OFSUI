@@ -1,14 +1,8 @@
-/**
- * Created by griga on 7/11/16.
- */
-
-
 import {Routes, RouterModule} from '@angular/router';
 import {MainLayoutComponent} from "./shared/layout/app-layouts/main-layout.component";
 import {AuthLayoutComponent} from "./shared/layout/app-layouts/auth-layout.component";
 import {ModuleWithProviders} from "@angular/core";
 import {AuthGuard} from "./+auth/auth-guard.service";
-import {UserComponent} from "./+user/user.component";
 
 export const routes: Routes = [
   {

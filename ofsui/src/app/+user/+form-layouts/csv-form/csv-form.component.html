@@ -1,0 +1,21 @@
+<form class="smart-form">
+    <header>
+        CSV User Registration
+    </header>
+    <fieldset>
+
+        <section>
+            <label class="label">File input</label>
+
+            <div class="input input-file">
+                <span class="button"><input type="file" id="file" name="file" onchange="this.parentNode.nextSibling.value = this.value">Browse</span><input type="text" placeholder="Include some files" readonly>
+            </div>
+        </section>
+    </fieldset>
+
+    <footer>
+        <button type="submit" class="btn btn-primary">
+            Submit Registration
+        </button>
+    </footer>
+</form>

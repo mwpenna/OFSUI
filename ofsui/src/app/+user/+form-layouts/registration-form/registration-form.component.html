@@ -1,6 +1,6 @@
 <form id="smart-form-register" class="smart-form"
       [saUiValidate]="validationOptions"
-      novalidate="novalidate" >
+      novalidate="novalidate">
   <header>
     User Registration form
   </header>
@@ -8,26 +8,26 @@
   <fieldset>
     <section>
       <label class="input"> <i class="icon-append fa fa-user"></i>
-        <input type="text" name="username" placeholder="Username"/>
+        <input [(ngModel)]="username1" type="text" name="username1" placeholder="Username"/>
         <b class="tooltip tooltip-bottom-right">Needed to create a username</b> </label>
     </section>
 
 
     <section>
       <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-        <input type="email" name="email" placeholder="Email address"/>
+        <input [(ngModel)]="email" type="email" name="email" placeholder="Email address"/>
         <b class="tooltip tooltip-bottom-right">Needed to supply the users email address</b> </label>
     </section>
 
     <section>
       <label class="input"> <i class="icon-append fa fa-lock"></i>
-        <input type="password" name="password" placeholder="Password" id="password"/>
+        <input [(ngModel)]="password1" type="password" name="password1" placeholder="Password" id="password"/>
         <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
     </section>
 
     <section>
       <label class="input"> <i class="icon-append fa fa-lock"></i>
-        <input type="password" name="passwordConfirm" placeholder="Confirm password"/>
+        <input [(ngModel)]="passwordConfirm" type="password" name="passwordConfirm" placeholder="Confirm password"/>
         <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
     </section>
   </fieldset>
@@ -36,13 +36,13 @@
     <div class="row">
       <section class="col col-6">
         <label class="input">
-          <input type="text" name="firstname" placeholder="First name"
+          <input [(ngModel)]="firstname" type="text" name="firstname" placeholder="First name"
           />
         </label>
       </section>
       <section class="col col-6">
         <label class="input">
-          <input type="text" name="lastname" placeholder="Last name"
+          <input [(ngModel)]="lastname" type="text" name="lastname" placeholder="Last name"
           />
         </label>
       </section>
@@ -51,7 +51,7 @@
     <div class="row">
       <section class="col col-6">
         <label class="select">
-          <select name="role" >
+          <select name="role" [(ngModel)]="role" >
             <option value="0" disabled>Role</option>
             <option value="CUSTOMER">CUSTOMER</option>
             <option value="ADMIN">ADMIN</option>
@@ -62,7 +62,7 @@
     </div>
   </fieldset>
   <footer>
-    <button type="submit" class="btn btn-primary">
+    <button type="submit" (click)="submit($event)" class="btn btn-primary">
       Submit Registration
     </button>
   </footer>
