@@ -1,15 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Renderer2, ElementRef} from '@angular/core';
 import {UserAPIService} from "../../../+home/userapi.service";
 import {Observable} from "rxjs";
 import {RequestOptions, Headers, Http, Response} from "@angular/http";
-import {Router, RouterModule, RouterLink} from "@angular/router";
-import {AuthService} from "../../../+auth/auth.service";
+import {Router} from "@angular/router";
+
+declare var $:any;
 
 @Component({
   selector: 'sa-registration-form',
   templateUrl: './registration-form.component.html',
 })
 export class RegistrationFormComponent implements OnInit {
+
+  isUserNameError: boolean = false;
+  isEmailError: boolean = false;
+  userNameMessage: string = "";
+  emailMessage: string = "";
 
   public validationOptions:any = {
 
@@ -53,7 +59,7 @@ export class RegistrationFormComponent implements OnInit {
         required: 'Please enter your email address',
         email: 'Please enter a VALID email address'
       },
-      password: {
+      password1: {
         required: 'Please enter your password'
       },
       passwordConfirm: {
@@ -70,7 +76,6 @@ export class RegistrationFormComponent implements OnInit {
         required: 'Please select your role'
       }
     }
-
   };
 
   public user: any;
@@ -84,7 +89,8 @@ export class RegistrationFormComponent implements OnInit {
   public lastname;
 
   constructor(private userApi: UserAPIService, private http: Http,
-              private router: Router, private authService: AuthService) {
+              private router: Router, private rederer: Renderer2,
+              private el:ElementRef) {
     this.user = {
       "firstName": "",
       "lastName": "",
@@ -100,12 +106,20 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isUserNameError = false;
+    this.isEmailError = false;
+    this.userNameMessage = "";
+    this.emailMessage = "";
   }
 
   submit(event) {
-    this.validateAllFields();
-    this.setUser();
-    this.createUser();
+
+    console.log(this.rederer.data);
+
+    if(this.validateAllFields()) {
+      this.setUser();
+      this.createUser();
+    }
   }
 
   createUser():void {
@@ -120,7 +134,24 @@ export class RegistrationFormComponent implements OnInit {
               this.router.navigate(['/home']);
             },
             error => {
-              console.error('\n', error);
+              var errors = error.json().errors;
+
+              for(var i = 0; i< errors.length; i++) {
+                console.log(errors[i].code);
+                if(errors[i].code == "user.emailaddress.exists") {
+                  console.log("Email Address Exists");
+                  this.isEmailError = true;
+                  this.emailMessage = "Email address already exists. Please use a different one or contact your administrator if you have forgotten your login info.";
+                  this.email = "";
+                }
+
+                if(errors[i].code == "user.username.exists") {
+                  console.log("Username exists");
+                  this.isUserNameError = true;
+                  this.userNameMessage = "Username already exists. Please try a diffrent one.";
+                  this.username1 = "";
+                }
+              }
             }
         );
   }

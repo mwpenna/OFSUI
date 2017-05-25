@@ -6,18 +6,45 @@
   </header>
 
   <fieldset>
-    <section>
-      <label class="input"> <i class="icon-append fa fa-user"></i>
-        <input [(ngModel)]="username1" type="text" name="username1" placeholder="Username"/>
-        <b class="tooltip tooltip-bottom-right">Needed to create a username</b> </label>
-    </section>
+    <div *ngIf="!isUserNameError">
+      <section>
+        <label class="input"> <i class="icon-append fa fa-user"></i>
+          <input [(ngModel)]="username1" type="text" name="username1" id="username1" placeholder="Username"/>
+          <b class="tooltip tooltip-bottom-right">Needed to create a username</b> </label>
+      </section>
+    </div>
 
+    <div *ngIf="isUserNameError">
+      <section>
+        <label class="input state-error">
+          <i class="icon-append fa fa-user"></i>
+          <input [(ngModel)]="username1" type="text" name="username1" id="usernameError" placeholder="Username"
+          class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="username1-error"/>
+          <em id="username1-error" class="invalid">{{userNameMessage  }}</em>
+          <b class="tooltip tooltip-bottom-right">{{userNameMessage  }}</b>
+        </label>
+      </section>
+    </div>
 
-    <section>
-      <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-        <input [(ngModel)]="email" type="email" name="email" placeholder="Email address"/>
-        <b class="tooltip tooltip-bottom-right">Needed to supply the users email address</b> </label>
-    </section>
+    <div *ngIf="!isEmailError">
+      <section>
+        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+          <input [(ngModel)]="email" type="email" name="email" placeholder="Email address"/>
+          <b class="tooltip tooltip-bottom-right">Needed to supply the users email address</b> </label>
+      </section>
+    </div>
+
+    <div *ngIf="isEmailError">
+      <section>
+        <label class="input state-error">
+          <i class="icon-append fa fa-envelope-o"></i>
+          <input [(ngModel)]="email" type="text" name="email" id="emailError" placeholder="Email address"
+                 class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="email-error"/>
+          <em id="email-error" class="invalid">{{emailMessage  }}</em>
+          <b class="tooltip tooltip-bottom-right">{{emailMessage  }}</b>
+        </label>
+      </section>
+    </div>
 
     <section>
       <label class="input"> <i class="icon-append fa fa-lock"></i>

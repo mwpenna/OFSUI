@@ -21,6 +21,7 @@ export class UiValidateDirective {
     const validateCommonOptions = {
       rules: {},
       messages: {},
+      httpError: {},
       errorElement: 'em',
       errorClass: 'invalid',
       highlight: (element, errorClass, validClass)=> {
