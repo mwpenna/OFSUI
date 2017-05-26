@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {FadeInTop} from "../../shared/animations/fade-in-top.decorator";
 import {UserAPIService} from "../../+home/userapi.service";
 
@@ -24,6 +24,12 @@ export class ProfileComponent implements OnInit {
       "currenttime" : ""
     };
   }
+
+  @Input()  public options = {
+    mode: 'inline',
+    disabled: false,
+    inline: true
+  };
 
   ngOnInit() {
     this.userService.getObservableUser().subscribe(user => {

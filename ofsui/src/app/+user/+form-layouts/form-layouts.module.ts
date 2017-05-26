@@ -7,11 +7,12 @@ import {formLayoutsRouting} from "./form-layouts.routing";
 import {SmartadminValidationModule} from "../../shared/forms/validation/smartadmin-validation.module";
 import {SmartadminInputModule} from "../../shared/forms/input/smartadmin-input.module";
 import {CSVFormComponent} from "./csv-form/csv-form.component";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   imports: [
     SmartadminModule,
-
+    CommonModule,
     formLayoutsRouting,
     SmartadminValidationModule,
     SmartadminInputModule
