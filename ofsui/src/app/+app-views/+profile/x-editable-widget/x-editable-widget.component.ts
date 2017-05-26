@@ -94,6 +94,15 @@ export class XEditableWidgetComponent implements OnInit {
   updatePassword(fieldChange: any) {
     if(this.isFieldChange("password",  fieldChange.field)) {
       console.log("password is being updated");
+      var password = window.prompt("please reenter password");
+      console.log("Password: " + password);
+
+      if(password != fieldChange.value) {
+        window.alert("Passowrds do not match. Password will not be updated");
+        return;
+      }
+
+      console.log("Updating password");
       var updatePasswordRequest = {
         "password" : fieldChange.value
       }
