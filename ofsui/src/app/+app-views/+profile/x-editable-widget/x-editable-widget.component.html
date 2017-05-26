@@ -40,10 +40,12 @@
           <td style="width:35%">
             <x-editable
                     type="text"
+                    placement="firstname"
                     originalTitle="Enter username"
                     [mode]="options.mode"
                     [disabled]="options.disabled"
                     [(model)]="model.firstname"
+                    (change)="onChange()"
                     className="editable editable-click">
             </x-editable>
 
@@ -57,6 +59,7 @@
           <td style="width:35%">
             <x-editable
                     type="text"
+                    placement="lastname"
                     originalTitle="Enter username"
                     [mode]="options.mode"
                     [disabled]="options.disabled"
@@ -74,6 +77,7 @@
           <td style="width:35%">
             <x-editable
                     type="email"
+                    placement="emailaddress"
                     originalTitle="Enter username"
                     [mode]="options.mode"
                     [disabled]="options.disabled"
@@ -91,6 +95,7 @@
           <td style="width:35%">
             <x-editable
                     type="password"
+                    placement="password"
                     originalTitle="Enter username"
                     [mode]="options.mode"
                     [disabled]="options.disabled"

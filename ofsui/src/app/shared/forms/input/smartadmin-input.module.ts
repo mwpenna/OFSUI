@@ -37,8 +37,7 @@ import {OnOffSwitchModule} from "./on-off-switch/on-off-switch.module";
     SmartSliderDirective,
     SmartTagsDirective,
     SmartTimepickerDirective,
-    SmartClockpickerDirective,
-
+    SmartClockpickerDirective
   ],
   exports: [
 

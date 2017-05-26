@@ -48,6 +48,7 @@ export class UserAPIService {
     }
 
     updateObservableUser():Observable<any> {
+        console.log("Updating user");
         this.observableUser = this.retrieveUser()
             .do((user)=> {
                 this.userInfo = user;

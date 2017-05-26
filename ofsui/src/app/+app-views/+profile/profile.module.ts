@@ -7,6 +7,7 @@ import {StatsModule} from "../../shared/stats/stats.module";
 import {XEditableWidgetComponent} from "./x-editable-widget/x-editable-widget.component";
 import {SmartadminModule} from "../../shared/smartadmin.module";
 import {SmartadminInputModule} from "../../shared/forms/input/smartadmin-input.module";
+import {XEditableService} from "../../shared/forms/input/x-editable.service";
 
 @NgModule({
   imports: [

@@ -15,6 +15,7 @@ import {TabsModule, ProgressbarModule, TooltipModule, BsDropdownModule, AlertMod
 import {AuthService} from "../+auth/auth.service";
 import {AuthGuard} from "../+auth/auth-guard.service";
 import {UserAPIService} from "../+home/userapi.service";
+import {XEditableService} from "../shared/forms/input/x-editable.service";
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import {UserAPIService} from "../+home/userapi.service";
     SoundService,
     AuthService,
     AuthGuard,
-    UserAPIService
+    UserAPIService,
+    XEditableService
   ]
 })
 export class CoreModule {

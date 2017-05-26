@@ -1,4 +1,5 @@
 import {Component, OnInit, Input, ElementRef, EventEmitter, Output, AfterContentChecked} from '@angular/core';
+import {XEditableService} from "./x-editable.service";
 
 declare var $:any;
 
@@ -30,7 +31,7 @@ export class XEditableComponent implements OnInit, AfterContentChecked {
 
   private _options:any;
 
-  constructor(private el:ElementRef) {
+  constructor(private el:ElementRef, private editableService: XEditableService) {
     this.widgetId = 'x-editable' + XEditableComponent.widgetsCounter++
 
   }
@@ -88,6 +89,7 @@ export class XEditableComponent implements OnInit, AfterContentChecked {
     element.on('save', (e, params)=> {
       this.model = params.newValue;
       this.modelChange.emit(params.newValue);
+      this.editableService.announceFieldChange(this.placement, params.newValue);
     });
 
     this._options = options
