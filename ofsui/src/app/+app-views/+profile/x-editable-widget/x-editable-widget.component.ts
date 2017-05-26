@@ -1,4 +1,5 @@
 import {Component, OnInit, OnChanges, Input} from '@angular/core';
+import {UserAPIService} from "../../../+home/userapi.service";
 
 @Component({
   selector: 'x-editable-widget',
@@ -7,42 +8,28 @@ import {Component, OnInit, OnChanges, Input} from '@angular/core';
 export class XEditableWidgetComponent implements OnInit {
 
   public model:any = {
-    username: 'superuser',
-    firstname: null,
-    sex: 'not selected',
-    group: "Admin",
-    vacation: "25.02.2013",
-    combodate: "15/05/1984",
-    event: null,
-    comments: 'awesome user!',
-    state2: 'California',
-    fruits: 'peach,apple',
-    dob: '1984-05-15'
+    "firstname" : "",
+    "lastname" : "",
+    "picture": "assets/img/avatars/user-no-image.png",
+    "emailaddress" : "",
+    "companyname" : "",
+    "username" : "",
+    "role" : "",
+    "id" : "",
+    "password" : "****"
   };
 
-
-  public fruits = [
-    {value: 'banana', text: 'banana'},
-    {value: 'peach', text: 'peach'},
-    {value: 'apple', text: 'apple'},
-    {value: 'watermelon', text: 'watermelon'},
-    {value: 'orange', text: 'orange'}
-  ];
-
-  public genders = [
-    {value: 'not selected', text: 'not selected'},
-    {value: 'Male', text: 'Male'},
-    {value: 'Female', text: 'Female'}
-  ];
-
-  public groups = [
-    {value: 'Guest', text: 'Guest'},
-    {value: 'Service', text: 'Service'},
-    {value: 'Customer', text: 'Customer'},
-    {value: 'Operator', text: 'Operator'},
-    {value: 'Support', text: 'Support'},
-    {value: 'Admin', text: 'Admin'}
-  ];
+  private oldModel:any = {
+    "firstname" : "",
+    "lastname" : "",
+    "picture": "assets/img/avatars/user-no-image.png",
+    "emailaddress" : "",
+    "companyname" : "",
+    "username" : "",
+    "role" : "",
+    "id" : "",
+    "password" : "****"
+  }
 
   @Input()  public options = {
     mode: 'inline',
@@ -51,14 +38,32 @@ export class XEditableWidgetComponent implements OnInit {
   };
 
 
-  constructor() {
+  constructor(private userService: UserAPIService) {
   }
 
   ngOnInit() {
+    this.userService.getObservableUser().subscribe(user => {
+      this.model.firstname = user.firstName;
+      this.model.lastname = user.lastName;
+      this.model.emailaddress = user.emailAddress;
+      this.model.companyname = user.company.name;
+      this.model.username = user.userName;
+      this.model.role = user.role;
+      this.model.id = user.id;
+    })
   }
 
   onChange(){
-    this.options.mode = this.options.inline ? 'inline' : 'popup'
+    this.options.mode = this.options.inline ? 'inline' : 'popup';
+    if(this.isPasswordChanged()) {
+      console.log("Password has been changed");
+    }
+  }
+
+  isPasswordChanged():boolean {
+    console.log(this.oldModel.password)
+    console.log(this.model.password)
+    return this.oldModel.password != this.model.password;
   }
 
 }
