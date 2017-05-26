@@ -22,7 +22,6 @@ export class UserAPIService {
         "token": "",
         "tokenExpDate": "",
         "activeFlag": false,
-        "password": ""
     }
 
     private observableUser: Observable<any>;
