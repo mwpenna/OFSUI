@@ -1,3 +1,4 @@
+<div>
 <table id="user" class="table table-bordered table-striped"
              style="clear:both">
         <tbody>
@@ -10,12 +11,9 @@
               [mode]="options.mode"
               [disabled]="true"
               [(model)]="model.username"
-              className="editable editable-click">
+              className="editable editable-click editable-disabled">
             </x-editable>
 
-          </td>
-          <td style="width:35%">
-            {{model.username}}
           </td>
         </tr>
         <tr>
@@ -27,12 +25,9 @@
                     [mode]="options.mode"
                     [disabled]="true"
                     [(model)]="model.id"
-                    className="editable editable-click">
+                    className="editable editable-click editable-disabled">
             </x-editable>
 
-          </td>
-          <td style="width:35%">
-            {{model.id}}
           </td>
         </tr>
         <tr>
@@ -50,9 +45,6 @@
             </x-editable>
 
           </td>
-          <td style="width:35%">
-            {{model.firstname}}
-          </td>
         </tr>
         <tr>
           <td style="width:30%">lastname</td>
@@ -67,9 +59,6 @@
                     className="editable editable-click">
             </x-editable>
 
-          </td>
-          <td style="width:35%">
-            {{model.lastname}}
           </td>
         </tr>
         <tr>
@@ -86,9 +75,6 @@
             </x-editable>
 
           </td>
-          <td style="width:35%">
-            {{model.emailaddress}}
-          </td>
         </tr>
         <tr>
           <td style="width:30%">password</td>
@@ -104,9 +90,39 @@
             </x-editable>
 
           </td>
-          <td style="width:35%">
-            <b>[hidden]</b>
-          </td>
-        </tr>
+         </tr>
         </tbody>
       </table>
+</div>
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="lgModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Please reenter your password.</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <input [(ngModel)]="verifyPassword" type="password" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="lgModal.hide()">
+                    Cancel
+                </button>
+                <button class="btn btn-primary" (click)="confirmPassword($event)">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

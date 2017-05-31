@@ -1,13 +1,16 @@
-import {Component, OnInit, OnChanges, Input} from '@angular/core';
+import {Component, OnInit, OnChanges, Input, ViewChild} from '@angular/core';
 import {UserAPIService} from "../../../+home/userapi.service";
 import {XEditableService} from "../../../shared/forms/input/x-editable.service";
 import {Http, RequestOptions, Headers} from "@angular/http";
+import {ModalDirective} from "ngx-bootstrap";
 
 @Component({
   selector: 'x-editable-widget',
   templateUrl: './x-editable-widget.component.html',
 })
 export class XEditableWidgetComponent implements OnInit {
+
+  @ViewChild('lgModal') public lgModal:ModalDirective;
 
   public model:any = {
     "firstname" : "",
@@ -20,6 +23,8 @@ export class XEditableWidgetComponent implements OnInit {
     "id" : "",
     "password" : "****"
   };
+
+  public verifyPassword;
 
   @Input()  public options = {
     mode: 'inline',
@@ -94,19 +99,8 @@ export class XEditableWidgetComponent implements OnInit {
   updatePassword(fieldChange: any) {
     if(this.isFieldChange("password",  fieldChange.field)) {
       console.log("password is being updated");
-      var password = window.prompt("please reenter password");
-      console.log("Password: " + password);
-
-      if(password != fieldChange.value) {
-        window.alert("Passowrds do not match. Password will not be updated");
-        return;
-      }
-
-      console.log("Updating password");
-      var updatePasswordRequest = {
-        "password" : fieldChange.value
-      }
-      this.updateUser(updatePasswordRequest);
+      this.lgModal.show();
+      this.model.password = fieldChange.value;
     }
   }
 
@@ -133,5 +127,23 @@ export class XEditableWidgetComponent implements OnInit {
               console.error('\n', error);
             }
         );
+  }
+
+  confirmPassword(event):void {
+    console.log("Confim password");
+    console.log(this.verifyPassword);
+    this.lgModal.hide();
+
+    console.log("Password is: " + this.model.password);
+    if(this.verifyPassword == this.model.password) {
+      console.log("Password match. Updating password");
+      var updatePasswordRequest = {
+        "password" : this.verifyPassword
+      }
+      this.updateUser(updatePasswordRequest);
+    }
+    else {
+      this.model.password = "****";
+    }
   }
 }
