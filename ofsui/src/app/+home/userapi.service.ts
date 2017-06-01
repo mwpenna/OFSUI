@@ -24,6 +24,7 @@ export class UserAPIService {
         "activeFlag": false,
     }
 
+    private token: string = "";
     private observableUser: Observable<any>;
 
     constructor(private http: Http) {
@@ -32,6 +33,11 @@ export class UserAPIService {
 
     setToken(token: any) {
         this.userInfo.token = token;
+        this.token = token;
+    }
+
+    getToken():string {
+        return this.token;
     }
 
     getObservableUser():Observable<any> {

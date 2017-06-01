@@ -113,7 +113,8 @@ export class XEditableWidgetComponent implements OnInit {
   }
 
   updateUser(request:any) {
-    let headers = new Headers({ "Authorization": "Bearer "+ this.userService.userInfo.token,
+    console.log("Token: " + this.userService.getToken());
+    let headers = new Headers({ "Authorization": "Bearer "+ this.userService.getToken(),
       "Content-Type" : "application/json"});
     let options = new RequestOptions({ "headers": headers });
 
