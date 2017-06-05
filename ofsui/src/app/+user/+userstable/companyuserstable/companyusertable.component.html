@@ -1,0 +1,42 @@
+<sa-widget [editbutton]="false" color="blueDark">
+    <header>
+        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+        <h2>Export to PDF / Excel</h2>
+    </header>
+    <div>
+        <div class="widget-body no-padding">
+
+            <sa-datatable
+                    [options]="{
+                  ajax: 'assets/api/tables/datatables.standard.json',
+                columns: [
+                {data: 'id'},
+                {data: 'name'},
+                {data: 'phone'},
+                {data: 'company'},
+                {data: 'zip'},
+                {data: 'city'},
+                {data: 'date'}
+                ],
+                buttons: [
+                'copy', 'excel', 'pdf', 'print'
+                ]
+                }"
+                    tableClass="table table-striped table-bordered table-hover"
+            >
+                <thead>
+                <tr>
+                    <th data-hide="mobile-p">ID</th>
+                    <th data-class="expand">Name</th>
+                    <th>Phone</th>
+                    <th data-hide="mobile-p">Company</th>
+                    <th data-hide="mobile-p,tablet-p">Zip</th>
+                    <th data-hide="mobile-p,tablet-p">City</th>
+                    <th data-hide="mobile-p,tablet-p">Date</th>
+                </tr>
+                </thead>
+            </sa-datatable>
+
+        </div>
+    </div>
+</sa-widget>
