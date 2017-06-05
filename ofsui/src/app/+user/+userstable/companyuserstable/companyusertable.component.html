@@ -7,36 +7,20 @@
         <div class="widget-body no-padding">
 
             <sa-datatable
-                    [options]="{
-                  ajax: 'assets/api/tables/datatables.standard.json',
-                columns: [
-                {data: 'id'},
-                {data: 'name'},
-                {data: 'phone'},
-                {data: 'company'},
-                {data: 'zip'},
-                {data: 'city'},
-                {data: 'date'}
-                ],
-                buttons: [
-                'copy', 'excel', 'pdf', 'print'
-                ]
-                }"
-                    tableClass="table table-striped table-bordered table-hover"
-            >
+                    [options]="options"
+                    tableClass="table table-striped table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th data-hide="mobile-p">ID</th>
-                    <th data-class="expand">Name</th>
-                    <th>Phone</th>
-                    <th data-hide="mobile-p">Company</th>
-                    <th data-hide="mobile-p,tablet-p">Zip</th>
-                    <th data-hide="mobile-p,tablet-p">City</th>
-                    <th data-hide="mobile-p,tablet-p">Date</th>
+                    <th data-hide="mobile-p">id</th>
+                    <th data-hide="expand">firstName</th>
+                    <th data-hide="mobile-p">lastName</th>
+                    <th data-hide="mobile-p,tablet-p">role</th>
+                    <th data-hide="mobile-p,tablet-p">userName</th>
+                    <th data-hide="mobile-p,tablet-p">emailAddress</th>
+                    <th data-hide="mobile-p,tablet-p">activeFlag</th>
                 </tr>
                 </thead>
             </sa-datatable>
-
         </div>
     </div>
 </sa-widget>

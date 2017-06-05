@@ -123,7 +123,7 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   createUser():void {
-    let headers = new Headers({ "Authorization": "Bearer "+ this.userApi.userInfo.token,
+    let headers = new Headers({ "Authorization": "Bearer "+ this.userApi.getToken(),
       "Content-Type" : "application/json"});
     let options = new RequestOptions({ "headers": headers });
     this.http.post("http://localhost:8082/users", JSON.stringify(this.user), options)
