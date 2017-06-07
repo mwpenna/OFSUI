@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import {RequestOptions, Http, Headers, Response} from "@angular/http";
 import {Observable, Subject} from "rxjs";
+import {Store} from "@ngrx/store";
+import {UserState} from "../redux/reducers/user.reducer";
+import {User} from "../redux/model/user.model";
 
 @Injectable()
 export class UserAPIService {
@@ -26,9 +29,14 @@ export class UserAPIService {
 
     private token: string = "";
     private observableUser: Observable<any>;
+    private currentUser: User;
 
-    constructor(private http: Http) {
+    constructor(private http: Http, private store: Store<UserState>) {
         this.user = new Subject();
+        this.store.subscribe(
+            (u) => {
+                  this.currentUser = u.currentUser;
+            });
     }
 
     setToken(token: any) {
@@ -78,6 +86,14 @@ export class UserAPIService {
         let headers = new Headers({ "Authorization": "Basic "+encodedString });
         let options = new RequestOptions({ "headers": headers });
         return this.http.get("http://localhost:8082/users/getToken", options);
+    }
+
+    updateUser(request: any):Observable<any> {
+        let headers = new Headers({ "Authorization": "Bearer "+ this.currentUser.token,
+            "Content-Type" : "application/json"});
+        let options = new RequestOptions({ "headers": headers });
+
+        return this.http.post("http://localhost:8082/users/id/" + this.currentUser.id, JSON.stringify(request), options);
     }
 
     private extractData(res:Response) {
