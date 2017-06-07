@@ -24,6 +24,7 @@ export class AuthService {
                 this.store.dispatch(UserAction.updateUserToken(token));
                 this.userService.setToken(token);
                 this.isLoggedIn = true;
+                this.getAndStoreUser();
                 this.router.navigate(this.redirectUrl ? [this.redirectUrl] : ['/home'])
             },
             error => {
@@ -51,5 +52,16 @@ export class AuthService {
       this.isLoggedIn = false;
 
       function pad(n){return n<10 ? '0'+n : n}
+  }
+
+  private getAndStoreUser(): void {
+      this.userService.getUserByToken().subscribe(
+          result => {
+              this.store.dispatch(UserAction.update(result));
+          },
+          error => {
+              console.error('\n', error);
+          }
+      );
   }
 }

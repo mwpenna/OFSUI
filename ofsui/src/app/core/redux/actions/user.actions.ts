@@ -4,7 +4,7 @@ export const UPDATE: string = 'UPDATE';
 export const UPDATE_TOKEN: string = 'UPDATE_TOKEN';
 
 export interface UpdateCurrentUser extends Action {
-    user: User;
+    user: any;
 }
 
 export interface UpdateUserToken extends Action {

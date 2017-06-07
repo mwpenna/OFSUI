@@ -1,6 +1,7 @@
 import {User} from "../model/user.model";
 import {Action} from "@ngrx/store";
 import * as UserActions from '../actions/user.actions';
+import {ApiUser} from "../model/user-api.model";
 
 export interface UserState {
     currentUser: User;
@@ -28,8 +29,24 @@ export const UserReducer =
         switch (action.type) {
             case UserActions.UPDATE_TOKEN:
                 const token: string = (<UserActions.UpdateUserToken>action).token;
-                state.currentUser.token = token;
-                return state;
+                const user: User = state.currentUser;
+                user.token = token;
+                return {
+                    currentUser: user
+                };
+            case UserActions.UPDATE:
+                const u: any = (<UserActions.UpdateCurrentUser>action).user;
+                const currentUser: User = state.currentUser;
+                currentUser.firstname = u.firstName;
+                currentUser.lastname = u.lastName;
+                currentUser.emailaddress = u.emailAddress;
+                currentUser.companyname = u.company.name;
+                currentUser.username = u.userName;
+                currentUser.role = u.role;
+                currentUser.id = u.id;
+                return {
+                    currentUser: currentUser
+                };
             default:
                 return state;
         }

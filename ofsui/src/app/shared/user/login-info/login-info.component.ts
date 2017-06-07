@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {LayoutService} from "../../layout/layout.service";
 import {UserAPIService} from "../../../core/api/userapi.service";
+import {Store} from "@ngrx/store";
+import {UserState} from "../../../core/redux/reducers/user.reducer";
 
 @Component({
 
@@ -12,8 +14,7 @@ export class LoginInfoComponent implements OnInit {
   loggedInUser:any;
 
   constructor(
-    private userService: UserAPIService,
-              private layoutService: LayoutService) {
+    private userService: UserAPIService, private layoutService: LayoutService, private store: Store<UserState>) {
 
     this.loggedInUser = {
       "name": "",
@@ -23,9 +24,11 @@ export class LoginInfoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getObservableUser().subscribe(user => {
-      this.loggedInUser.name = user.firstName + " " + user.lastName;
-    })
+    this.store.subscribe(
+        (user) => {
+          this.loggedInUser.name = user.currentUser.firstname + " " + user.currentUser.lastname;
+        }
+    );
   }
 
   toggleShortcut() {
