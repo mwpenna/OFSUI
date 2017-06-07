@@ -1,6 +1,5 @@
 import {User} from "../model/user.model";
 import {Action} from "@ngrx/store";
-import { createSelector } from 'reselect';
 import * as UserActions from '../actions/user.actions';
 
 export interface UserState {
@@ -35,9 +34,3 @@ export const UserReducer =
                 return state;
         }
     };
-
-export const getUsersState = (state): UserState => state.users;
-
-export const getCurrentUser = createSelector(
-    getUsersState,
-    ( state: UserState ) => state.currentUser );
