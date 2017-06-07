@@ -1,5 +1,5 @@
 import {User} from "../model/user.model";
-import {Action} from "redux";
+import {Action} from "@ngrx/store";
 import { createSelector } from 'reselect';
 import * as UserActions from '../actions/user.actions';
 
@@ -27,12 +27,10 @@ export const UserReducer =
     function (state: UserState = initialState, action: Action) : UserState {
         switch (action.type) {
             case UserActions.UPDATE_TOKEN:
+                console.log("Inside UPDATE_TOKEN");
                 const token: string = (<UserActions.UpdateUserToken>action).token;
-                const user: User = state.currentUser;
-                user.token = token;
-                return {
-                    currentUser: user
-                };
+                state.currentUser.token = token;
+                return state;
             default:
                 return state;
         }

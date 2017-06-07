@@ -17,7 +17,8 @@ import { AppState, InternalStateType } from './app.service';
 // Core providers
 import {CoreModule} from "./core/core.module";
 import {SmartadminLayoutModule} from "./shared/layout/layout.module";
-import {appStoreProviders} from "./core/redux/app.store";
+import {StoreModule} from "@ngrx/store";
+import {UserReducer} from "./core/redux/reducers/user.reducer";
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -47,16 +48,15 @@ type StoreType = {
 
     CoreModule,
     SmartadminLayoutModule,
-
-
-    routing
+    routing,
+    StoreModule.provideStore(UserReducer)
   ],
   exports: [
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     // ENV_PROVIDERS,
     APP_PROVIDERS,
-    appStoreProviders
+    // appStoreProviders
   ]
 })
 export class AppModule {

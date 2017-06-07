@@ -1,4 +1,4 @@
-import {Injectable, Inject} from '@angular/core';
+import {Injectable} from '@angular/core';
 
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
@@ -6,10 +6,9 @@ import 'rxjs/add/operator/delay';
 import {Router} from "@angular/router";
 import {RequestOptions, Http, Headers} from "@angular/http";
 import {UserAPIService} from "../core/api/userapi.service";
-import {AppStore} from "../core/redux/app.store";
-import {Store} from "redux";
-import {AppState} from "../core/redux/app.reducer";
-import * as UserActions from '../core/redux/actions/user.actions';
+import {Store} from "@ngrx/store";
+import * as UserAction from '../core/redux/actions/user.actions'
+import {UserState} from "../core/redux/reducers/user.reducer";
 
 @Injectable()
 export class AuthService {
@@ -21,16 +20,31 @@ export class AuthService {
   private updateUser : any;
 
   constructor(private router: Router, private http: Http,
-              private userService: UserAPIService, @Inject(AppStore) private store: Store<AppState>) {
+              private userService: UserAPIService, private store: Store<UserState>) {
       this.updateUser = {
           "tokenExpDate": "",
       }
+
+      // this.store.take(1).subscribe(
+      //     (user) => {
+      //         console.log("One time User is: ");
+      //         console.log(user);
+      //     }
+      // );
+      //
+      // this.store.subscribe((user) => {
+      //     console.log("User is: ");
+      //     console.log(user);
+      // });
   }
 
   login(username: any, password: any) {
+
       this.userService.getUserToken(username, password).subscribe(
             result => {
                 var token = result.json().token;
+                console.log("Calling dispatch");
+                this.store.dispatch(UserAction.updateUserToken(token));
                 this.userService.setToken(token);
                 this.isLoggedIn = true;
                 this.router.navigate(this.redirectUrl ? [this.redirectUrl] : ['/home'])
