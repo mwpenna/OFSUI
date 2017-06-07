@@ -24,18 +24,6 @@ export class AuthService {
       this.updateUser = {
           "tokenExpDate": "",
       }
-
-      // this.store.take(1).subscribe(
-      //     (user) => {
-      //         console.log("One time User is: ");
-      //         console.log(user);
-      //     }
-      // );
-      //
-      // this.store.subscribe((user) => {
-      //     console.log("User is: ");
-      //     console.log(user);
-      // });
   }
 
   login(username: any, password: any) {
@@ -43,7 +31,6 @@ export class AuthService {
       this.userService.getUserToken(username, password).subscribe(
             result => {
                 var token = result.json().token;
-                console.log("Calling dispatch");
                 this.store.dispatch(UserAction.updateUserToken(token));
                 this.userService.setToken(token);
                 this.isLoggedIn = true;

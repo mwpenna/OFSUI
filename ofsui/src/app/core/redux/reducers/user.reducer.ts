@@ -18,6 +18,7 @@ const initialUser: User = {
     token: ""
 };
 
+
 const initialState: UserState = {
   currentUser : initialUser
 };
@@ -26,7 +27,6 @@ export const UserReducer =
     function (state: UserState = initialState, action: Action) : UserState {
         switch (action.type) {
             case UserActions.UPDATE_TOKEN:
-                console.log("Inside UPDATE_TOKEN");
                 const token: string = (<UserActions.UpdateUserToken>action).token;
                 state.currentUser.token = token;
                 return state;
