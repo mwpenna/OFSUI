@@ -4,6 +4,7 @@ export interface User {
     picture: string;
     emailaddress: string;
     companyname: string;
+    companyid: string;
     username: string;
     role: string;
     id: string;

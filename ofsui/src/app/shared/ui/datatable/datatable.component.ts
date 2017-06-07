@@ -32,7 +32,6 @@ export class DatatableComponent implements OnInit {
     Promise.all([
       System.import('script-loader!smartadmin-plugins/datatables/datatables.min.js'),
     ]).then(()=>{
-      console.log("inside ngOnInit");
       this.render()
 
     })
@@ -40,8 +39,6 @@ export class DatatableComponent implements OnInit {
 
   render() {
     let element = $(this.el.nativeElement.children[0]);
-    console.log("Element");
-    console.log(element);
     let options = this.options || {}
 
 

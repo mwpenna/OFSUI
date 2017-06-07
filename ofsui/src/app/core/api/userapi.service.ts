@@ -80,6 +80,15 @@ export class UserAPIService {
             .catch(this.handleError);
     }
 
+    getUsersByCompanyId():Observable<any> {
+        let headers = new Headers({ "Authorization": "Bearer "+ this.currentUser.token,
+            "Content-Type" : "application/json"});
+        let options = new RequestOptions({ "headers": headers });
+        return this.http.get("http://localhost:8082/users/company/id/"+ this.currentUser.companyid + "?limit=50000&start=0", options)
+            .map(this.extractData)
+            .catch(this.handleError)
+    }
+
     getUserByToken():Observable<any> {
         let headers = new Headers({ "Authorization": "Bearer "+this.currentUser.token });
         let options = new RequestOptions({ "headers": headers });

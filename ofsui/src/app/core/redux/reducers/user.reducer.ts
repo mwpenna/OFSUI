@@ -1,7 +1,6 @@
 import {User} from "../model/user.model";
 import {Action} from "@ngrx/store";
 import * as UserActions from '../actions/user.actions';
-import {ApiUser} from "../model/user-api.model";
 
 export interface UserState {
     currentUser: User;
@@ -16,9 +15,9 @@ const initialUser: User = {
     username : "",
     role : "",
     id : "",
-    token: ""
+    token: "",
+    companyid: ""
 };
-
 
 const initialState: UserState = {
   currentUser : initialUser
@@ -44,6 +43,7 @@ export const UserReducer =
                 currentUser.username = u.userName;
                 currentUser.role = u.role;
                 currentUser.id = u.id;
+                currentUser.companyid = u.company.id
                 return {
                     currentUser: currentUser
                 };
