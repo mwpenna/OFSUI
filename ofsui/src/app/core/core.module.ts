@@ -14,7 +14,7 @@ import {VoiceRecognitionService} from "../shared/voice-control/voice-recognition
 import {TabsModule, ProgressbarModule, TooltipModule, BsDropdownModule, AlertModule} from "ngx-bootstrap";
 import {AuthService} from "../+auth/auth.service";
 import {AuthGuard} from "../+auth/auth-guard.service";
-import {UserAPIService} from "../+home/userapi.service";
+import {UserAPIService} from "./api/userapi.service";
 import {XEditableService} from "../shared/forms/input/x-editable.service";
 
 @NgModule({

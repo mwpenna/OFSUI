@@ -1,11 +1,15 @@
-import { Injectable } from '@angular/core';
+import {Injectable, Inject} from '@angular/core';
 
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
 import {Router} from "@angular/router";
 import {RequestOptions, Http, Headers} from "@angular/http";
-import {UserAPIService} from "../+home/userapi.service";
+import {UserAPIService} from "../core/api/userapi.service";
+import {AppStore} from "../core/redux/app.store";
+import {Store} from "redux";
+import {AppState} from "../core/redux/app.reducer";
+import * as UserActions from '../core/redux/actions/user.actions';
 
 @Injectable()
 export class AuthService {
@@ -16,19 +20,15 @@ export class AuthService {
 
   private updateUser : any;
 
-  constructor(private router: Router, private http: Http, private userService: UserAPIService) {
+  constructor(private router: Router, private http: Http,
+              private userService: UserAPIService, @Inject(AppStore) private store: Store<AppState>) {
       this.updateUser = {
           "tokenExpDate": "",
       }
   }
 
   login(username: any, password: any) {
-      var encodedString = btoa(username + ":"+ password);
-
-      let headers = new Headers({ "Authorization": "Basic "+encodedString });
-      let options = new RequestOptions({ "headers": headers });
-      this.http.get("http://localhost:8082/users/getToken", options)
-        .subscribe(
+      this.userService.getUserToken(username, password).subscribe(
             result => {
                 var token = result.json().token;
                 this.userService.setToken(token);

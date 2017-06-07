@@ -5,8 +5,11 @@ import {
     compose,
     StoreEnhancer
 } from 'redux';
-import {userReducer as reducer} from './user.reducer';
-import {AppState} from "./app.state";
+
+import {
+    AppState,
+    default as reducer
+}from "./app.reducer";
 
 export const AppStore = new InjectionToken('App.store');
 

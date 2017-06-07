@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {UserAPIService} from "./userapi.service";
+import {UserAPIService} from "../core/api/userapi.service";
 
 @Component({
   selector: 'app-home',

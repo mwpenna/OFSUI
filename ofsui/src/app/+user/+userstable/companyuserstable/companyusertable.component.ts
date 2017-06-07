@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {Http, Headers, Response, RequestOptions} from "@angular/http";
 import {Observable} from "rxjs";
-import {UserAPIService} from "../../../+home/userapi.service";
+import {UserAPIService} from "../../../core/api/userapi.service";
 
 @Component({
     selector: 'sa-company-user-table',

@@ -1,4 +1,4 @@
-export interface AppState {
+export interface User {
     firstname: string;
     lastname: string;
     picture: string;
@@ -7,4 +7,5 @@ export interface AppState {
     username: string;
     role: string;
     id: string;
+    token: string;
 }

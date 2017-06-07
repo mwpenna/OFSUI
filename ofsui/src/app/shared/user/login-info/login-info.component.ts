@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LayoutService} from "../../layout/layout.service";
-import {UserAPIService} from "../../../+home/userapi.service";
+import {UserAPIService} from "../../../core/api/userapi.service";
 
 @Component({
 

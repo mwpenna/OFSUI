@@ -72,6 +72,14 @@ export class UserAPIService {
             .catch(this.handleError);
     }
 
+    getUserToken(username: any, password: any):Observable<any> {
+        var encodedString = btoa(username + ":"+ password);
+
+        let headers = new Headers({ "Authorization": "Basic "+encodedString });
+        let options = new RequestOptions({ "headers": headers });
+        return this.http.get("http://localhost:8082/users/getToken", options);
+    }
+
     private extractData(res:Response) {
         return res.json();
     }

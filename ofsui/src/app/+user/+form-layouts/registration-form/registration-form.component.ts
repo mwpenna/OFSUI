@@ -1,5 +1,5 @@
 import {Component, OnInit, Renderer2, ElementRef} from '@angular/core';
-import {UserAPIService} from "../../../+home/userapi.service";
+import {UserAPIService} from "../../../core/api/userapi.service";
 import {Observable} from "rxjs";
 import {RequestOptions, Headers, Http, Response} from "@angular/http";
 import {Router} from "@angular/router";

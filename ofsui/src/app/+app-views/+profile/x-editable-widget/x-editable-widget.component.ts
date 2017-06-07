@@ -1,5 +1,5 @@
 import {Component, OnInit, OnChanges, Input, ViewChild} from '@angular/core';
-import {UserAPIService} from "../../../+home/userapi.service";
+import {UserAPIService} from "../../../core/api/userapi.service";
 import {XEditableService} from "../../../shared/forms/input/x-editable.service";
 import {Http, RequestOptions, Headers} from "@angular/http";
 import {ModalDirective} from "ngx-bootstrap";

@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {FadeInTop} from "../../shared/animations/fade-in-top.decorator";
-import {UserAPIService} from "../../+home/userapi.service";
+import {UserAPIService} from "../../core/api/userapi.service";
 
 @FadeInTop()
 @Component({
