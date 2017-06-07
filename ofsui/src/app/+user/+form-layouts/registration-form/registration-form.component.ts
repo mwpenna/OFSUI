@@ -1,8 +1,9 @@
-import {Component, OnInit, Renderer2, ElementRef} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserAPIService} from "../../../core/api/userapi.service";
-import {Observable} from "rxjs";
-import {RequestOptions, Headers, Http, Response} from "@angular/http";
 import {Router} from "@angular/router";
+import {UserState} from "../../../core/redux/reducers/user.reducer";
+import {Store} from "@ngrx/store";
+
 
 declare var $:any;
 
@@ -88,9 +89,7 @@ export class RegistrationFormComponent implements OnInit {
   public firstname;
   public lastname;
 
-  constructor(private userApi: UserAPIService, private http: Http,
-              private router: Router, private rederer: Renderer2,
-              private el:ElementRef) {
+  constructor(private userApi: UserAPIService, private router: Router, private store: Store<UserState>) {
     this.user = {
       "firstName": "",
       "lastName": "",
@@ -110,12 +109,17 @@ export class RegistrationFormComponent implements OnInit {
     this.isEmailError = false;
     this.userNameMessage = "";
     this.emailMessage = "";
+
+    this.store.subscribe(
+        (u) => {
+          console.log(u);
+          this.user.company.name = u.currentUser.companyname;
+          this.user.company.href = u.currentUser.companyhref;
+        }
+    );
   }
 
   submit(event) {
-
-    console.log(this.rederer.data);
-
     if(this.validateAllFields()) {
       this.setUser();
       this.createUser();
@@ -123,13 +127,8 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   createUser():void {
-    let headers = new Headers({ "Authorization": "Bearer "+ this.userApi.getToken(),
-      "Content-Type" : "application/json"});
-    let options = new RequestOptions({ "headers": headers });
-    this.http.post("http://localhost:8082/users", JSON.stringify(this.user), options)
-        .subscribe(
+    this.userApi.createUser(this.user).subscribe(
             result => {
-              console.log("result status: " + result.status)
               console.log("Successfully created user")
               this.router.navigate(['/home']);
             },
@@ -156,25 +155,6 @@ export class RegistrationFormComponent implements OnInit {
         );
   }
 
-  private extractData(res:Response) {
-    console.log("Response status: " + res.status);
-
-    if(res.status == 400){
-      return res.json();
-    }
-
-    return null;
-  }
-
-  private handleError(error:any) {
-    // In a real world app, we might use a remote logging infrastructure
-    // We'd also dig deeper into the error to get a better message
-    let errMsg = (error.message) ? error.message :
-        error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-    console.error(errMsg); // log to console instead
-    return Observable.throw(errMsg);
-  }
-
   private setUser() {
     this.user.firstName = this.firstname;
     this.user.lastName = this.lastname;
@@ -182,9 +162,6 @@ export class RegistrationFormComponent implements OnInit {
     this.user.password = this.password1;
     this.user.role = this.role;
     this.user.userName = this.username1;
-
-    this.user.company.href = this.userApi.userInfo.company.href;
-    this.user.company.name = this.userApi.userInfo.company.name;
   }
 
   private validateAllFields():boolean {

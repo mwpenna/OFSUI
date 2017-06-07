@@ -16,7 +16,8 @@ const initialUser: User = {
     role : "",
     id : "",
     token: "",
-    companyid: ""
+    companyid: "",
+    companyhref: ""
 };
 
 const initialState: UserState = {
@@ -43,7 +44,8 @@ export const UserReducer =
                 currentUser.username = u.userName;
                 currentUser.role = u.role;
                 currentUser.id = u.id;
-                currentUser.companyid = u.company.id
+                currentUser.companyid = u.company.id;
+                currentUser.companyhref = u.company.href;
                 return {
                     currentUser: currentUser
                 };

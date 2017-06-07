@@ -80,6 +80,13 @@ export class UserAPIService {
             .catch(this.handleError);
     }
 
+    createUser(user: any):Observable<any> {
+        let headers = new Headers({ "Authorization": "Bearer "+ this.currentUser.token,
+            "Content-Type" : "application/json"});
+        let options = new RequestOptions({ "headers": headers });
+        return this.http.post("http://localhost:8082/users", JSON.stringify(user), options)
+    }
+
     getUsersByCompanyId():Observable<any> {
         let headers = new Headers({ "Authorization": "Bearer "+ this.currentUser.token,
             "Content-Type" : "application/json"});
