@@ -1,6 +1,8 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {FadeInTop} from "../../shared/animations/fade-in-top.decorator";
 import {UserAPIService} from "../../core/api/userapi.service";
+import {UserState} from "../../core/redux/reducers/user.reducer";
+import {Store} from "@ngrx/store";
 
 @FadeInTop()
 @Component({
@@ -11,7 +13,7 @@ export class ProfileComponent implements OnInit {
 
   userProfile: any;
 
-  constructor(private userService: UserAPIService) {
+  constructor(private userService: UserAPIService, private store: Store<UserState>) {
     this.userProfile = {
       "firstname" : "",
       "lastname" : "",
@@ -32,15 +34,17 @@ export class ProfileComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.userService.getObservableUser().subscribe(user => {
-      this.userProfile.firstname = user.firstName;
-      this.userProfile.lastname = user.lastName;
-      this.userProfile.emailaddress = user.emailAddress;
-      this.userProfile.companyname = user.company.name;
-      this.userProfile.username = user.userName;
-      this.userProfile.role = user.role;
-      this.userProfile.id = user.id;
-    })
+    this.store.subscribe(
+        user => {
+          this.userProfile.firstname = user.currentUser.firstname;
+          this.userProfile.lastname = user.currentUser.lastname;
+          this.userProfile.emailaddress = user.currentUser.emailaddress;
+          this.userProfile.companyname = user.currentUser.companyname;
+          this.userProfile.username = user.currentUser.username;
+          this.userProfile.role = user.currentUser.role;
+          this.userProfile.id = user.currentUser.id;
+        }
+    );
 
     var now = new Date;
     var monthNames = ["January", "February", "March", "April", "May", "June",

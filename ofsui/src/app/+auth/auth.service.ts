@@ -22,7 +22,6 @@ export class AuthService {
             result => {
                 var token = result.json().token;
                 this.store.dispatch(UserAction.updateUserToken(token));
-                this.userService.setToken(token);
                 this.isLoggedIn = true;
                 this.getAndStoreUser();
                 this.router.navigate(this.redirectUrl ? [this.redirectUrl] : ['/home'])

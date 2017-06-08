@@ -1,8 +1,11 @@
-import {Component, OnInit, OnChanges, Input, ViewChild} from '@angular/core';
+import {Component, OnInit, Input, ViewChild} from '@angular/core';
 import {UserAPIService} from "../../../core/api/userapi.service";
 import {XEditableService} from "../../../shared/forms/input/x-editable.service";
-import {Http, RequestOptions, Headers} from "@angular/http";
 import {ModalDirective} from "ngx-bootstrap";
+import {UserState} from "../../../core/redux/reducers/user.reducer";
+import {Store} from "@ngrx/store";
+import * as UserAction from '../../../core/redux/actions/user.actions'
+
 
 @Component({
   selector: 'x-editable-widget',
@@ -33,25 +36,24 @@ export class XEditableWidgetComponent implements OnInit {
   };
 
   constructor(private userService: UserAPIService, private xeditableservice: XEditableService,
-              private http: Http) {
+              private store: Store<UserState>) {
   }
 
   ngOnInit() {
-    this.userService.getObservableUser().subscribe(user => {
-      console.log("User has been changed");
-      this.model.firstname = user.firstName;
-      this.model.lastname = user.lastName;
-      this.model.emailaddress = user.emailAddress;
-      this.model.companyname = user.company.name;
-      this.model.username = user.userName;
-      this.model.role = user.role;
-      this.model.id = user.id;
-    })
+    this.store.subscribe(
+        user => {
+          this.model.firstname = user.currentUser.firstname;
+          this.model.lastname = user.currentUser.lastname;
+          this.model.emailaddress = user.currentUser.emailaddress;
+          this.model.companyname = user.currentUser.companyname;
+          this.model.username = user.currentUser.username;
+          this.model.role = user.currentUser.role;
+          this.model.id = user.currentUser.id;
+        }
+    );
 
     this.xeditableservice.fieldChangeAnnouced$.subscribe(
         fieldChange => {
-          console.log("Received field change");
-          console.log(fieldChange);
           this.updateChangedField(fieldChange);
         }
     );
@@ -66,7 +68,6 @@ export class XEditableWidgetComponent implements OnInit {
 
   updateFirstName(fieldChange: any) {
     if(this.isFieldChange("firstname",  fieldChange.field)) {
-      console.log("FirstName is being updated");
       var updateFirstNameRequest = {
         "firstName" : fieldChange.value
       }
@@ -76,7 +77,6 @@ export class XEditableWidgetComponent implements OnInit {
 
   updateLastName(fieldChange: any) {
     if(this.isFieldChange("lastname",  fieldChange.field)) {
-      console.log("lastname is being updated");
       var updateLastNameRequest = {
         "lastName" : fieldChange.value
       }
@@ -87,7 +87,6 @@ export class XEditableWidgetComponent implements OnInit {
 
   updateEmailAddress(fieldChange: any) {
     if(this.isFieldChange("emailaddress",  fieldChange.field)) {
-      console.log("emailaddress is being updated");
       var updateEmailAddressRequest = {
         "emailAddress" : fieldChange.value
       }
@@ -98,7 +97,6 @@ export class XEditableWidgetComponent implements OnInit {
 
   updatePassword(fieldChange: any) {
     if(this.isFieldChange("password",  fieldChange.field)) {
-      console.log("password is being updated");
       this.lgModal.show();
       this.model.password = fieldChange.value;
     }
@@ -108,21 +106,10 @@ export class XEditableWidgetComponent implements OnInit {
     return field==updatedField;
   }
 
-  onChange(){
-    this.options.mode = this.options.inline ? 'inline' : 'popup';
-  }
-
   updateUser(request:any) {
-    console.log("Token: " + this.userService.getToken());
-    let headers = new Headers({ "Authorization": "Bearer "+ this.userService.getToken(),
-      "Content-Type" : "application/json"});
-    let options = new RequestOptions({ "headers": headers });
-
-    this.http.post("http://localhost:8082/users/id/" + this.userService.userInfo.id, JSON.stringify(request), options)
-        .subscribe(
+    this.userService.updateUser(request).subscribe(
             result => {
-              console.log("Successfully updatedUser")
-              this.userService.updateObservableUser();
+              this.getAndStoreUser();
             },
             error => {
               console.error('\n', error);
@@ -130,14 +117,21 @@ export class XEditableWidgetComponent implements OnInit {
         );
   }
 
+  private getAndStoreUser(): void {
+    this.userService.getUserByToken().subscribe(
+        result => {
+          this.store.dispatch(UserAction.update(result));
+        },
+        error => {
+          console.error('\n', error);
+        }
+    );
+  }
+
   confirmPassword(event):void {
-    console.log("Confim password");
-    console.log(this.verifyPassword);
     this.lgModal.hide();
 
-    console.log("Password is: " + this.model.password);
     if(this.verifyPassword == this.model.password) {
-      console.log("Password match. Updating password");
       var updatePasswordRequest = {
         "password" : this.verifyPassword
       }

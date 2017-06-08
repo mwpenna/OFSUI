@@ -7,77 +7,14 @@ import {User} from "../redux/model/user.model";
 
 @Injectable()
 export class UserAPIService {
-    public user: Subject<any>;
 
-    public userInfo = {
-        "href": "",
-        "id": "",
-        "firstName": "",
-        "lastName": "",
-        "company": {
-            "href": "",
-            "name": "",
-            "id": ""
-        },
-        "role": "",
-        "userName": "",
-        "emailAddress": "",
-        "token": "",
-        "tokenExpDate": "",
-        "activeFlag": false,
-    }
-
-    private token: string = "";
-    private observableUser: Observable<any>;
     private currentUser: User;
 
     constructor(private http: Http, private store: Store<UserState>) {
-        this.user = new Subject();
         this.store.subscribe(
             (u) => {
                   this.currentUser = u.currentUser;
             });
-    }
-
-    setToken(token: any) {
-        this.userInfo.token = token;
-        this.token = token;
-    }
-
-    getToken():string {
-        return this.token;
-    }
-
-    getObservableUser():Observable<any> {
-
-        if(this.observableUser == null) {
-            this.observableUser = this.retrieveUser()
-                .do((user)=> {
-                    this.userInfo = user;
-                    this.user.next(user)
-                })
-        }
-
-        return this.observableUser;
-    }
-
-    updateObservableUser():Observable<any> {
-        console.log("Updating user");
-        this.observableUser = this.retrieveUser()
-            .do((user)=> {
-                this.userInfo = user;
-                this.user.next(user)
-            })
-
-        return this.observableUser;
-    }
-
-    retrieveUser():Observable<any> {
-        let headers = new Headers({ "Authorization": "Bearer "+this.currentUser.token });
-        let options = new RequestOptions({ "headers": headers });
-        return this.http.get("http://localhost:8082/users/token", options)
-            .map(this.extractData)
-            .catch(this.handleError);
     }
 
     createUser(user: any):Observable<any> {
