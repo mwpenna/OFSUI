@@ -10,7 +10,13 @@ export const routes:Routes = [
     path: 'reports',
     loadChildren: 'app/+user/+userstable/userstable.module#UserstableModule',
     data: {pageTitle: 'User'}
+  },
+  {
+    path: 'update',
+    loadChildren: 'app/+user/+updateuser/updateuser.module#UpdateUserModule',
+    data: {pageTitle: 'User'}
   }
 ]
 
 export const routing = RouterModule.forChild(routes);
+
