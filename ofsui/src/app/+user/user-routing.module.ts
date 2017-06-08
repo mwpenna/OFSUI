@@ -7,7 +7,7 @@ export const routes:Routes = [
     data: {pageTitle: 'User'}
   },
   {
-    path: 'table',
+    path: 'reports',
     loadChildren: 'app/+user/+userstable/userstable.module#UserstableModule',
     data: {pageTitle: 'User'}
   }
