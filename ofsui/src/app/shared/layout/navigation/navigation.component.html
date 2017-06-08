@@ -9,26 +9,36 @@
     Please note that these links work a bit different than
     traditional href="" links. See documentation for details.
     -->
+    <div *ngIf="isAdmin">
+        <ul saSmartMenu>
 
-    <ul saSmartMenu>
+            <li routerLinkActive="active">
+                <a routerLink="/home" title="Home">
+                    <i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">{{'Home' | i18n}}</span></a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span
+                        class="menu-item-parent">{{'User' | i18n}}</span></a>
+                <ul>
+                    <li routerLinkActive="active">
+                        <a routerLink="/user/layouts">{{'User Registration' | i18n}}</a>
+                    </li>
+                    <li routerLinkActive="active">
+                        <a routerLink="/user/table">{{'Users List' | i18n}}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+      <div *ngIf="!isAdmin">
+          <ul saSmartMenu>
 
-        <li routerLinkActive="active">
-            <a routerLink="/home" title="Home">
-                <i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">{{'Home' | i18n}}</span></a>
-        </li>
-        <li>
-            <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span
-                    class="menu-item-parent">{{'User' | i18n}}</span></a>
-            <ul>
-                <li routerLinkActive="active">
-                    <a routerLink="/user/layouts">{{'User Registration' | i18n}}</a>
-                </li>
-                <li routerLinkActive="active">
-                    <a routerLink="/user/table">{{'Users List' | i18n}}</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
+              <li routerLinkActive="active">
+                  <a routerLink="/home" title="Home">
+                      <i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">{{'Home' | i18n}}</span></a>
+              </li>
+          </ul>
+      </div>
   </nav>
 
   <sa-minify-menu></sa-minify-menu>

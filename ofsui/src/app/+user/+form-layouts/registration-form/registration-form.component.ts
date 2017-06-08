@@ -112,7 +112,6 @@ export class RegistrationFormComponent implements OnInit {
 
     this.store.subscribe(
         (u) => {
-          console.log(u);
           this.user.company.name = u.currentUser.companyname;
           this.user.company.href = u.currentUser.companyhref;
         }

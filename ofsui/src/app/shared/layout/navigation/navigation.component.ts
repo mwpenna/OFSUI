@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-
+import {UserState} from "../../../core/redux/reducers/user.reducer";
+import {Store} from "@ngrx/store";
 
 @Component({
 
@@ -8,10 +9,22 @@ import {Component, OnInit} from '@angular/core';
 })
 export class NavigationComponent implements OnInit {
 
-  constructor() {
+  public isAdmin: boolean = false;
+
+  constructor(private store: Store<UserState>) {
   }
 
   ngOnInit() {
+    this.store.subscribe(
+        (u) => {
+          if(u.currentUser.role == 'ADMIN') {
+            this.isAdmin = true;
+          }
+          else {
+            this.isAdmin = false;
+          }
+        }
+    )
   }
 
 }
