@@ -49,6 +49,11 @@ export const UserReducer =
                 return {
                     currentUser: currentUser
                 };
+            case UserActions.DEFAULT:
+                const defaultUser: User = initialUser;
+                return {
+                    currentUser: defaultUser
+                }
             default:
                 return state;
         }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {RequestOptions, Http, Headers, Response} from "@angular/http";
-import {Observable, Subject} from "rxjs";
+import {Observable} from "rxjs";
 import {Store} from "@ngrx/store";
 import {UserState} from "../redux/reducers/user.reducer";
 import {User} from "../redux/model/user.model";
@@ -66,7 +66,6 @@ export class UserAPIService {
         // We'd also dig deeper into the error to get a better message
         let errMsg = (error.message) ? error.message :
             error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-        console.error(errMsg); // log to console instead
         return Observable.throw(errMsg);
     }
 }

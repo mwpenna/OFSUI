@@ -49,6 +49,7 @@ export class AuthService {
           }
       );
       this.isLoggedIn = false;
+      this.store.dispatch(UserAction.defaultUser());
 
       function pad(n){return n<10 ? '0'+n : n}
   }
