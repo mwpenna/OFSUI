@@ -3,6 +3,7 @@ import {UserAPIService} from "../../../core/api/userapi.service";
 import {Router} from "@angular/router";
 import {UserState} from "../../../core/redux/reducers/user.reducer";
 import {Store} from "@ngrx/store";
+import {HttpExceptionHandler} from "../../../core/api/httpexceptionhandler";
 
 
 declare var $:any;
@@ -89,7 +90,7 @@ export class RegistrationFormComponent implements OnInit {
   public firstname;
   public lastname;
 
-  constructor(private userApi: UserAPIService, private router: Router, private store: Store<UserState>) {
+  constructor(private userApi: UserAPIService, private router: Router, private store: Store<UserState>, private httpExceptionHandler: HttpExceptionHandler) {
     this.user = {
       "firstName": "",
       "lastName": "",
@@ -132,6 +133,8 @@ export class RegistrationFormComponent implements OnInit {
               this.router.navigate(['/home']);
             },
             error => {
+              this.httpExceptionHandler.handleException(error);
+
               var errors = error.json().errors;
 
               for(var i = 0; i< errors.length; i++) {
