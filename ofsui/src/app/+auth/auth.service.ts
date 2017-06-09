@@ -61,6 +61,10 @@ export class AuthService {
           },
           error => {
               console.error('\n', error);
+              window.alert("You session has expired or you have logged in from a different device with the same credentials. You will now be redirected to log back in.")
+              this.store.dispatch(UserAction.defaultUser());
+              this.isLoggedIn = false;
+              this.router.navigate(['/auth/login']);
           }
       );
   }
