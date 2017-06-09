@@ -48,8 +48,8 @@ export class AuthService {
               console.error('\n', error);
           }
       );
-      this.isLoggedIn = false;
       this.store.dispatch(UserAction.defaultUser());
+      this.isLoggedIn = false;
 
       function pad(n){return n<10 ? '0'+n : n}
   }

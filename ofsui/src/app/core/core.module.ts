@@ -16,6 +16,7 @@ import {AuthService} from "../+auth/auth.service";
 import {AuthGuard} from "../+auth/auth-guard.service";
 import {UserAPIService} from "./api/userapi.service";
 import {XEditableService} from "../shared/forms/input/x-editable.service";
+import {HttpExceptionHandler} from "./api/httpexceptionhandler";
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import {XEditableService} from "../shared/forms/input/x-editable.service";
     AuthService,
     AuthGuard,
     UserAPIService,
-    XEditableService
+    XEditableService,
+    HttpExceptionHandler
   ]
 })
 export class CoreModule {

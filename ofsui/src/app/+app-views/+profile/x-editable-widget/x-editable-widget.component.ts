@@ -5,6 +5,9 @@ import {ModalDirective} from "ngx-bootstrap";
 import {UserState} from "../../../core/redux/reducers/user.reducer";
 import {Store} from "@ngrx/store";
 import * as UserAction from '../../../core/redux/actions/user.actions'
+import {AuthService} from "../../../+auth/auth.service";
+import {Router} from "@angular/router";
+import {HttpExceptionHandler} from "../../../core/api/httpexceptionhandler";
 
 
 @Component({
@@ -36,7 +39,7 @@ export class XEditableWidgetComponent implements OnInit {
   };
 
   constructor(private userService: UserAPIService, private xeditableservice: XEditableService,
-              private store: Store<UserState>) {
+              private store: Store<UserState>, private httpExceptionHandler: HttpExceptionHandler) {
   }
 
   ngOnInit() {
@@ -112,7 +115,7 @@ export class XEditableWidgetComponent implements OnInit {
               this.getAndStoreUser();
             },
             error => {
-              console.error('\n', error);
+              this.httpExceptionHandler.handleException(error);
             }
         );
   }
@@ -123,7 +126,7 @@ export class XEditableWidgetComponent implements OnInit {
           this.store.dispatch(UserAction.update(result));
         },
         error => {
-          console.error('\n', error);
+          this.httpExceptionHandler.handleException(error);
         }
     );
   }
