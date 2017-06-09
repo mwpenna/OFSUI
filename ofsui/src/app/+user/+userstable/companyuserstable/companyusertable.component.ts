@@ -1,5 +1,10 @@
 import {Component, OnInit} from "@angular/core";
 import {UserAPIService} from "../../../core/api/userapi.service";
+import {HttpExceptionHandler} from "../../../core/api/httpexceptionhandler";
+import {Observable} from "rxjs";
+import {Response} from "@angular/http";
+import {error} from "util";
+
 
 @Component({
     selector: 'sa-company-user-table',
@@ -10,12 +15,22 @@ export class CompanyUserTableComponent implements OnInit {
     options = {
         dom: "Bfrtip",
         ajax: (data, callback, settings) => {
-            this.userApi.getUsersByCompanyId().subscribe((data) => {
-                    console.log(data);
-                    callback({
-                        aaData: data.json().items
-                    })
-                })
+            this.userApi.getUsersByCompanyId()
+                .map(this.extractData)
+                .catch(this.handleError)
+                .subscribe(
+                    (data) => {
+                        console.log(data);
+                        callback({
+                            aaData: data.items
+                        })
+                    },
+                    error => {
+                        console.log("Inside subscribe error");
+                        console.log(error);
+                        this.httpExceptionHandler.handleException(error);
+                    },
+                )
         },
         columns: [
             { data: "id" },
@@ -32,8 +47,18 @@ export class CompanyUserTableComponent implements OnInit {
         paginationLength: ["true"]
     };
 
-    constructor(private userApi: UserAPIService) {}
+    constructor(private userApi: UserAPIService, private httpExceptionHandler: HttpExceptionHandler) {}
 
     ngOnInit() {
+    }
+
+    private extractData(res:Response) {
+        return res.json();
+    }
+
+    private handleError(error:any) {
+        console.log("error");
+        console.log(error);
+        return Observable.throw(error);
     }
 }
