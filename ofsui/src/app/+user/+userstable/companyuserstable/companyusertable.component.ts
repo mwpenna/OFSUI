@@ -11,8 +11,9 @@ export class CompanyUserTableComponent implements OnInit {
         dom: "Bfrtip",
         ajax: (data, callback, settings) => {
             this.userApi.getUsersByCompanyId().subscribe((data) => {
+                    console.log(data);
                     callback({
-                        aaData: data.items
+                        aaData: data.json().items
                     })
                 })
         },
