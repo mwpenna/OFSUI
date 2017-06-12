@@ -61,4 +61,5 @@ export class CompanyUserTableComponent implements OnInit {
         console.log(error);
         return Observable.throw(error);
     }
+
 }
