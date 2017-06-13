@@ -3,6 +3,7 @@ import {Subject, Observable} from "rxjs";
 import {UserAPIService} from "../../../core/api/userapi.service";
 import {HttpExceptionHandler} from "../../../core/api/httpexceptionhandler";
 import {Response} from "@angular/http";
+import {UserSearchService} from "./searchform.service";
 
 
 @Component({
@@ -20,9 +21,8 @@ export class SearchformComponent implements OnInit {
 
   request: Subject<any> = new Subject<any>();
 
-  @Output() searchResults: EventEmitter<any> = new EventEmitter();
-
-  constructor(private userApi: UserAPIService, private httpExceptionHandler: HttpExceptionHandler) { }
+  constructor(private userApi: UserAPIService, private httpExceptionHandler: HttpExceptionHandler,
+              private userSearchService: UserSearchService) { }
 
   ngOnInit() {
     this.request
@@ -36,7 +36,7 @@ export class SearchformComponent implements OnInit {
                   .catch(this.handleError)
                   .subscribe(
                   result => {
-                      this.searchResults.emit(result);
+                      this.userSearchService.announceSearchResults(result);
                   },
                   error => {
                     this.httpExceptionHandler.handleException(error);

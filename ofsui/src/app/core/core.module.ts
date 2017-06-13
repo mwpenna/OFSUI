@@ -17,6 +17,7 @@ import {AuthGuard} from "../+auth/auth-guard.service";
 import {UserAPIService} from "./api/userapi.service";
 import {XEditableService} from "../shared/forms/input/x-editable.service";
 import {HttpExceptionHandler} from "./api/httpexceptionhandler";
+import {UserSearchService} from "../+user/+updateuser/searchform/searchform.service";
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import {HttpExceptionHandler} from "./api/httpexceptionhandler";
     AuthGuard,
     UserAPIService,
     XEditableService,
-    HttpExceptionHandler
+    HttpExceptionHandler,
+    UserSearchService
   ]
 })
 export class CoreModule {
