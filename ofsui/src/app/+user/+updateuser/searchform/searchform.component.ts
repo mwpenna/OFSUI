@@ -50,13 +50,50 @@ export class SearchformComponent implements OnInit {
   }
 
   private generateRequest(): any {
+
+    this.setEmptyStringsToUndefined();
+
+    var af = undefined;
+
+    if(this.activeflag) {
+      console.log("ActiveFlag isn't undefined");
+      af = (this.activeflag === "true")
+    }
+
     return {
       firstName: this.firstname,
       lastName: this.lastname,
       emailAddress: this.emailaddress,
       userName: this.username,
       role: this.role,
-      activeFlag: (this.activeflag === "true")
+      activeFlag: af
+    }
+  }
+
+  private setEmptyStringsToUndefined():void {
+    if(this.firstname === "") {
+      this.firstname = undefined;
+    }
+
+    if(this.lastname === "") {
+      this.lastname = undefined;
+    }
+
+    if(this.emailaddress === "") {
+      this.emailaddress = undefined;
+    }
+
+    if(this.username === "") {
+      this.username = undefined;
+    }
+
+    if(this.role === "") {
+      this.role = undefined;
+    }
+
+    if(this.activeflag === "") {
+      console.log("activeFlag is empty string");
+      this.activeflag = undefined;
     }
   }
 

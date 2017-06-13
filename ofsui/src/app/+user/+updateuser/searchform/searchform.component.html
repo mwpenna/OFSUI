@@ -1,15 +1,6 @@
 <form class="smart-form">
   <fieldset>
     <section class="col col-2">
-      <label class="label">Username</label>
-      <label class="input"> <i class="icon-append fa fa-question-circle"></i>
-        <input [(ngModel)]="username" (ngModelChange)='changed($event)' name="username" type="text" placeholder="Username">
-        <b class="tooltip tooltip-top-right">
-          <i class="fa fa-warning txt-color-teal"></i>
-          Search by username</b>
-      </label>
-    </section>
-    <section class="col col-2">
       <label class="label">First Name</label>
       <label class="input"> <i class="icon-append fa fa-question-circle"></i>
         <input [(ngModel)]="firstname" (ngModelChange)='changed($event)' name="firstname" type="text" placeholder="First Name">
@@ -28,6 +19,27 @@
       </label>
     </section>
     <section class="col col-2">
+      <label class="label">Username</label>
+      <label class="input"> <i class="icon-append fa fa-question-circle"></i>
+        <input [(ngModel)]="username" (ngModelChange)='changed($event)' name="username" type="text" placeholder="Username">
+        <b class="tooltip tooltip-top-right">
+          <i class="fa fa-warning txt-color-teal"></i>
+          Search by username</b>
+      </label>
+    </section>
+    <section class="col col-2">
+      <label class="label">Role</label>
+      <label class="select">
+        <select [(ngModel)]="role" (ngModelChange)='changed($event)' name="role">
+          <option value=""> Choose Role</option>
+          <option value="CUSTOMER">CUSTOMER</option>
+          <option value="ADMIN">ADMIN</option>
+          <option value="ACCOUNT_MANAGER">ACCOUNT_MANAGER</option>
+          <option value="WAREHOUSE">WAREHOUSE</option>
+        </select> <i></i>
+      </label>
+    </section>
+    <section class="col col-2">
       <label class="label">Email Address</label>
       <label class="input"> <i class="icon-append fa fa-question-circle"></i>
         <input [(ngModel)]="emailaddress" (ngModelChange)='changed($event)' name="emailaddress" type="text" placeholder="Email Address">
@@ -37,22 +49,10 @@
       </label>
     </section>
     <section class="col col-2">
-      <label class="label">Role</label>
-      <label class="select">
-        <select [(ngModel)]="role" (ngModelChange)='changed($event)' name="role">
-          <option value="0"> Choose Role</option>
-          <option value="CUSTOMER">CUSTOMER</option>
-          <option value="ADMIN">ADMIN</option>
-          <option value="ACCOUNT_MANAGER">ACCOUNT_MANAGER</option>
-          <option value="WAREHOUSE">WAREHOUSE</option>
-        </select> <i></i>
-      </label>
-    </section>
-    <section class="col col-2">
       <label class="label">Active Flag</label>
       <label class="select">
         <select [(ngModel)]="activeflag" (ngModelChange)='changed($event)' name="activeflag">
-          <option value="0"> Choose Active Flag</option>
+          <option value=""> Choose Active Flag</option>
           <option value="true">TRUE</option>
           <option value="false">FALSE</option>
         </select> <i></i>
