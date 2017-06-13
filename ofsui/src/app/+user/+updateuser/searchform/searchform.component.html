@@ -1,62 +1,45 @@
 <form class="smart-form">
-  <header>
-    User Search
-  </header>
-
   <fieldset>
-    <section>
-      <label class="label">Search By User Id</label>
-      <label class="input"> <i class="icon-append fa fa-question-circle"></i>
-        <input type="text" placeholder="User Id">
-        <b class="tooltip tooltip-top-right">
-          <i class="fa fa-warning txt-color-teal"></i>
-          Search by user id</b>
-      </label>
-    </section>
- </fieldset>
-
-  <fieldset>
-    <label class="label">Search By User Fields</label>
-    <section class="col col-6">
+    <section class="col col-2">
       <label class="label">Username</label>
       <label class="input"> <i class="icon-append fa fa-question-circle"></i>
-        <input type="text" placeholder="Username">
+        <input [(ngModel)]="username" (ngModelChange)='changed($event)' name="username" type="text" placeholder="Username">
         <b class="tooltip tooltip-top-right">
           <i class="fa fa-warning txt-color-teal"></i>
           Search by username</b>
       </label>
     </section>
-    <section class="col col-6">
+    <section class="col col-2">
       <label class="label">First Name</label>
       <label class="input"> <i class="icon-append fa fa-question-circle"></i>
-        <input type="text" placeholder="First Name">
+        <input [(ngModel)]="firstname" (ngModelChange)='changed($event)' name="firstname" type="text" placeholder="First Name">
         <b class="tooltip tooltip-top-right">
           <i class="fa fa-warning txt-color-teal"></i>
           Search by firstname</b>
       </label>
     </section>
-    <section class="col col-6">
+    <section class="col col-2">
       <label class="label">Last Name</label>
       <label class="input"> <i class="icon-append fa fa-question-circle"></i>
-        <input type="text" placeholder="Last Name">
+        <input [(ngModel)]="lastname" (ngModelChange)='changed($event)' name="lastname" type="text" placeholder="Last Name">
         <b class="tooltip tooltip-top-right">
           <i class="fa fa-warning txt-color-teal"></i>
           Search by lastname</b>
       </label>
     </section>
-    <section class="col col-6">
+    <section class="col col-2">
       <label class="label">Email Address</label>
       <label class="input"> <i class="icon-append fa fa-question-circle"></i>
-        <input type="text" placeholder="Email Address">
+        <input [(ngModel)]="emailaddress" (ngModelChange)='changed($event)' name="emailaddress" type="text" placeholder="Email Address">
         <b class="tooltip tooltip-top-right">
           <i class="fa fa-warning txt-color-teal"></i>
           Search by email address</b>
       </label>
     </section>
-    <section class="col col-6">
+    <section class="col col-2">
       <label class="label">Role</label>
       <label class="select">
-        <select>
+        <select [(ngModel)]="role" (ngModelChange)='changed($event)' name="role">
           <option value="0"> Choose Role</option>
           <option value="CUSTOMER">CUSTOMER</option>
           <option value="ADMIN">ADMIN</option>
@@ -65,21 +48,15 @@
         </select> <i></i>
       </label>
     </section>
-    <section class="col col-6">
+    <section class="col col-2">
       <label class="label">Active Flag</label>
       <label class="select">
-        <select>
+        <select [(ngModel)]="activeflag" (ngModelChange)='changed($event)' name="activeflag">
           <option value="0"> Choose Active Flag</option>
-          <option value="false">TRUE</option>
-          <option value="true">FALSE</option>
+          <option value="true">TRUE</option>
+          <option value="false">FALSE</option>
         </select> <i></i>
       </label>
     </section>
   </fieldset>
-
-  <footer>
-    <button type="button" class="btn btn-default">
-      Clear
-    </button>
-  </footer>
 </form>

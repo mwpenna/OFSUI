@@ -6,6 +6,7 @@ import {usertableRouting} from "./updateuser.routing";
 import {SmartadminModule} from "../../shared/smartadmin.module";
 import {SmartadminDatatableModule} from "../../shared/ui/datatable/smartadmin-datatable.module";
 import { SearchformComponent } from './searchform/searchform.component';
+import { UserresulttableComponent } from './userresulttable/userresulttable.component';
 
 @NgModule({
   imports: [
@@ -14,6 +15,6 @@ import { SearchformComponent } from './searchform/searchform.component';
     usertableRouting,
     SmartadminDatatableModule
   ],
-  declarations: [UpdateUserComponent, SearchformComponent]
+  declarations: [UpdateUserComponent, SearchformComponent, UserresulttableComponent]
 })
 export class UpdateUserModule { }

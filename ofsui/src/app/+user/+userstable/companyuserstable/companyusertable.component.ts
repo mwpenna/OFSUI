@@ -20,7 +20,6 @@ export class CompanyUserTableComponent implements OnInit {
                 .catch(this.handleError)
                 .subscribe(
                     (data) => {
-                        console.log(data);
                         callback({
                             aaData: data.items
                         })
