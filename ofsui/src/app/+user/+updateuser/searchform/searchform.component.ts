@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {User} from "../../../core/redux/model/user.model";
-import {Subject} from "rxjs";
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {Subject, Observable} from "rxjs";
 import {UserAPIService} from "../../../core/api/userapi.service";
+import {HttpExceptionHandler} from "../../../core/api/httpexceptionhandler";
+import {Response} from "@angular/http";
+
 
 @Component({
   selector: 'app-searchform',
@@ -18,7 +20,9 @@ export class SearchformComponent implements OnInit {
 
   request: Subject<any> = new Subject<any>();
 
-  constructor(private userApi: UserAPIService) { }
+  @Output() searchResults: EventEmitter<any> = new EventEmitter();
+
+  constructor(private userApi: UserAPIService, private httpExceptionHandler: HttpExceptionHandler) { }
 
   ngOnInit() {
     this.request
@@ -27,6 +31,17 @@ export class SearchformComponent implements OnInit {
         .subscribe(
             request => {
               console.log(request);
+              this.userApi.search(request)
+                  .map(this.extractData)
+                  .catch(this.handleError)
+                  .subscribe(
+                  result => {
+                      this.searchResults.emit(result);
+                  },
+                  error => {
+                    this.httpExceptionHandler.handleException(error);
+                  }
+              );
             }
         )
   }
@@ -44,6 +59,16 @@ export class SearchformComponent implements OnInit {
       role: this.role,
       activeFlag: (this.activeflag === "true")
     }
+  }
+
+  private extractData(res:Response) {
+    return res.json();
+  }
+
+  private handleError(error:any) {
+    console.log("error");
+    console.log(error);
+    return Observable.throw(error);
   }
 
 }
