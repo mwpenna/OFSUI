@@ -15,44 +15,14 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>1979e601-a0b3-4bf3-83ce-5525077695bf</td>
-      <td>user</td>
-      <td>kdjfkd</td>
-      <td>user11</td>
-      <td>ADMIN</td>
-      <td>user11@user.com</td>
-      <td>true</td>
-      <td><button type="submit" class="btn btn-primary">Update User</button></td>
-    </tr>
-    <tr>
-      <td>1dd416a9-4719-4f50-b400-ebc2180e02e8</td>
-      <td>user14</td>
-      <td>ppppp</td>
-      <td>user14</td>
-      <td>ADMIN</td>
-      <td>user14@user.com</td>
-      <td>true</td>
-      <td><button type="submit" class="btn btn-primary">Update User</button></td>
-    </tr>
-    <tr>
-      <td>2ea6dcca-ef9c-4901-b4ad-10d7854d36d8</td>
-      <td>user</td>
-      <td>six</td>
-      <td>user6</td>
-      <td>ACCOUNT_MANAGER</td>
-      <td>user6@user.com</td>
-      <td>true</td>
-      <td><button type="submit" class="btn btn-primary">Update User</button></td>
-    </tr>
-    <tr>
-      <td>4a0befb3-c08a-472b-8fab-7b3b106649a4</td>
-      <td>user15</td>
-      <td>kkkkkkkkk</td>
-      <td>user15</td>
-      <td>CUSTOMER</td>
-      <td>user15@user.com</td>
-      <td>true</td>
+    <tr *ngFor="let user of items">
+      <td>{{user.id}}</td>
+      <td>{{user.firstName}}</td>
+      <td>{{user.lastName}}</td>
+      <td>{{user.userName}}</td>
+      <td>{{user.role}}</td>
+      <td>{{user.emailAddress}}</td>
+      <td>{{user.activeFlag}}</td>
       <td><button type="submit" class="btn btn-primary">Update User</button></td>
     </tr>
     </tbody>

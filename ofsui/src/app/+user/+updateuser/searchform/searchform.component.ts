@@ -30,7 +30,6 @@ export class SearchformComponent implements OnInit {
         .distinctUntilChanged()
         .subscribe(
             request => {
-              console.log(request);
               this.userApi.search(request)
                   .map(this.extractData)
                   .catch(this.handleError)
@@ -66,8 +65,6 @@ export class SearchformComponent implements OnInit {
   }
 
   private handleError(error:any) {
-    console.log("error");
-    console.log(error);
     return Observable.throw(error);
   }
 
