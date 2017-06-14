@@ -30,7 +30,7 @@ export class SearchformComponent implements OnInit {
         .distinctUntilChanged()
         .subscribe(
             request => {
-              this.userApi.search(request)
+              this.userApi.search(request,10,0)
                   .map(this.extractData)
                   .catch(this.handleError)
                   .subscribe(

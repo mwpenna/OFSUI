@@ -55,12 +55,12 @@ export class UserAPIService {
         return this.http.post("http://localhost:8082/users/id/" + this.currentUser.id, JSON.stringify(request), options);
     }
 
-    search(request: any):Observable<any> {
+    search(request: any, limit:number, start:number):Observable<any> {
         let headers = new Headers({ "Authorization": "Bearer "+ this.currentUser.token,
             "Content-Type" : "application/json"});
         let options = new RequestOptions({ "headers": headers });
 
-        return this.http.post("http://localhost:8082/users/search", JSON.stringify(request), options);
+        return this.http.post("http://localhost:8082/users/search?limit="+limit+"&start="+start, JSON.stringify(request), options);
     }
 
     private extractData(res:Response) {
@@ -74,4 +74,5 @@ export class UserAPIService {
             error.status ? `${error.status} - ${error.statusText}` : 'Server error';
         return Observable.throw(errMsg);
     }
+    
 }
