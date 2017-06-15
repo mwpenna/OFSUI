@@ -25,12 +25,14 @@ export class SearchformComponent implements OnInit {
               private userSearchService: UserSearchService) { }
 
   ngOnInit() {
+    this.userSearchService.setPageLimit(10);
     this.request
         .debounceTime(400)
         .distinctUntilChanged()
         .subscribe(
             request => {
-              this.userApi.search(request,10,0)
+              this.userSearchService.setRequest(request);
+              this.userApi.search(request,this.userSearchService.getPageLimit(),0)
                   .map(this.extractData)
                   .catch(this.handleError)
                   .subscribe(
