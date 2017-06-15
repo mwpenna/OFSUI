@@ -23,7 +23,7 @@
       <td>{{user.role}}</td>
       <td>{{user.emailAddress}}</td>
       <td>{{user.activeFlag}}</td>
-      <td><button type="submit" class="btn btn-primary">Update User</button></td>
+      <td><button type="submit" (click)="showUpdateUserModal(user)" class="btn btn-primary">Update User</button></td>
     </tr>
     </tbody>
   </table>
@@ -51,4 +51,144 @@
       </ul>
   </div>
   <br/>
+</div>
+
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="lgModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Update User: {{updaateUserId}}</h4>
+      </div>
+      <div class="modal-body no-padding">
+
+        <form id="update-user-form" class="smart-form">
+
+          <fieldset>
+            <section>
+              <div class="row">
+                <label class="label col col-2">First Name</label>
+
+                <div class="col col-10">
+                  <label class="input"> <i class="icon-append fa fa-user"></i>
+                    <input type="text" name="firstname" [(ngModel)]="firstname" placeholder="First Name">
+                  </label>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="row">
+                <label class="label col col-2">Last Name</label>
+
+                <div class="col col-10">
+                  <label class="input"> <i class="icon-append fa fa-user"></i>
+                    <input type="text" name="lastname" [(ngModel)]="lastname" placeholder="Last Name">
+                  </label>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="row">
+                <label class="label col col-2">Email Address</label>
+
+                <div class="col col-10">
+                  <label class="input"> <i class="icon-append fa fa-envelope-square"></i>
+                    <input type="email" name="email" [(ngModel)]="email" placeholder="Email">
+                  </label>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="row">
+                <label class="label col col-2">Password</label>
+
+                <div class="col col-10">
+                  <label class="input"> <i class="icon-append fa fa-lock"></i>
+                    <input type="password" name="password1" [(ngModel)]="password1" placeholder="Password"/>
+                  </label>
+                </div>
+              </div>
+            </section>
+
+            <div *ngIf="!isPasswordConfirmError">
+              <section>
+                <div class="row">
+                  <label class="label col col-2">Confirm Password</label>
+
+                  <div class="col col-10">
+                    <label class="input"> <i class="icon-append fa fa-lock"></i>
+                      <input type="password" name="passwordConfirm" [(ngModel)]="passwordConfirm" placeholder="Confirm Password"/>
+                    </label>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div *ngIf="isPasswordConfirmError">
+              <section>
+                <div class="row">
+                  <label class="label col col-2">Confirm Password</label>
+
+                  <div class="col col-10">
+                    <label class="input state-error"> <i class="icon-append fa fa-lock"></i>
+                      <input type="password" name="passwordConfirm" [(ngModel)]="passwordConfirm" placeholder="Confirm Password"
+                             class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="passwordConfirm-error"/>
+                      <em id="email-error" class="invalid">{{passWordConfirmMessage}}</em>
+                      <b class="tooltip tooltip-bottom-right">{{passWordConfirmMessage}}</b>
+                    </label>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <section>
+              <div class="row">
+                <label class="label col col-2">Role</label>
+
+                <div class="col col-10">
+                  <label class="select">
+                    <select name="role" [(ngModel)]="role">
+                      <option value="0">Select Role</option>
+                      <option value="CUSTOMER">CUSTOMER</option>
+                      <option value="ADMIN">ADMIN</option>
+                      <option value="ACCOUNT_MANAGER">ACCOUNT_MANAGER</option>
+                      <option value="WAREHOUSE">WAREHOUSE</option>
+                    </select> <i></i>
+                  </label>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="row">
+                <label class="label col col-2">Active Status</label>
+
+                <div class="col col-10">
+                  <label class="select">
+                    <select name="activeflag" [(ngModel)]="activeflag">
+                      <option value="0">Select Active Status</option>
+                      <option value="true">ACTIVE</option>
+                      <option value="false">INACTIVE</option>
+                    </select> <i></i>
+                  </label>
+                </div>
+              </div>
+            </section>
+          </fieldset>
+
+          <footer>
+            <button type="submit" (click)="updateUser()" class="btn btn-primary">
+              Update
+            </button>
+            <button type="button" class="btn btn-default" (click)="lgModal.hide()">
+              Cancel
+            </button>
+
+          </footer>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
