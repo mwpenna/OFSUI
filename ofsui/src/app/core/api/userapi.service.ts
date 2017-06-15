@@ -55,6 +55,14 @@ export class UserAPIService {
         return this.http.post("http://localhost:8082/users/id/" + this.currentUser.id, JSON.stringify(request), options);
     }
 
+    updateUserById(request: any, userId: any):Observable<any> {
+        let headers = new Headers({ "Authorization": "Bearer "+ this.currentUser.token,
+            "Content-Type" : "application/json"});
+        let options = new RequestOptions({ "headers": headers });
+
+        return this.http.post("http://localhost:8082/users/id/" + userId, JSON.stringify(request), options);
+    }
+
     search(request: any, limit:number, start:number):Observable<any> {
         let headers = new Headers({ "Authorization": "Bearer "+ this.currentUser.token,
             "Content-Type" : "application/json"});

@@ -23,6 +23,7 @@ export class UserresulttableComponent implements OnInit {
   public maxPage: number;
   public selectedPage:number=1;
   public updaateUserId: string;
+  public user: any;
 
   public role;
   public activeflag;
@@ -82,6 +83,7 @@ export class UserresulttableComponent implements OnInit {
   }
 
   public showUpdateUserModal(user:any) {
+      this.user = user;
       this.updaateUserId = user.id;
       this.role=user.role;
       this.activeflag=user.activeFlag;
@@ -96,10 +98,62 @@ export class UserresulttableComponent implements OnInit {
   }
 
   public updateUser() {
-      console.log("Update User")
       if(this.validatePasswordUpdate()) {
-          console.log("Password Validations Passed");
+          console.log(JSON.stringify(this.generateUpdateRequest()));
+          this.userApi.updateUserById(this.generateUpdateRequest(), this.updaateUserId)
+              .subscribe(
+                  result => {
+                      this.getNextPageData(this.selectedPage);
+                      this.lgModal.hide();
+                  },
+                  error => {
+                      this.httpExceptionHandler.handleException(error);
+                  }
+              );
       }
+  }
+
+  private generateUpdateRequest():any {
+    var role = undefined;
+    var activeflag = undefined;
+    var password = undefined;
+    var email = undefined;
+    var lastname = undefined;
+    var firstname = undefined;
+
+      if(this.user.role != this.role) {
+          role = this.role;
+      }
+
+      if(this.user.activeFlag != this.activeflag) {
+          activeflag = this.activeflag;
+      }
+
+      if(this.user.password != this.password1) {
+          password = this.password1;
+      }
+
+      if(this.user.emailAddress != this.email) {
+          email = this.email;
+      }
+
+      if(this.user.lastName != this.lastname) {
+          lastname = this.lastname;
+      }
+
+      if(this.user.firstName != this.firstname) {
+          firstname = this.firstname;
+      }
+
+      return {
+          firstName: firstname,
+          lastName: lastname,
+          emailAddress: email,
+          password: password,
+          role: role,
+          activeFlag: activeflag
+      }
+
   }
 
   private validatePasswordUpdate():boolean {
