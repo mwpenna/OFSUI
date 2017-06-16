@@ -36,6 +36,9 @@ export class UserresulttableComponent implements OnInit {
   isPasswordConfirmError: boolean = false;
   passWordConfirmMessage: string = "";
 
+  isEmailError: boolean = false;
+  emailErrorMessage: string = "";
+
   ngOnInit() {
     this.userSearchService.searchResultAnnounced$.subscribe(
         results => {
@@ -108,6 +111,18 @@ export class UserresulttableComponent implements OnInit {
                   },
                   error => {
                       this.httpExceptionHandler.handleException(error);
+                      var errors = error.json().errors;
+
+                      for(var i = 0; i< errors.length; i++) {
+                          console.log(errors[i].code);
+
+                          if(errors[i].code == "user.emailaddress.exists") {
+                              console.log("Email Address Exists");
+                              this.isEmailError = true;
+                              this.emailErrorMessage = "Email address already exists. Please try a different one.";
+                              this.email = undefined;
+                          }
+                      }
                   }
               );
       }
@@ -126,7 +141,7 @@ export class UserresulttableComponent implements OnInit {
       }
 
       if(this.user.activeFlag != this.activeflag) {
-          activeflag = this.activeflag;
+          activeflag = (this.activeflag === "true")
       }
 
       if(this.user.password != this.password1) {
