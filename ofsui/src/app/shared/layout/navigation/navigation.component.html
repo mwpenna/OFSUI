@@ -4,7 +4,7 @@
   <sa-login-info></sa-login-info>
   <!-- end user info -->
 
-  <nav *ngIf="isAdmin">
+    <nav *ngIf="isAdmin">
     <!-- NOTE: Notice the gaps after each icon usage <i></i>..
     Please note that these links work a bit different than
     traditional href="" links. See documentation for details.
@@ -50,40 +50,7 @@
                 </ul>
             </li>
         </ul>
-    <!--</div>-->
-    <!--<div *ngIf="isAccountManager">-->
-        <!--<li routerLinkActive="active">-->
-            <!--<a routerLink="/home" title="Home">-->
-                <!--<i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">{{'Home' | i18n}}</span></a>-->
-        <!--</li>-->
-        <!--<li>-->
-            <!--<a href="#"><i class="fa fa-lg fa-fw fa-italic"></i> <span-->
-                    <!--class="menu-item-parent">{{'Inventory' | i18n}}</span></a>-->
-            <!--<ul>-->
-                <!--<li routerLinkActive="active">-->
-                    <!--<a routerLink="/user/layouts">{{'Add Template' | i18n}}</a>-->
-                <!--</li>-->
-                <!--<li routerLinkActive="active">-->
-                    <!--<a routerLink="/user/reports">{{'Add Inventory' | i18n}}</a>-->
-                <!--</li>-->
-                <!--<li routerLinkActive="active">-->
-                    <!--<a routerLink="/user/reports">{{'Update Inventory' | i18n}}</a>-->
-                <!--</li>-->
-                <!--<li routerLinkActive="active">-->
-                    <!--<a routerLink="/user/reports">{{'Inventory Reports' | i18n}}</a>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</li>-->
-    <!--</div>-->
-    <!--<div *ngIf="!isAdmin&&!isAccountManager">-->
-        <!--<ul saSmartMenu>-->
-            <!--<li routerLinkActive="active">-->
-                <!--<a routerLink="/home" title="Home">-->
-                    <!--<i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">{{'Home' | i18n}}</span></a>-->
-            <!--</li>-->
-        <!--</ul>-->
-    <!--</div>-->
-  </nav>
+    </nav>
     <nav *ngIf="isAccountManager">
         <li routerLinkActive="active">
             <a routerLink="/home" title="Home">
