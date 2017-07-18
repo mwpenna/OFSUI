@@ -4,21 +4,21 @@
   <sa-login-info></sa-login-info>
   <!-- end user info -->
 
-  <nav>
+  <nav *ngIf="isAdmin">
     <!-- NOTE: Notice the gaps after each icon usage <i></i>..
     Please note that these links work a bit different than
     traditional href="" links. See documentation for details.
     -->
-    <div *ngIf="isAdmin">
+    <!--<div *ngIf="isAdmin">-->
         <ul saSmartMenu>
 
-            <li routerLinkActive="active">
+            <li>
                 <a routerLink="/home" title="Home">
                     <i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">{{'Home' | i18n}}</span></a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span
-                        class="menu-item-parent">{{'User' | i18n}}</span></a>
+                            class="menu-item-parent">{{'User' | i18n}}</span></a>
                 <ul>
                     <li routerLinkActive="active">
                         <a routerLink="/user/layouts">{{'User Registration' | i18n}}</a>
@@ -26,23 +26,96 @@
                     <li routerLinkActive="active">
                         <a routerLink="/user/reports">{{'Users Reports' | i18n}}</a>
                     </li>
-                    <li routerLinkActive="update">
+                    <li routerLinkActive="active">
                         <a routerLink="/user/update">{{'Update Users' | i18n}}</a>
                     </li>
                 </ul>
             </li>
+            <li>
+                <a href="#"><i class="fa fa-lg fa-fw fa-italic"></i> <span
+                        class="menu-item-parent">{{'Inventory' | i18n}}</span></a>
+                <ul>
+                    <li routerLinkActive="active">
+                        <a routerLink="/inventory/layouts">{{'Add Template' | i18n}}</a>
+                    </li>
+                    <li routerLinkActive="active">
+                        <a routerLink="/inventory/reports">{{'Add Inventory' | i18n}}</a>
+                    </li>
+                    <li routerLinkActive="active">
+                        <a routerLink="/inventory/reports">{{'Update Inventory' | i18n}}</a>
+                    </li>
+                    <li routerLinkActive="active">
+                        <a routerLink="/inventory/reports">{{'Inventory Reports' | i18n}}</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
-    </div>
-      <div *ngIf="!isAdmin">
-          <ul saSmartMenu>
-
-              <li routerLinkActive="active">
-                  <a routerLink="/home" title="Home">
-                      <i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">{{'Home' | i18n}}</span></a>
-              </li>
-          </ul>
-      </div>
+    <!--</div>-->
+    <!--<div *ngIf="isAccountManager">-->
+        <!--<li routerLinkActive="active">-->
+            <!--<a routerLink="/home" title="Home">-->
+                <!--<i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">{{'Home' | i18n}}</span></a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a href="#"><i class="fa fa-lg fa-fw fa-italic"></i> <span-->
+                    <!--class="menu-item-parent">{{'Inventory' | i18n}}</span></a>-->
+            <!--<ul>-->
+                <!--<li routerLinkActive="active">-->
+                    <!--<a routerLink="/user/layouts">{{'Add Template' | i18n}}</a>-->
+                <!--</li>-->
+                <!--<li routerLinkActive="active">-->
+                    <!--<a routerLink="/user/reports">{{'Add Inventory' | i18n}}</a>-->
+                <!--</li>-->
+                <!--<li routerLinkActive="active">-->
+                    <!--<a routerLink="/user/reports">{{'Update Inventory' | i18n}}</a>-->
+                <!--</li>-->
+                <!--<li routerLinkActive="active">-->
+                    <!--<a routerLink="/user/reports">{{'Inventory Reports' | i18n}}</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</li>-->
+    <!--</div>-->
+    <!--<div *ngIf="!isAdmin&&!isAccountManager">-->
+        <!--<ul saSmartMenu>-->
+            <!--<li routerLinkActive="active">-->
+                <!--<a routerLink="/home" title="Home">-->
+                    <!--<i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">{{'Home' | i18n}}</span></a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</div>-->
   </nav>
+    <nav *ngIf="isAccountManager">
+        <li routerLinkActive="active">
+            <a routerLink="/home" title="Home">
+                <i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">{{'Home' | i18n}}</span></a>
+        </li>
+        <li>
+            <a href="#"><i class="fa fa-lg fa-fw fa-italic"></i> <span
+                    class="menu-item-parent">{{'Inventory' | i18n}}</span></a>
+            <ul>
+                <li routerLinkActive="active">
+                    <a routerLink="/user/layouts">{{'Add Template' | i18n}}</a>
+                </li>
+                <li routerLinkActive="active">
+                    <a routerLink="/user/reports">{{'Add Inventory' | i18n}}</a>
+                </li>
+                <li routerLinkActive="active">
+                    <a routerLink="/user/reports">{{'Update Inventory' | i18n}}</a>
+                </li>
+                <li routerLinkActive="active">
+                    <a routerLink="/user/reports">{{'Inventory Reports' | i18n}}</a>
+                </li>
+            </ul>
+        </li>
+    </nav>
+    <nav *ngIf="!isAdmin&&!isAccountManager">
+        <ul saSmartMenu>
+            <li routerLinkActive="active">
+                <a routerLink="/home" title="Home">
+                    <i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">{{'Home' | i18n}}</span></a>
+            </li>
+        </ul>
+    </nav>
 
   <sa-minify-menu></sa-minify-menu>
 

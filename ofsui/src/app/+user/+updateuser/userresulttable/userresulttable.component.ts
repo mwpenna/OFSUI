@@ -33,6 +33,7 @@ export class UserresulttableComponent implements OnInit {
   public lastname;
   public firstname;
 
+    
   isPasswordConfirmError: boolean = false;
   passWordConfirmMessage: string = "";
 
@@ -56,6 +57,7 @@ export class UserresulttableComponent implements OnInit {
     );
   }
 
+
   private defaultPaginationValues() {
       this.selectedPage=1;
       this.count=0;
@@ -68,7 +70,6 @@ export class UserresulttableComponent implements OnInit {
       this.maxPage = length;
       return x
   }
-
 
   public goToPage(page:number) {
       this.selectedPage = page;
