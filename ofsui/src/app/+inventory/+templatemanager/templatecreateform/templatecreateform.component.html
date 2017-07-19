@@ -1,0 +1,54 @@
+<sa-widget [editbutton]="false" color="blueDark">
+  <header>
+    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+    <h2>Template Create</h2>
+  </header>
+  <div>
+    <div class="widget-body no-padding">
+      <form id="smart-form-register" class="smart-form"
+            [saUiValidate]="templateCreateValidationOptions"
+            novalidate="novalidate">
+        <header>
+          Template Create Form
+        </header>
+        <fieldset>
+          <section>
+            <label class="input"> <i class="icon-append fa fa-user"></i>
+              <input [(ngModel)]="name" type="text" name="name" id="name" placeholder="name"/>
+              <b class="tooltip tooltip-bottom-right">Please provide a name for the template</b> </label>
+          </section>
+        </fieldset>
+        <fieldset>
+          <label class ="label">Custom Template Fields</label>
+          <section class="col col-4">
+            <label class="input"> <i class="icon-append fa fa-user"></i>
+              <input [(ngModel)]="propName" type="text" name="propName" id="propName" placeholder="name"/>
+              <b class="tooltip tooltip-bottom-right">Please provide a name for the template field</b> </label>
+          </section>
+          <section class="col col-4">
+            <label class="select">
+              <select name="propType" [(ngModel)]="propType" >
+                <option value="0" disabled>Type</option>
+                <option value="STRING">TEXT</option>
+                <option value="NUMBER">NUMBER</option>
+                <option value="BOOLEAN">YES/NO</option>
+              </select> <i></i> </label>
+          </section>
+          <section class="col col-4">
+            <label class="select">
+              <select name="propRequired" [(ngModel)]="propRequired" >
+                <option value="0" disabled>IsRequiredField</option>
+                <option value="true">YES</option>
+                <option value="false">NO</option>
+              </select> <i></i> </label>
+          </section>
+        </fieldset>
+        <footer>
+          <button type="submit" (click)="submit($event)" class="btn btn-primary">
+            Submit Registration
+          </button>
+        </footer>
+      </form>
+    </div>
+  </div>
+</sa-widget>
