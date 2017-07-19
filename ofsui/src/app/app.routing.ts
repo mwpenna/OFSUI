@@ -18,6 +18,7 @@ export const routes: Routes = [
       },
       {path: 'home', loadChildren: 'app/+home/home.module#HomeModule',data:{pageTitle: 'Home'}},
       {path: 'user', loadChildren: 'app/+user/user.module#UserModule'},
+      {path: 'inventory', loadChildren: 'app/+inventory/inventory.module#InventoryModule'},
       {path: 'app-views', loadChildren: 'app/+app-views/app-views.module#AppViewsModule',data:{pageTitle: 'App Views'}},
       // {path: 'dashboard', loadChildren: 'app/+dashboard/dashboard.module#DashboardModule',data:{pageTitle: 'Dashboard'}},
       // {path: 'smartadmin', loadChildren: 'app/+smartadmin-intel/smartadmin-intel.module#SmartadminIntelModule',data:{pageTitle: 'Smartadmin'}},
