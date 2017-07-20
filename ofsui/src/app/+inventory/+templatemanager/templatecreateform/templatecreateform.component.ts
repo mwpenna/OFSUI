@@ -46,7 +46,6 @@ export class TemplatecreateformComponent implements OnInit {
     this.myForm = newForm;
   }
 
-
   addInput(): void {
     const arrayControl = <FormArray>this.myForm.controls['formArray'];
     let newGroup = this.fb.group({

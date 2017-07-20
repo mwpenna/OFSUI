@@ -1,4 +1,4 @@
-<div [formGroup]="myForm">
+<div [formGroup]="itemForm">
   <section class="col col-5">
     <label class="label">Name</label>
     <label class="input"> <i class="icon-append fa fa-user"></i>
@@ -32,6 +32,6 @@
   <section class="col col-2">
       <br/>
       <br/>
-      <a class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add</a>
+      <a (click) = "addInput()" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add</a>
   </section>
 </div>

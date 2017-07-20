@@ -20,12 +20,11 @@
           <label class="label">Template columns</label>
           <div formArrayName="formArray">
             <div *ngFor="let control of myForm.controls['formArray'].controls; let i = index">
-              <app-propertyfromsubcompoent [myForm]="myForm.controls.formArray.controls[i]"></app-propertyfromsubcompoent>
+              <app-propertyfromsubcompoent [myForm]="myForm" [itemForm]="myForm.controls.formArray.controls[i]"></app-propertyfromsubcompoent>
             </div>
           </div>
         </fieldset>
         <footer>
-          <button type="button" (click)="addInput()">Add</button>
           <button type="submit" (click)="submit($event)" class="btn btn-primary">
             Submit Registration
           </button>
