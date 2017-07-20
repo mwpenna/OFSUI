@@ -7,6 +7,8 @@ import {templatemanagerRouting} from "./templatemanager.routing"
 import {SmartadminModule} from "../../shared/smartadmin.module";
 import {SmartadminInputModule} from "../../shared/forms/input/smartadmin-input.module";
 import {SmartadminValidationModule} from "../../shared/forms/validation/smartadmin-validation.module";
+import { PropertyfromsubcompoentComponent } from './templatecreateform/propertyfromsubcompoent/propertyfromsubcompoent.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   imports: [
@@ -14,9 +16,10 @@ import {SmartadminValidationModule} from "../../shared/forms/validation/smartadm
     CommonModule,
     templatemanagerRouting,
     SmartadminValidationModule,
-    SmartadminInputModule
+    SmartadminInputModule,
+    ReactiveFormsModule
   ],
-  declarations: [TemplatemanagerComponent, TemplatecreateformComponent]
+  declarations: [TemplatemanagerComponent, TemplatecreateformComponent, PropertyfromsubcompoentComponent]
 })
 
 export class TemplateManagerModule { }

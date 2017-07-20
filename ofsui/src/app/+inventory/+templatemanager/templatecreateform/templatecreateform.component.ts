@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
+import {FormBuilder, FormGroup, Validators, FormArray, FormControl} from "@angular/forms";
+import {ArrayType} from "@angular/compiler/src/output/output_ast";
 
 
 @Component({
@@ -6,54 +8,53 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './templatecreateform.component.html'
 })
 export class TemplatecreateformComponent implements OnInit {
+  @Input() inputArray: ArrayType[];
+  myForm: FormGroup
 
-  public templateCreateValidationOptions:any = {
-    rules: {
-      name: {
-        required: true
-      },
-      propName: {
-        required: true
-      },
-      propType: {
-        required: true
-      },
-      propRequired: {
-        required: true
-      }
-    },
-    messages: {
-      name: {
-        required: 'Please provide a template name'
-      },
-      propName: {
-        required: 'Please provide a template property name'
-      },
-      propType: {
-        required: 'Please select a template property type'
-      },
-      propRequired: {
-        required: 'Please select if template property is required'
-      }
-    }
-  }
-
-  public name;
-  public propName;
-  public propType;
-  public propRequired;
-
-  constructor() { }
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
+    let newForm = this.fb.group({
+      appearsOnce: ['InitialValue', [Validators.required, Validators.maxLength(25)]],
+      formArray: this.fb.array([])
+    });
+    const arrayControl = <FormArray>newForm.controls['formArray'];
+
+    if(this.inputArray!= undefined){
+      this.inputArray.forEach(item => {
+        let newGroup = this.fb.group({
+          itemPropName: [[Validators.required]],
+          itemPropType: [[Validators.required]],
+          itemPropRequired: [[Validators.required]]
+        });
+        arrayControl.push(newGroup);
+      });
+    }
+
+    this.myForm = newForm;
   }
 
-  submit(event) {
-    console.log("Submitting Create Template")
-    console.log("Name: " + this.name)
-    console.log("PropName: " + this.propName)
-    console.log("PropType: " + this.propType)
-    console.log("PropRequired: " + this.propRequired)
+
+  addInput(): void {
+    const arrayControl = <FormArray>this.myForm.controls['formArray'];
+    let newGroup = this.fb.group({
+      propName: new FormControl(),
+      propType: new FormControl(),
+      propRequired: new FormControl(),
+      itemPropName: [[Validators.required]],
+      itemPropType: [[Validators.required]],
+      itemPropRequired: [[Validators.required]]
+    })
+    arrayControl.push(newGroup);
+  }
+  delInput(index: number): void {
+    const arrayControl = <FormArray>this.myForm.controls['formArray'];
+    arrayControl.removeAt(index);
+  }
+  onSubmit(): void {
+    console.log(this.myForm.value);
+    // Your form value is outputted as a JavaScript object.
+    // Parse it as JSON or take the values necessary to use as you like
   }
 
 

@@ -1,0 +1,37 @@
+<div [formGroup]="myForm">
+  <section class="col col-5">
+    <label class="label">Name</label>
+    <label class="input"> <i class="icon-append fa fa-user"></i>
+      <input type="text" formControlName="propName" placeholder="name"/>
+      <b class="tooltip tooltip-bottom-right">Please provide a name for the template column</b> </label>
+  </section>
+
+  <section class="col col-3">
+    <label class="label">Type</label>
+    <label class="select">
+      <select formControlName="propType" name="type">
+        <option value=""> Choose Type</option>
+        <option value="STRING">TEXT</option>
+        <option value="NUMBER">NUMBER</option>
+        <option value="BOOLEAN">YES/NO</option>
+      </select> <i></i>
+    </label>
+  </section>
+
+  <section class="col col-2">
+    <label class="label">Required</label>
+    <label class="select">
+      <select formControlName="propRequired" name="required">
+        <option value=""> Choose Type</option>
+        <option value="TRUE">YES</option>
+        <option value="FALSE">NO</option>
+      </select> <i></i>
+    </label>
+  </section>
+
+  <section class="col col-2">
+      <br/>
+      <br/>
+      <a class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add</a>
+  </section>
+</div>
