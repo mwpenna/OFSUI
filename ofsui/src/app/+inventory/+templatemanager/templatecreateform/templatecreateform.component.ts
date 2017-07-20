@@ -30,6 +30,18 @@ export class TemplatecreateformComponent implements OnInit {
         arrayControl.push(newGroup);
       });
     }
+    else {
+      const arrayControl = <FormArray>newForm.controls['formArray'];
+      let newGroup = this.fb.group({
+        propName: new FormControl(),
+        propType: new FormControl(),
+        propRequired: new FormControl(),
+        itemPropName: [[Validators.required]],
+        itemPropType: [[Validators.required]],
+        itemPropRequired: [[Validators.required]]
+      })
+      arrayControl.push(newGroup);
+    }
 
     this.myForm = newForm;
   }
