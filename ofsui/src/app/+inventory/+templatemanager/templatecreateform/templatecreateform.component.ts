@@ -36,6 +36,7 @@ export class TemplatecreateformComponent implements OnInit {
         propName: new FormControl(),
         propType: new FormControl(),
         propRequired: new FormControl(),
+        isLast: new FormControl(true),
         itemPropName: [[Validators.required]],
         itemPropType: [[Validators.required]],
         itemPropRequired: [[Validators.required]]
@@ -46,22 +47,6 @@ export class TemplatecreateformComponent implements OnInit {
     this.myForm = newForm;
   }
 
-  addInput(): void {
-    const arrayControl = <FormArray>this.myForm.controls['formArray'];
-    let newGroup = this.fb.group({
-      propName: new FormControl(),
-      propType: new FormControl(),
-      propRequired: new FormControl(),
-      itemPropName: [[Validators.required]],
-      itemPropType: [[Validators.required]],
-      itemPropRequired: [[Validators.required]]
-    })
-    arrayControl.push(newGroup);
-  }
-  delInput(index: number): void {
-    const arrayControl = <FormArray>this.myForm.controls['formArray'];
-    arrayControl.removeAt(index);
-  }
   onSubmit(): void {
     console.log(this.myForm.value);
     // Your form value is outputted as a JavaScript object.

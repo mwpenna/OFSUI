@@ -29,9 +29,14 @@
     </label>
   </section>
 
-  <section class="col col-2">
+  <section *ngIf="this.itemForm.controls['isLast'].value" class="col col-2">
       <br/>
       <br/>
       <a (click) = "addInput()" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add</a>
+  </section>
+  <section *ngIf="!this.itemForm.controls['isLast'].value" class="col col-2">
+    <br/>
+    <br/>
+    <a (click) = "delInput()" class="btn btn-primary"><i class="glyphicon glyphicon-minus-sign"></i> Remove</a>
   </section>
 </div>
