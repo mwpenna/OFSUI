@@ -5,14 +5,14 @@
   </header>
   <div>
     <div class="widget-body no-padding">
-      <form class="smart-form" [formGroup]="myForm" (ngSubmit)="onSubmit()" novalidate>
+      <form class="smart-form" [formGroup]="myForm" novalidate>
         <header>
           Template Create Form
         </header>
         <fieldset>
           <section>
             <label class="input"> <i class="icon-append fa fa-user"></i>
-              <input type="text" name="name" id="name" placeholder="name"/>
+              <input type="text" formControlName="name" name="name" id="name" placeholder="name"/>
               <b class="tooltip tooltip-bottom-right">Please provide a name for the template</b> </label>
           </section>
         </fieldset>
