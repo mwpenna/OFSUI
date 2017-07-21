@@ -10,6 +10,8 @@ import {SmartadminValidationModule} from "../../shared/forms/validation/smartadm
 import { PropertyfromsubcompoentComponent } from './templatecreateform/propertyfromsubcompoent/propertyfromsubcompoent.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { ViewAndUpdatetemplateComponent } from './viewandupdatetemplate/viewandupdatetemplate.component';
+import { TemplatetableComponent } from './viewandupdatetemplate/templatetable/templatetable.component';
+import { TemplatesearchformComponent } from './viewandupdatetemplate/templatesearchform/templatesearchform.component';
 
 @NgModule({
   imports: [
@@ -20,7 +22,7 @@ import { ViewAndUpdatetemplateComponent } from './viewandupdatetemplate/viewandu
     SmartadminInputModule,
     ReactiveFormsModule
   ],
-  declarations: [TemplatemanagerComponent, TemplatecreateformComponent, PropertyfromsubcompoentComponent, ViewAndUpdatetemplateComponent]
+  declarations: [TemplatemanagerComponent, TemplatecreateformComponent, PropertyfromsubcompoentComponent, ViewAndUpdatetemplateComponent, TemplatetableComponent, TemplatesearchformComponent]
 })
 
 export class TemplateManagerModule { }
