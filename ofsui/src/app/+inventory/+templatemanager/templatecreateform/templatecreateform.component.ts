@@ -57,7 +57,9 @@ export class TemplatecreateformComponent implements OnInit {
   }
 
   private handleTemplateNameExistsError() {
-
+    this.myForm.get("isNameError").setValue(true)
+    this.myForm.get("nameErrorMessage").setValue("Template name already exists. Please choose another template name.")
+    this.myForm.get("name").setValue("")
   }
 
   private handleDuplicatePropName() {
@@ -82,6 +84,7 @@ export class TemplatecreateformComponent implements OnInit {
 
                 if (errors[i].code == "template.name.exists") {
                   console.log("Template name exists")
+                  this.handleTemplateNameExistsError();
                 }
                 else if (errors[i].code == "props.name.duplicate") {
                   console.log("Props Name Duplicate")

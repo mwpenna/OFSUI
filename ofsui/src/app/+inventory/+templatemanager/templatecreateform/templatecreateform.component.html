@@ -5,24 +5,22 @@
   </header>
   <div>
     <div class="widget-body no-padding">
-      <form class="smart-form" [formGroup]="myForm" novalidate>
+      <form class="smart-form" [formGroup]="myForm">
         <header>
           Template Create Form
         </header>
         <fieldset>
-          <section *ngIf="!this.myForm.controls['isNameError'].value">
+          <section *ngIf="!this.myForm.controls['isNameError'].value" class="col col-10">
             <label class="input"> <i class="icon-append fa fa-user"></i>
               <input type="text" formControlName="name" name="name" id="name" placeholder="name"/>
               <b class="tooltip tooltip-bottom-right">Please provide a name for the template</b> </label>
           </section>
 
-          <section *ngIf="this.myForm.controls['isNameError'].value">
-            <label class="label col col-2">Name</label>
-
+          <section *ngIf="this.myForm.controls['isNameError'].value" class="col col-10">
             <label class="input"> <i class="icon-append fa fa-user"></i>
-              <input type="text" formControlName="propName"  placeholder="name"
-                     class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="email-error">
-              <em id="prop-name-error" class="invalid">{{this.myForm.controls['nameErrorMessage'].value}}</em>
+              <input type="text" formControlName="name"  placeholder="name"
+                     class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="template-name-error">
+              <em id="template-name-error" class="invalid">{{this.myForm.controls['nameErrorMessage'].value}}</em>
               <b class="tooltip tooltip-bottom-right">{{this.myForm.controls['nameErrorMessage'].value}}</b>
             </label>
           </section>
