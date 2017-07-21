@@ -62,8 +62,17 @@ export class TemplatecreateformComponent implements OnInit {
     this.myForm.get("name").setValue("")
   }
 
-  private handleDuplicatePropName() {
+  private handleDuplicatePropName(duplicatePropName:string) {
+    const arrayControl = <FormArray>this.myForm.controls['formArray']
 
+    for(let control of arrayControl.controls) {
+      const formGroup = <FormGroup>control;
+
+      if(formGroup.get("propName").value == duplicatePropName) {
+        formGroup.get("isDuplicateError").setValue(true)
+        formGroup.get("isDuplicateErrorMessage").setValue("Another Template column exists with the same name. Please use a different name or delete one of the duplicates.")
+      }
+    }
   }
 
   onSubmit(): void {
@@ -72,22 +81,18 @@ export class TemplatecreateformComponent implements OnInit {
         .catch(this.handleError)
         .subscribe(
             results => {
-              console.log(results)
             },
             error => {
-              console.log(error)
               this.httpExceptionHandler.handleException(error)
               var errors = error.json().errors;
 
               for(var i = 0; i< errors.length; i++) {
-                console.log(errors[i].code);
 
                 if (errors[i].code == "template.name.exists") {
-                  console.log("Template name exists")
                   this.handleTemplateNameExistsError();
                 }
                 else if (errors[i].code == "props.name.duplicate") {
-                  console.log("Props Name Duplicate")
+                  this.handleDuplicatePropName(errors[i].properties.name)
                 }
                 else {
                   console.log("Unhandled error")

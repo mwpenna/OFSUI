@@ -7,11 +7,11 @@
   </section>
 
   <section *ngIf="this.itemForm.controls['isDuplicateError'].value" class="col col-5">
-      <label class="label col col-2">Name</label>
+      <label class="label">Name</label>
 
       <label class="input"> <i class="icon-append fa fa-user"></i>
         <input type="text" formControlName="propName"  placeholder="name"
-                 class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="email-error">
+                 class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="prop-name-error">
         <em id="prop-name-error" class="invalid">{{this.itemForm.controls['isDuplicateErrorMessage'].value}}</em>
         <b class="tooltip tooltip-bottom-right">{{this.itemForm.controls['isDuplicateErrorMessage'].value}}</b>
       </label>

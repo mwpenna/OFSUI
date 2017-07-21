@@ -31,6 +31,7 @@
           <div formArrayName="formArray">
             <div *ngFor="let control of myForm.controls['formArray'].controls; let i = index">
               <app-propertyfromsubcompoent [myForm]="myForm" [itemForm]="myForm.controls.formArray.controls[i]"></app-propertyfromsubcompoent>
+             <section class="col col-10"></section>
             </div>
           </div>
         </fieldset>
