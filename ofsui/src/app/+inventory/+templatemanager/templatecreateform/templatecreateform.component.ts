@@ -5,6 +5,7 @@ import {TemplateAPIService} from "../../../core/api/templateapi.service";
 import {Observable} from "rxjs";
 import {Response} from "@angular/http";
 import {HttpExceptionHandler} from "../../../core/api/httpexceptionhandler";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-templatecreateform',
@@ -15,7 +16,7 @@ export class TemplatecreateformComponent implements OnInit {
   myForm: FormGroup
 
   constructor(private fb: FormBuilder, private templateService: TemplateAPIService,
-              private httpExceptionHandler: HttpExceptionHandler) { }
+              private httpExceptionHandler: HttpExceptionHandler, private router: Router) { }
 
   ngOnInit() {
     let newForm = this.fb.group({
@@ -139,6 +140,8 @@ export class TemplatecreateformComponent implements OnInit {
           .catch(this.handleError)
           .subscribe(
               results => {
+                console.log("Successfully created user")
+                this.router.navigate(['/home']);
               },
               error => {
                 this.httpExceptionHandler.handleException(error)
@@ -151,10 +154,6 @@ export class TemplatecreateformComponent implements OnInit {
                   }
                   else if (errors[i].code == "props.name.duplicate") {
                     this.handleDuplicatePropName(errors[i].properties.name)
-                  }
-                  else {
-                    console.log("Unhandled error")
-                    console.log(errors[i].code)
                   }
                 }
               })
