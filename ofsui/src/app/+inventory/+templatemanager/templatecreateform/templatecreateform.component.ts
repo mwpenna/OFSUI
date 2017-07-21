@@ -45,6 +45,10 @@ export class TemplatecreateformComponent implements OnInit {
         propRequired: new FormControl(),
         isPropNameError: new FormControl(false),
         isPropNameMessage: new FormControl(),
+        isPropTypeError: new FormControl(false),
+        isPropTypeMessage: new FormControl(),
+        isPropRequiredError: new FormControl(false),
+        isPropRequiredMessage: new FormControl(),
         isLast: new FormControl(true),
         itemPropName: [[Validators.required]],
         itemPropType: [[Validators.required]],
@@ -89,6 +93,10 @@ export class TemplatecreateformComponent implements OnInit {
       const formGroup = <FormGroup>control;
       formGroup.get("isPropNameError").setValue(false)
       formGroup.get("isPropNameMessage").setValue("")
+      formGroup.get("isPropTypeError").setValue(false)
+      formGroup.get("isPropTypeMessage").setValue("")
+      formGroup.get("isPropRequiredError").setValue(false)
+      formGroup.get("isPropRequiredMessage").setValue("")
     }
   }
 
