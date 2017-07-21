@@ -10,11 +10,23 @@
           Template Create Form
         </header>
         <fieldset>
-          <section>
+          <section *ngIf="!this.myForm.controls['isNameError'].value">
             <label class="input"> <i class="icon-append fa fa-user"></i>
               <input type="text" formControlName="name" name="name" id="name" placeholder="name"/>
               <b class="tooltip tooltip-bottom-right">Please provide a name for the template</b> </label>
           </section>
+
+          <section *ngIf="this.myForm.controls['isNameError'].value">
+            <label class="label col col-2">Name</label>
+
+            <label class="input"> <i class="icon-append fa fa-user"></i>
+              <input type="text" formControlName="propName"  placeholder="name"
+                     class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="email-error">
+              <em id="prop-name-error" class="invalid">{{this.myForm.controls['nameErrorMessage'].value}}</em>
+              <b class="tooltip tooltip-bottom-right">{{this.myForm.controls['nameErrorMessage'].value}}</b>
+            </label>
+          </section>
+
         </fieldset>
         <fieldset>
           <label class="label">Template columns</label>

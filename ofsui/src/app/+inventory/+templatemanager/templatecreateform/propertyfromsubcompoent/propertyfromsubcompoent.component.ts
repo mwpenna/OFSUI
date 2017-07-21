@@ -22,6 +22,8 @@ export class PropertyfromsubcompoentComponent {
       propName: new FormControl(),
       propType: new FormControl(),
       propRequired: new FormControl(),
+      isDuplicateError: new FormControl(false),
+      isDuplicateErrorMessage: new FormControl(),
       isLast: new FormControl(true),
       itemPropName: [[Validators.required]],
       itemPropType: [[Validators.required]],

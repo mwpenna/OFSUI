@@ -21,6 +21,8 @@ export class TemplatecreateformComponent implements OnInit {
     let newForm = this.fb.group({
       appearsOnce: ['InitialValue', [Validators.required, Validators.maxLength(25)]],
       name: new FormControl(),
+      isNameError: new FormControl(false),
+      nameErrorMessage: new FormControl(),
       formArray: this.fb.array([])
     });
     const arrayControl = <FormArray>newForm.controls['formArray'];
@@ -41,6 +43,8 @@ export class TemplatecreateformComponent implements OnInit {
         propName: new FormControl(),
         propType: new FormControl(),
         propRequired: new FormControl(),
+        isDuplicateError: new FormControl(false),
+        isDuplicateErrorMessage: new FormControl(),
         isLast: new FormControl(true),
         itemPropName: [[Validators.required]],
         itemPropType: [[Validators.required]],
@@ -52,9 +56,16 @@ export class TemplatecreateformComponent implements OnInit {
     this.myForm = newForm;
   }
 
+  private handleTemplateNameExistsError() {
+
+  }
+
+  private handleDuplicatePropName() {
+
+  }
+
   onSubmit(): void {
     console.log("Inside onSubmit");
-    console.log(this.generateCreateTemplateObject())
     this.templateService.createTemplate(this.generateCreateTemplateObject())
         .catch(this.handleError)
         .subscribe(
@@ -64,6 +75,22 @@ export class TemplatecreateformComponent implements OnInit {
             error => {
               console.log(error)
               this.httpExceptionHandler.handleException(error)
+              var errors = error.json().errors;
+
+              for(var i = 0; i< errors.length; i++) {
+                console.log(errors[i].code);
+
+                if (errors[i].code == "template.name.exists") {
+                  console.log("Template name exists")
+                }
+                else if (errors[i].code == "props.name.duplicate") {
+                  console.log("Props Name Duplicate")
+                }
+                else {
+                  console.log("Unhandled error")
+                  console.log(errors[i].code)
+                }
+              }
             }
         )
   }

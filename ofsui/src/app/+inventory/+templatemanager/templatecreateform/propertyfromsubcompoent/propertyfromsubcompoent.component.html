@@ -1,9 +1,20 @@
 <div [formGroup]="itemForm">
-  <section class="col col-5">
+  <section *ngIf="!this.itemForm.controls['isDuplicateError'].value" class="col col-5">
     <label class="label">Name</label>
     <label class="input"> <i class="icon-append fa fa-user"></i>
       <input type="text" formControlName="propName" placeholder="name"/>
       <b class="tooltip tooltip-bottom-right">Please provide a name for the template column</b> </label>
+  </section>
+
+  <section *ngIf="this.itemForm.controls['isDuplicateError'].value" class="col col-5">
+      <label class="label col col-2">Name</label>
+
+      <label class="input"> <i class="icon-append fa fa-user"></i>
+        <input type="text" formControlName="propName"  placeholder="name"
+                 class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="email-error">
+        <em id="prop-name-error" class="invalid">{{this.itemForm.controls['isDuplicateErrorMessage'].value}}</em>
+        <b class="tooltip tooltip-bottom-right">{{this.itemForm.controls['isDuplicateErrorMessage'].value}}</b>
+      </label>
   </section>
 
   <section class="col col-3">
