@@ -75,8 +75,27 @@ export class TemplatecreateformComponent implements OnInit {
     }
   }
 
+  private validateForm() {
+
+  }
+
+  private resetFormErrorMessages() {
+    this.myForm.get("isNameError").setValue(false)
+    this.myForm.get("nameErrorMessage").setValue("")
+
+    const arrayControl = <FormArray>this.myForm.controls['formArray']
+
+    for(let control of arrayControl.controls) {
+      const formGroup = <FormGroup>control;
+      formGroup.get("isDuplicateError").setValue(false)
+      formGroup.get("isDuplicateErrorMessage").setValue("")
+    }
+  }
+
   onSubmit(): void {
     console.log("Inside onSubmit");
+    this.resetFormErrorMessages();
+    this.validateForm();
     this.templateService.createTemplate(this.generateCreateTemplateObject())
         .catch(this.handleError)
         .subscribe(
