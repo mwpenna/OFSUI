@@ -37,29 +37,41 @@ export class TemplatetableComponent implements OnInit {
   private buildItemList(templateList: any[]){
     var items = []
     var itemLocation = 0;
+
     for(let template of templateList) {
       var data = [];
       data[0] = template.id
       data[1] = template.name
-
-      for(var i = 0; i < this.maxPropListSize; i++) {
-        if(template.props.length > i) {
-          data[data.length]= template.props[i].name
-          data[data.length]= template.props[i].type
-          data[data.length]= template.props[i].required
-        }
-        else {
-          data[data.length]= "N/A"
-          data[data.length]= "N/A"
-          data[data.length]= "N/A"
-        }
-      }
+      this.mapProps(data, template)
 
       items[itemLocation] = data
       itemLocation++
     }
 
     this.items = items
+  }
+
+  private mapProps(data: any[], template: any) {
+    for(var i = 0; i < this.maxPropListSize; i++) {
+      if(template.props.length > i) {
+        this.mapProp(data, template.props[i])
+      }
+      else {
+        this.mapOBProp(data)
+      }
+    }
+  }
+
+  private mapOBProp(data: any[]){
+    data[data.length]= "N/A"
+    data[data.length]= "N/A"
+    data[data.length]= "N/A"
+  }
+
+  private mapProp(data: any[], prop: any) {
+    data[data.length]= prop.name
+    data[data.length]= prop.type
+    data[data.length]= prop.required
   }
 
   private buildTableColumnNames(templateList: any[]) {
