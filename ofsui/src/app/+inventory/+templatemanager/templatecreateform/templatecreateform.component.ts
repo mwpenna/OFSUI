@@ -79,8 +79,39 @@ export class TemplatecreateformComponent implements OnInit {
     }
   }
 
-  private validateForm() {
+  private validateForm() :boolean {
+    var isFormValid = true;
 
+    if(this.myForm.value.name == null) {
+      this.myForm.get("isNameError").setValue(true)
+      this.myForm.get("nameErrorMessage").setValue("Please provide a name.")
+      isFormValid = false;
+    }
+
+    const arrayControl = <FormArray>this.myForm.controls['formArray']
+    for(let control of arrayControl.controls) {
+      const formGroup = <FormGroup>control;
+
+      if(formGroup.get("propName").value == null) {
+        formGroup.get("isPropNameError").setValue(true)
+        formGroup.get("isPropNameMessage").setValue("Please provide a name.")
+        isFormValid = false;
+      }
+
+      if(formGroup.get("propType").value == null) {
+        formGroup.get("isPropTypeError").setValue(true)
+        formGroup.get("isPropTypeMessage").setValue("Please select a type.")
+        isFormValid = false;
+      }
+
+      if(formGroup.get("propRequired").value == null) {
+        formGroup.get("isPropRequiredError").setValue(true)
+        formGroup.get("isPropRequiredMessage").setValue("Please select if required.")
+        isFormValid = false;
+      }
+    }
+
+    return isFormValid;
   }
 
   private resetFormErrorMessages() {
@@ -103,31 +134,31 @@ export class TemplatecreateformComponent implements OnInit {
   onSubmit(): void {
     console.log("Inside onSubmit");
     this.resetFormErrorMessages();
-    this.validateForm();
-    this.templateService.createTemplate(this.generateCreateTemplateObject())
-        .catch(this.handleError)
-        .subscribe(
-            results => {
-            },
-            error => {
-              this.httpExceptionHandler.handleException(error)
-              var errors = error.json().errors;
+    if(this.validateForm()) {
+      this.templateService.createTemplate(this.generateCreateTemplateObject())
+          .catch(this.handleError)
+          .subscribe(
+              results => {
+              },
+              error => {
+                this.httpExceptionHandler.handleException(error)
+                var errors = error.json().errors;
 
-              for(var i = 0; i< errors.length; i++) {
+                for(var i = 0; i< errors.length; i++) {
 
-                if (errors[i].code == "template.name.exists") {
-                  this.handleTemplateNameExistsError();
+                  if (errors[i].code == "template.name.exists") {
+                    this.handleTemplateNameExistsError();
+                  }
+                  else if (errors[i].code == "props.name.duplicate") {
+                    this.handleDuplicatePropName(errors[i].properties.name)
+                  }
+                  else {
+                    console.log("Unhandled error")
+                    console.log(errors[i].code)
+                  }
                 }
-                else if (errors[i].code == "props.name.duplicate") {
-                  this.handleDuplicatePropName(errors[i].properties.name)
-                }
-                else {
-                  console.log("Unhandled error")
-                  console.log(errors[i].code)
-                }
-              }
-            }
-        )
+              })
+    }
   }
 
   private generateCreateTemplateObject():any {

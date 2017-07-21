@@ -17,7 +17,7 @@
       </label>
   </section>
 
-  <section class="col col-3">
+  <section *ngIf="!this.itemForm.controls['isPropTypeError'].value" class="col col-3">
     <label class="label">Type</label>
     <label class="select">
       <select formControlName="propType" name="type">
@@ -29,7 +29,22 @@
     </label>
   </section>
 
-  <section class="col col-2">
+  <section *ngIf="this.itemForm.controls['isPropTypeError'].value" class="col col-3">
+    <label class="label">Type</label>
+
+    <label class="select">
+      <select formControlName="propType" name="type" class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="prop-type-error">
+        <option value=""> Choose Type</option>
+        <option value="STRING">TEXT</option>
+        <option value="NUMBER">NUMBER</option>
+        <option value="BOOLEAN">YES/NO</option>
+      </select> <i></i>
+      <em id="prop-type-error" class="invalid">{{this.itemForm.controls['isPropTypeMessage'].value}}</em>
+      <b class="tooltip tooltip-bottom-right">{{this.itemForm.controls['isPropTypeMessage'].value}}</b>
+    </label>
+  </section>
+
+  <section *ngIf="!this.itemForm.controls['isPropRequiredError'].value" class="col col-2">
     <label class="label">Required</label>
     <label class="select">
       <select formControlName="propRequired" name="required">
@@ -37,6 +52,19 @@
         <option value="TRUE">YES</option>
         <option value="FALSE">NO</option>
       </select> <i></i>
+    </label>
+  </section>
+
+  <section *ngIf="this.itemForm.controls['isPropRequiredError'].value" class="col col-2">
+    <label class="label">Required</label>
+    <label class="select">
+      <select formControlName="propRequired" name="required" class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="prop-required-error">
+        <option value=""> Choose Type</option>
+        <option value="TRUE">YES</option>
+        <option value="FALSE">NO</option>
+      </select> <i></i>
+      <em id="prop-required-error" class="invalid">{{this.itemForm.controls['isPropRequiredMessage'].value}}</em>
+      <b class="tooltip tooltip-bottom-right">{{this.itemForm.controls['isPropRequiredMessage'].value}}</b>
     </label>
   </section>
 
