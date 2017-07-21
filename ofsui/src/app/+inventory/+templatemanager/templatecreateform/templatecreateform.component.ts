@@ -43,8 +43,8 @@ export class TemplatecreateformComponent implements OnInit {
         propName: new FormControl(),
         propType: new FormControl(),
         propRequired: new FormControl(),
-        isDuplicateError: new FormControl(false),
-        isDuplicateErrorMessage: new FormControl(),
+        isPropNameError: new FormControl(false),
+        isPropNameMessage: new FormControl(),
         isLast: new FormControl(true),
         itemPropName: [[Validators.required]],
         itemPropType: [[Validators.required]],
@@ -69,8 +69,8 @@ export class TemplatecreateformComponent implements OnInit {
       const formGroup = <FormGroup>control;
 
       if(formGroup.get("propName").value == duplicatePropName) {
-        formGroup.get("isDuplicateError").setValue(true)
-        formGroup.get("isDuplicateErrorMessage").setValue("Another Template column exists with the same name. Please use a different name or delete one of the duplicates.")
+        formGroup.get("isPropNameError").setValue(true)
+        formGroup.get("isPropNameMessage").setValue("Another Template column exists with the same name. Please use a different name or delete one of the duplicates.")
       }
     }
   }
@@ -87,8 +87,8 @@ export class TemplatecreateformComponent implements OnInit {
 
     for(let control of arrayControl.controls) {
       const formGroup = <FormGroup>control;
-      formGroup.get("isDuplicateError").setValue(false)
-      formGroup.get("isDuplicateErrorMessage").setValue("")
+      formGroup.get("isPropNameError").setValue(false)
+      formGroup.get("isPropNameMessage").setValue("")
     }
   }
 
