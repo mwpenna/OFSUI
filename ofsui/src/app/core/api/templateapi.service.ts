@@ -29,4 +29,12 @@ export class TemplateAPIService{
         let options = new RequestOptions({ "headers": headers });
         return this.http.get("http://localhost:8083/inventory/template/company/id/"+ this.currentUser.companyid + "?limit=50000&start=0", options);
     }
+
+    search(request: any, limit: number, start:number):Observable<any> {
+        let headers = new Headers({ "Authorization": "Bearer "+ this.currentUser.token,
+            "Content-Type" : "application/json"});
+        let options = new RequestOptions({ "headers": headers });
+
+        return this.http.post("http://localhost:8083/inventory/template/search?limit="+limit+"&start="+start, JSON.stringify(request), options);
+    }
 }

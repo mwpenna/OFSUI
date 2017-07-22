@@ -19,6 +19,7 @@ import {XEditableService} from "../shared/forms/input/x-editable.service";
 import {HttpExceptionHandler} from "./api/httpexceptionhandler";
 import {UserSearchService} from "../+user/+updateuser/searchform/searchform.service";
 import {TemplateAPIService} from "./api/templateapi.service";
+import {TemplateSearchService} from "../+inventory/+templatemanager/viewandupdatetemplate/templatesearchform/templatesearch.service";
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import {TemplateAPIService} from "./api/templateapi.service";
     XEditableService,
     HttpExceptionHandler,
     UserSearchService,
-    TemplateAPIService
+    TemplateAPIService,
+    TemplateSearchService,
   ]
 })
 export class CoreModule {
