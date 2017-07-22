@@ -27,19 +27,19 @@ export class TemplatetableComponent implements OnInit {
                private templateSearchService: TemplateSearchService) { }
 
   ngOnInit() {
-    this.templateService.getTemplateByCompanyId()
+    this.templateSearchService.setRequest({});
+    this.templateService.search({}, this.templateSearchService.getPageLimit(), 0)
         .map(this.extractData)
         .catch(this.handleError)
         .subscribe(
             result => {
-              this.buildTableColumnNames(result.items)
-              this.buildItemList(result.items)
+              console.log(result);
+              this.templateSearchService.announceSearchResults(result);
             },
             error => {
-              this.httpExceptionHandler.handleException(error)
-              console.log(error)
+              this.httpExceptionHandler.handleException(error);
             }
-        )
+        );
 
     this.templateSearchService.searchResultAnnounced$.subscribe(
         results => {
