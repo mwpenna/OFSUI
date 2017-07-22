@@ -82,5 +82,4 @@ export class TemplatesearchformComponent implements OnInit {
   private handleError(error:any) {
     return Observable.throw(error);
   }
-
 }

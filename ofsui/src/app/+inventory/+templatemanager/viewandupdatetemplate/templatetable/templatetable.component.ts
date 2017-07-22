@@ -3,6 +3,7 @@ import {TemplateAPIService} from "../../../../core/api/templateapi.service";
 import {HttpExceptionHandler} from "../../../../core/api/httpexceptionhandler";
 import {Observable} from "rxjs";
 import {Response} from "@angular/http";
+import {TemplateSearchService} from "../templatesearchform/templatesearch.service";
 
 
 @Component({
@@ -15,8 +16,15 @@ export class TemplatetableComponent implements OnInit {
   public tableColumnNames: string[] = [];
   public maxPropListSize =1;
 
+  public count = 0;
+  public numPages: number[];
+  public maxPage: number;
+  public selectedPage:number=1;
+  public isInitialLoad:boolean=true;
+
   constructor( private templateService: TemplateAPIService,
-               private httpExceptionHandler: HttpExceptionHandler) { }
+               private httpExceptionHandler: HttpExceptionHandler,
+               private templateSearchService: TemplateSearchService) { }
 
   ngOnInit() {
     this.templateService.getTemplateByCompanyId()
@@ -32,6 +40,23 @@ export class TemplatetableComponent implements OnInit {
               console.log(error)
             }
         )
+
+    this.templateSearchService.searchResultAnnounced$.subscribe(
+        results => {
+          console.log(results.items)
+          this.buildTableColumnNames(results.items)
+          this.buildItemList(results.items)
+          this.count = results.count;
+
+          if((results.count/results.limit) != Math.floor((results.count/results.limit))) {
+            this.numPages= this.setNumPages(Math.floor((results.count/results.limit))+1)
+          }
+          else {
+            this.numPages=this.setNumPages(Math.floor((results.count/results.limit)));
+          }
+          this.isInitialLoad=false;
+        }
+    );
   }
 
   private buildItemList(templateList: any[]){
@@ -60,6 +85,57 @@ export class TemplatetableComponent implements OnInit {
         this.mapOBProp(data)
       }
     }
+  }
+
+  private defaultPaginationValues() {
+    this.selectedPage=1;
+    this.count=0;
+  }
+
+  private setNumPages(length:number){
+    var x=[];
+    var i=1;
+    while(x.push(i++)<length){};
+    this.maxPage = length;
+    return x
+  }
+
+  public goToPage(page:number) {
+    this.selectedPage = page;
+    this.getNextPageData(this.selectedPage);
+  }
+
+  public previous() {
+    this.selectedPage = this.selectedPage-1;
+    this.getNextPageData(this.selectedPage);
+  }
+
+  public next() {
+    this.selectedPage = this.selectedPage+1;
+    this.getNextPageData(this.selectedPage);
+  }
+
+  private getNextPageData(page:number) {
+
+    if(this.isInitialLoad) {
+
+    }
+    else {
+      this.templateService.search(this.templateSearchService.getRequest(), this.templateSearchService.getPageLimit(), (this.templateSearchService.getPageLimit()*(page-1)))
+          .map(this.extractData)
+          .catch(this.handleError)
+          .subscribe(
+              results => {
+                this.buildTableColumnNames(results.items)
+                this.buildItemList(results.items)
+                this.count = results.count;
+              },
+              error => {
+                this.httpExceptionHandler.handleException(error);
+              }
+          );
+    }
+
   }
 
   private mapOBProp(data: any[]){

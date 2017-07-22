@@ -13,4 +13,26 @@
     </tbody>
   </table>
   <br/>
+  <div class="text-align-right" *ngIf="count>0">
+    <ul class="pagination" *ngFor="let number of numPages">
+      <li *ngIf="number==1&&selectedPage!=1">
+        <a (click)="previous()"><i class="fa fa-arrow-left"></i></a>
+      </li>
+      <li class="disabled" *ngIf="number==1&&selectedPage==1">
+        <a (click)="(null)"><i class="fa fa-arrow-left"></i></a>
+      </li>
+      <li class="active" *ngIf="number==selectedPage">
+        <a (click)="(null)">{{number}}</a>
+      </li>
+      <li *ngIf="number!=selectedPage">
+        <a (click)="goToPage(number)">{{number}}</a>
+      </li>
+      <li *ngIf="maxPage==number&&selectedPage!=maxPage">
+        <a (click)="next()"><i class="fa fa-arrow-right"></i></a>
+      </li>
+      <li class="disabled" *ngIf="maxPage==number&&selectedPage==maxPage">
+        <a (click)="(null)"><i class="fa fa-arrow-right"></i></a>
+      </li>
+    </ul>
+  </div>
 </div>
