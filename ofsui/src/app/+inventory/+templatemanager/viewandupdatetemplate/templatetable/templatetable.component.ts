@@ -1,10 +1,12 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, Input} from '@angular/core';
 import {TemplateAPIService} from "../../../../core/api/templateapi.service";
 import {HttpExceptionHandler} from "../../../../core/api/httpexceptionhandler";
 import {Observable} from "rxjs";
 import {Response} from "@angular/http";
 import {TemplateSearchService} from "../templatesearchform/templatesearch.service";
 import {ModalDirective} from "ngx-bootstrap";
+import {ArrayType} from "@angular/compiler/src/output/output_ast";
+import {FormGroup, Validators, FormBuilder, FormControl, FormArray} from "@angular/forms";
 
 
 @Component({
@@ -12,6 +14,7 @@ import {ModalDirective} from "ngx-bootstrap";
   templateUrl: './templatetable.component.html'
 })
 export class TemplatetableComponent implements OnInit {
+  myForm: FormGroup
 
   public items: any[];
   public tableColumnNames: string[] = [];
@@ -25,15 +28,23 @@ export class TemplatetableComponent implements OnInit {
   public isInitialLoad:boolean=true;
 
   public template:any;
+  public templateId: number;
 
   @ViewChild('lgModal') public lgModal:ModalDirective;
   @ViewChild('deleteModal') public deleteModal:ModalDirective;
 
   constructor( private templateService: TemplateAPIService,
                private httpExceptionHandler: HttpExceptionHandler,
-               private templateSearchService: TemplateSearchService) { }
+               private templateSearchService: TemplateSearchService,
+               private fb: FormBuilder) { }
 
   ngOnInit() {
+    let newForm = this.fb.group({
+      formArray: this.fb.array([])
+    });
+
+    this.myForm = newForm;
+
     this.templateSearchService.setRequest({});
     this.templateService.search({}, this.templateSearchService.getPageLimit(), 0)
         .map(this.extractData)
@@ -97,7 +108,28 @@ export class TemplatetableComponent implements OnInit {
     }
   }
 
-  public showUpdateTemplateModal(template:any) {
+  public showUpdateTemplateModal(templateIndex:number) {
+    this.templateId = this.resultList[templateIndex].id
+    for(let prop of this.resultList[templateIndex].props) {
+      const arrayControl = <FormArray>this.myForm.controls['formArray'];
+      let newGroup = this.fb.group({
+        propName: new FormControl(prop.name),
+        propType: new FormControl(prop.type),
+        propRequired: new FormControl(prop.required),
+        isPropNameError: new FormControl(false),
+        isPropNameMessage: new FormControl(),
+        isPropTypeError: new FormControl(false),
+        isPropTypeMessage: new FormControl(),
+        isPropRequiredError: new FormControl(false),
+        isPropRequiredMessage: new FormControl(),
+        isLast: new FormControl(false),
+        itemPropName: [[Validators.required]],
+        itemPropType: [[Validators.required]],
+        itemPropRequired: [[Validators.required]]
+      })
+      arrayControl.push(newGroup);
+    }
+
     this.lgModal.show();
   }
 
