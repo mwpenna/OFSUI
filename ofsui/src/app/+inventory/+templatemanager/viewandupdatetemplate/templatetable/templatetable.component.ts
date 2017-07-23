@@ -16,6 +16,7 @@ export class TemplatetableComponent implements OnInit {
   public items: any[];
   public tableColumnNames: string[] = [];
   public maxPropListSize =1;
+  public resultList: any[];
 
   public count = 0;
   public numPages: number[];
@@ -53,6 +54,7 @@ export class TemplatetableComponent implements OnInit {
           this.buildTableColumnNames(results.items)
           this.buildItemList(results.items)
           this.count = results.count;
+          this.resultList = results.items;
 
           if((results.count/results.limit) != Math.floor((results.count/results.limit))) {
             this.numPages= this.setNumPages(Math.floor((results.count/results.limit))+1)
@@ -141,6 +143,7 @@ export class TemplatetableComponent implements OnInit {
                 this.buildTableColumnNames(results.items)
                 this.buildItemList(results.items)
                 this.count = results.count;
+                this.resultList = results.items;
               },
               error => {
                 this.httpExceptionHandler.handleException(error);
@@ -148,6 +151,12 @@ export class TemplatetableComponent implements OnInit {
           );
     }
 
+  }
+
+  public deleteTemplate(templateIndex: number) {
+    console.log("Inside Delete Template");
+    console.log(templateIndex);
+    console.log(this.resultList[templateIndex].id);
   }
 
   private mapOBProp(data: any[]){
