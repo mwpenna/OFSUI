@@ -26,6 +26,7 @@ export class TemplatetableComponent implements OnInit {
   public template:any;
 
   @ViewChild('lgModal') public lgModal:ModalDirective;
+  @ViewChild('deleteModal') public deleteModal:ModalDirective;
 
   constructor( private templateService: TemplateAPIService,
                private httpExceptionHandler: HttpExceptionHandler,
@@ -71,8 +72,9 @@ export class TemplatetableComponent implements OnInit {
     for(let template of templateList) {
       var data = [];
       data[0] = ""
-      data[1] = template.id
-      data[2] = template.name
+      data[1] = ""
+      data[2] = template.id
+      data[3] = template.name
       this.mapProps(data, template)
 
       items[itemLocation] = data
@@ -163,6 +165,7 @@ export class TemplatetableComponent implements OnInit {
   private buildTableColumnNames(templateList: any[]) {
     var columnNames= [];
 
+    columnNames[columnNames.length] = ""
     columnNames[columnNames.length] = ""
     columnNames[columnNames.length] = "Id"
     columnNames[columnNames.length] = "Name"

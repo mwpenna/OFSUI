@@ -10,7 +10,8 @@
       <tr *ngFor="let item of items">
         <td *ngFor="let column of item; let i = index">
           <span *ngIf="i==0"><button type="submit" (click)="showUpdateTemplateModal(template)" class="btn btn-primary">Update Template</button></span>
-          <span *ngIf="i>0">{{column}}</span>
+          <span *ngIf="i==1"><button type="submit" (click)="delete()" class="btn btn-primary">Delete Template</button></span>
+          <span *ngIf="i>1">{{column}}</span>
         </td>
       </tr>
     </tbody>
