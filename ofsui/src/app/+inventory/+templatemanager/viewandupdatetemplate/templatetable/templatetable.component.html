@@ -8,7 +8,10 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of items">
-        <td *ngFor="let column of item">{{column}}</td>
+        <td *ngFor="let column of item; let i = index">
+          <span *ngIf="i==0"><button type="submit" (click)="showUpdateTemplateModal(template)" class="btn btn-primary">Update Template</button></span>
+          <span *ngIf="i>0">{{column}}</span>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -34,5 +37,22 @@
         <a (click)="(null)"><i class="fa fa-arrow-right"></i></a>
       </li>
     </ul>
+  </div>
+</div>
+
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="lgModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Update Template: ID WILL GO HERE</h4>
+      </div>
+      <div class="modal-body no-padding">
+
+      </div>
+    </div>
   </div>
 </div>

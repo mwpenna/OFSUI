@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {TemplateAPIService} from "../../../../core/api/templateapi.service";
 import {HttpExceptionHandler} from "../../../../core/api/httpexceptionhandler";
 import {Observable} from "rxjs";
 import {Response} from "@angular/http";
 import {TemplateSearchService} from "../templatesearchform/templatesearch.service";
+import {ModalDirective} from "ngx-bootstrap";
 
 
 @Component({
@@ -21,6 +22,10 @@ export class TemplatetableComponent implements OnInit {
   public maxPage: number;
   public selectedPage:number=1;
   public isInitialLoad:boolean=true;
+
+  public template:any;
+
+  @ViewChild('lgModal') public lgModal:ModalDirective;
 
   constructor( private templateService: TemplateAPIService,
                private httpExceptionHandler: HttpExceptionHandler,
@@ -65,8 +70,9 @@ export class TemplatetableComponent implements OnInit {
 
     for(let template of templateList) {
       var data = [];
-      data[0] = template.id
-      data[1] = template.name
+      data[0] = ""
+      data[1] = template.id
+      data[2] = template.name
       this.mapProps(data, template)
 
       items[itemLocation] = data
@@ -85,6 +91,10 @@ export class TemplatetableComponent implements OnInit {
         this.mapOBProp(data)
       }
     }
+  }
+
+  public showUpdateTemplateModal(template:any) {
+    this.lgModal.show();
   }
 
   private defaultPaginationValues() {
@@ -153,6 +163,7 @@ export class TemplatetableComponent implements OnInit {
   private buildTableColumnNames(templateList: any[]) {
     var columnNames= [];
 
+    columnNames[columnNames.length] = ""
     columnNames[columnNames.length] = "Id"
     columnNames[columnNames.length] = "Name"
 
