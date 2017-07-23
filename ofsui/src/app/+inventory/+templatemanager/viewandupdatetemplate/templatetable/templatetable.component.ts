@@ -119,17 +119,29 @@ export class TemplatetableComponent implements OnInit {
     for(let prop of this.resultList[templateIndex].props) {
 
       var isLast = true;
-      console.log(i)
-      console.log(this.resultList[templateIndex].props.length)
+
       if(this.resultList[templateIndex].props.length != i) {
         isLast = false;
+      }
+
+      console.log(prop.required);
+      var required = "";
+
+      if(prop.required == true) {
+        console.log("REQURED")
+        required = "TRUE"
+      }
+
+      if(prop.required == false) {
+        console.log("Not REQURED")
+        required = "FALSE"
       }
 
       const arrayControl = <FormArray>this.myForm.controls['formArray'];
       let newGroup = this.fb.group({
         propName: new FormControl(prop.name),
         propType: new FormControl(prop.type),
-        propRequired: new FormControl(prop.required),
+        propRequired: new FormControl(required),
         isPropNameError: new FormControl(false),
         isPropNameMessage: new FormControl(),
         isPropTypeError: new FormControl(false),
