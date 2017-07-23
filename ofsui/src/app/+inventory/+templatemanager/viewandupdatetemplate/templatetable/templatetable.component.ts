@@ -39,11 +39,7 @@ export class TemplatetableComponent implements OnInit {
                private fb: FormBuilder) { }
 
   ngOnInit() {
-    let newForm = this.fb.group({
-      formArray: this.fb.array([])
-    });
-
-    this.myForm = newForm;
+    this.createAndResetForm();
 
     this.templateSearchService.setRequest({});
     this.templateService.search({}, this.templateSearchService.getPageLimit(), 0)
@@ -108,9 +104,27 @@ export class TemplatetableComponent implements OnInit {
     }
   }
 
+  private createAndResetForm() {
+    let newForm = this.fb.group({
+      formArray: this.fb.array([])
+    });
+
+    this.myForm = newForm;
+  }
+
   public showUpdateTemplateModal(templateIndex:number) {
+    this.createAndResetForm();
     this.templateId = this.resultList[templateIndex].id
+    var i = 1;
     for(let prop of this.resultList[templateIndex].props) {
+
+      var isLast = true;
+      console.log(i)
+      console.log(this.resultList[templateIndex].props.length)
+      if(this.resultList[templateIndex].props.length != i) {
+        isLast = false;
+      }
+
       const arrayControl = <FormArray>this.myForm.controls['formArray'];
       let newGroup = this.fb.group({
         propName: new FormControl(prop.name),
@@ -122,12 +136,14 @@ export class TemplatetableComponent implements OnInit {
         isPropTypeMessage: new FormControl(),
         isPropRequiredError: new FormControl(false),
         isPropRequiredMessage: new FormControl(),
-        isLast: new FormControl(false),
+        isLast: new FormControl(isLast),
         itemPropName: [[Validators.required]],
         itemPropType: [[Validators.required]],
         itemPropRequired: [[Validators.required]]
       })
       arrayControl.push(newGroup);
+
+      i++;
     }
 
     this.lgModal.show();
