@@ -115,40 +115,26 @@ export class TemplatetableComponent implements OnInit {
   public showUpdateTemplateModal(templateIndex:number) {
     this.createAndResetForm();
     this.templateId = this.resultList[templateIndex].id
+    this.createUpdateForm(templateIndex)
+    this.lgModal.show();
+  }
+
+  private createUpdateForm(templateIndex:number) {
     var i = 1;
     for(let prop of this.resultList[templateIndex].props) {
-
-      var isLast = true;
-
-      if(this.resultList[templateIndex].props.length != i) {
-        isLast = false;
-      }
-
-      console.log(prop.required);
-      var required = "";
-
-      if(prop.required == true) {
-        console.log("REQURED")
-        required = "TRUE"
-      }
-
-      if(prop.required == false) {
-        console.log("Not REQURED")
-        required = "FALSE"
-      }
 
       const arrayControl = <FormArray>this.myForm.controls['formArray'];
       let newGroup = this.fb.group({
         propName: new FormControl(prop.name),
         propType: new FormControl(prop.type),
-        propRequired: new FormControl(required),
+        propRequired: new FormControl(this.getRequiredValue(prop)),
         isPropNameError: new FormControl(false),
         isPropNameMessage: new FormControl(),
         isPropTypeError: new FormControl(false),
         isPropTypeMessage: new FormControl(),
         isPropRequiredError: new FormControl(false),
         isPropRequiredMessage: new FormControl(),
-        isLast: new FormControl(isLast),
+        isLast: new FormControl(this.isLast(this.resultList[templateIndex].props.length, i)),
         itemPropName: [[Validators.required]],
         itemPropType: [[Validators.required]],
         itemPropRequired: [[Validators.required]]
@@ -157,8 +143,32 @@ export class TemplatetableComponent implements OnInit {
 
       i++;
     }
+  }
 
-    this.lgModal.show();
+  private isLast(propLength: number, spot: number) : boolean {
+    var isLast = true;
+
+    if(propLength != spot) {
+      isLast = false;
+    }
+
+    return isLast;
+  }
+
+  private getRequiredValue(prop: any): string {
+    var required = "";
+
+    if(prop.required == true) {
+      console.log("REQURED")
+      required = "TRUE"
+    }
+
+    if(prop.required == false) {
+      console.log("Not REQURED")
+      required = "FALSE"
+    }
+
+    return required;
   }
 
   private defaultPaginationValues() {
