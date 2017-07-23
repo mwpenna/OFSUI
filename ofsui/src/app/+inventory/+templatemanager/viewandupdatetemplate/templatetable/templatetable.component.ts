@@ -5,7 +5,6 @@ import {Observable} from "rxjs";
 import {Response} from "@angular/http";
 import {TemplateSearchService} from "../templatesearchform/templatesearch.service";
 import {ModalDirective} from "ngx-bootstrap";
-import {ArrayType} from "@angular/compiler/src/output/output_ast";
 import {FormGroup, Validators, FormBuilder, FormControl, FormArray} from "@angular/forms";
 
 
@@ -47,7 +46,6 @@ export class TemplatetableComponent implements OnInit {
         .catch(this.handleError)
         .subscribe(
             result => {
-              console.log(result);
               this.templateSearchService.announceSearchResults(result);
             },
             error => {
@@ -57,7 +55,6 @@ export class TemplatetableComponent implements OnInit {
 
     this.templateSearchService.searchResultAnnounced$.subscribe(
         results => {
-          console.log(results.items)
           this.buildTableColumnNames(results.items)
           this.buildItemList(results.items)
           this.count = results.count;
@@ -159,12 +156,10 @@ export class TemplatetableComponent implements OnInit {
     var required = "";
 
     if(prop.required == true) {
-      console.log("REQURED")
       required = "TRUE"
     }
 
     if(prop.required == false) {
-      console.log("Not REQURED")
       required = "FALSE"
     }
 
@@ -219,9 +214,6 @@ export class TemplatetableComponent implements OnInit {
   }
 
   public deleteTemplate(templateIndex: number) {
-    console.log("Inside Delete Template");
-    console.log(templateIndex);
-    console.log(this.resultList[templateIndex].id);
     this.templateService.delete(this.resultList[templateIndex].id)
         .map(this.extractData)
         .catch(this.handleError)
@@ -244,6 +236,60 @@ export class TemplatetableComponent implements OnInit {
               this.httpExceptionHandler.handleException(error);
             }
         );
+  }
+
+  public updateTemplate() {
+    if(this.validateForm()) {
+      console.log("Form is valid")
+    }
+  }
+
+  private handleTemplateNameExistsError() {
+    this.myForm.get("isNameError").setValue(true)
+    this.myForm.get("nameErrorMessage").setValue("Template name already exists. Please choose another template name.")
+    this.myForm.get("name").setValue("")
+  }
+
+  private handleDuplicatePropName(duplicatePropName:string) {
+    const arrayControl = <FormArray>this.myForm.controls['formArray']
+
+    for(let control of arrayControl.controls) {
+      const formGroup = <FormGroup>control;
+
+      if(formGroup.get("propName").value == duplicatePropName) {
+        formGroup.get("isPropNameError").setValue(true)
+        formGroup.get("isPropNameMessage").setValue("Another Template column exists with the same name. Please use a different name or delete one of the duplicates.")
+      }
+    }
+  }
+
+  private validateForm() :boolean {
+    var isFormValid = true;
+
+    const arrayControl = <FormArray>this.myForm.controls['formArray']
+    for(let control of arrayControl.controls) {
+      const formGroup = <FormGroup>control;
+
+      if(formGroup.get("propName").value == null || formGroup.get("propName").value == "") {
+        formGroup.get("isPropNameError").setValue(true)
+        formGroup.get("isPropNameMessage").setValue("Please provide a name.")
+        isFormValid = false;
+      }
+
+      if(formGroup.get("propType").value == null || formGroup.get("propType").value == "") {
+        formGroup.get("isPropTypeError").setValue(true)
+        formGroup.get("isPropTypeMessage").setValue("Please select a type.")
+        isFormValid = false;
+      }
+
+      if(formGroup.get("propRequired").value == null || formGroup.get("propRequired").value == "") {
+        formGroup.get("isPropRequiredError").setValue(true)
+        formGroup.get("isPropRequiredMessage").setValue("Please select if required.")
+        isFormValid = false;
+      }
+    }
+
+    return isFormValid;
   }
 
   private mapOBProp(data: any[]){
