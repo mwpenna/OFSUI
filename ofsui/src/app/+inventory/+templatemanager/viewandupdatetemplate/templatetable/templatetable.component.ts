@@ -241,7 +241,59 @@ export class TemplatetableComponent implements OnInit {
   public updateTemplate() {
     if(this.validateForm()) {
       console.log("Form is valid")
+      this.templateService.update(this.templateId, this.generateCreateTemplateObject())
+          .catch(this.handleError)
+          .subscribe(
+              results => {
+                this.templateService.search(this.templateSearchService.getRequest(), this.templateSearchService.getPageLimit(), 0)
+                    .map(this.extractData)
+                    .catch(this.handleError)
+                    .subscribe(
+                        result => {
+                          console.log(result);
+                          this.templateSearchService.announceSearchResults(result);
+                        },
+                        error => {
+                          this.httpExceptionHandler.handleException(error);
+                        }
+                    );
+                this.lgModal.hide();
+                
+              },
+              error => {
+                this.httpExceptionHandler.handleException(error)
+                var errors = error.json().errors;
+
+                for(var i = 0; i< errors.length; i++) {
+
+                  if (errors[i].code == "template.name.exists") {
+                    this.handleTemplateNameExistsError();
+                  }
+                  else if (errors[i].code == "props.name.duplicate") {
+                    this.handleDuplicatePropName(errors[i].properties.name)
+                  }
+                }
+              });
     }
+  }
+
+  private generateCreateTemplateObject():any {
+    return {
+      props: this.generatePropList()
+    }
+  }
+
+  private generatePropList(): any {
+    const arrayControl = <FormArray>this.myForm.controls['formArray']
+
+    let propList : {name: string, type: string, required: boolean} [] = []
+
+    for(let control of arrayControl.controls) {
+      const formGroup = <FormGroup>control;
+      propList.push({name: formGroup.get("propName").value, type: formGroup.get("propType").value, required:  (formGroup.get("propRequired").value == 'TRUE')})
+    }
+
+    return propList
   }
 
   private handleTemplateNameExistsError() {
