@@ -131,10 +131,6 @@ export class TemplatetableComponent implements OnInit {
 
   private getNextPageData(page:number) {
 
-    if(this.isInitialLoad) {
-
-    }
-    else {
       this.templateService.search(this.templateSearchService.getRequest(), this.templateSearchService.getPageLimit(), (this.templateSearchService.getPageLimit()*(page-1)))
           .map(this.extractData)
           .catch(this.handleError)
@@ -149,7 +145,6 @@ export class TemplatetableComponent implements OnInit {
                 this.httpExceptionHandler.handleException(error);
               }
           );
-    }
 
   }
 
@@ -157,6 +152,28 @@ export class TemplatetableComponent implements OnInit {
     console.log("Inside Delete Template");
     console.log(templateIndex);
     console.log(this.resultList[templateIndex].id);
+    this.templateService.delete(this.resultList[templateIndex].id)
+        .map(this.extractData)
+        .catch(this.handleError)
+        .subscribe(
+            results => {
+              this.templateService.search(this.templateSearchService.getRequest(), this.templateSearchService.getPageLimit(), 0)
+                  .map(this.extractData)
+                  .catch(this.handleError)
+                  .subscribe(
+                      result => {
+                        console.log(result);
+                        this.templateSearchService.announceSearchResults(result);
+                      },
+                      error => {
+                        this.httpExceptionHandler.handleException(error);
+                      }
+                  );
+            },
+            error => {
+              this.httpExceptionHandler.handleException(error);
+            }
+        );
   }
 
   private mapOBProp(data: any[]){
