@@ -258,7 +258,7 @@ export class TemplatetableComponent implements OnInit {
                         }
                     );
                 this.lgModal.hide();
-                
+
               },
               error => {
                 this.httpExceptionHandler.handleException(error)

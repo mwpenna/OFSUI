@@ -24,37 +24,73 @@ const initialState: UserState = {
   currentUser : initialUser
 };
 
-export const UserReducer =
-    function (state: UserState = initialState, action: Action) : UserState {
-        switch (action.type) {
-            case UserActions.UPDATE_TOKEN:
-                const token: string = (<UserActions.UpdateUserToken>action).token;
-                const user: User = state.currentUser;
-                user.token = token;
-                return {
-                    currentUser: user
-                };
-            case UserActions.UPDATE:
-                const u: any = (<UserActions.UpdateCurrentUser>action).user;
-                const currentUser: User = state.currentUser;
-                currentUser.firstname = u.firstName;
-                currentUser.lastname = u.lastName;
-                currentUser.emailaddress = u.emailAddress;
-                currentUser.companyname = u.company.name;
-                currentUser.username = u.userName;
-                currentUser.role = u.role;
-                currentUser.id = u.id;
-                currentUser.companyid = u.company.id;
-                currentUser.companyhref = u.company.href;
-                return {
-                    currentUser: currentUser
-                };
-            case UserActions.DEFAULT:
-                const defaultUser: User = initialUser;
-                return {
-                    currentUser: defaultUser
-                }
-            default:
-                return state;
-        }
-    };
+// export const UserReducer =
+//     // function (state: UserState = initialState, action: Action) : UserState {
+//     //     switch (action.type) {
+//     //         case UserActions.UPDATE_TOKEN:
+//     //             const token: string = (<UserActions.UpdateUserToken>action).token;
+//     //             const user: User = state.currentUser;
+//     //             user.token = token;
+//     //             return {
+//     //                 currentUser: user
+//     //             };
+//     //         case UserActions.UPDATE:
+//     //             const u: any = (<UserActions.UpdateCurrentUser>action).user;
+//     //             const currentUser: User = state.currentUser;
+//     //             currentUser.firstname = u.firstName;
+//     //             currentUser.lastname = u.lastName;
+//     //             currentUser.emailaddress = u.emailAddress;
+//     //             currentUser.companyname = u.company.name;
+//     //             currentUser.username = u.userName;
+//     //             currentUser.role = u.role;
+//     //             currentUser.id = u.id;
+//     //             currentUser.companyid = u.company.id;
+//     //             currentUser.companyhref = u.company.href;
+//     //             return {
+//     //                 currentUser: currentUser
+//     //             };
+//     //         case UserActions.DEFAULT:
+//     //             const defaultUser: User = initialUser;
+//     //             return {
+//     //                 currentUser: defaultUser
+//     //             }
+//     //         default:
+//     //             return state;
+//     //     }
+//
+//         userReducer;
+//     };
+
+export function UserReducer(state: UserState = initialState, action: Action) : UserState {
+    switch (action.type) {
+        case UserActions.UPDATE_TOKEN:
+            const token: string = (<UserActions.UpdateUserToken>action).token;
+            const user: User = state.currentUser;
+            user.token = token;
+            return {
+                currentUser: user
+            };
+        case UserActions.UPDATE:
+            const u: any = (<UserActions.UpdateCurrentUser>action).user;
+            const currentUser: User = state.currentUser;
+            currentUser.firstname = u.firstName;
+            currentUser.lastname = u.lastName;
+            currentUser.emailaddress = u.emailAddress;
+            currentUser.companyname = u.company.name;
+            currentUser.username = u.userName;
+            currentUser.role = u.role;
+            currentUser.id = u.id;
+            currentUser.companyid = u.company.id;
+            currentUser.companyhref = u.company.href;
+            return {
+                currentUser: currentUser
+            };
+        case UserActions.DEFAULT:
+            const defaultUser: User = initialUser;
+            return {
+                currentUser: defaultUser
+            }
+        default:
+            return state;
+    }
+}
