@@ -9,12 +9,18 @@ import { InventorycreateformComponent } from './inventorycreateform/inventorycre
 import { InventoryupdateformComponent } from './inventoryupdateform/inventoryupdateform.component';
 import { InventorydatatableComponent } from './inventorydatatable/inventorydatatable.component';
 import { InventorysearchformComponent } from './inventorysearchform/inventorysearchform.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import {SmartadminInputModule} from "../../shared/forms/input/smartadmin-input.module";
+import {SmartadminValidationModule} from "../../shared/forms/validation/smartadmin-validation.module";
 
 @NgModule({
   imports: [
     SmartadminModule,
     CommonModule,
     inventorymanagerRouting,
+    SmartadminValidationModule,
+    SmartadminInputModule,
+    ReactiveFormsModule
   ],
   declarations: [InventorymanagerComponent, InventorypropsComponent, InventorycreateformComponent, InventoryupdateformComponent, InventorydatatableComponent, InventorysearchformComponent]
 })
