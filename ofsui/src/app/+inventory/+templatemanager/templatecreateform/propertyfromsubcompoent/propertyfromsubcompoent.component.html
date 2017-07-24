@@ -68,6 +68,24 @@
     </label>
   </section>
 
+  <section *ngIf="this.itemForm.controls['isDefaultValue'].value && !this.itemForm.controls['isDefaultValueError'].value" class="col col-5">
+    <label class="label">DefaultValue</label>
+    <label class="input"> <i class="icon-append fa fa-user"></i>
+      <input type="text" formControlName="defaultValue" placeholder="defaultValue"/>
+      <b class="tooltip tooltip-bottom-right">Please provide a default value for the template column</b> </label>
+  </section>
+
+  <section *ngIf="this.itemForm.controls['isDefaultValue'].value && this.itemForm.controls['isDefaultValueError'].value" class="col col-5">
+    <label class="label">Name</label>
+
+    <label class="input"> <i class="icon-append fa fa-user"></i>
+      <input type="text" formControlName="defaultValue"  placeholder="defaultValue"
+             class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="prop-default-value-error">
+      <em id="prop-default-value-error" class="invalid">{{this.itemForm.controls['isPropDefaultValueMessage'].value}}</em>
+      <b class="tooltip tooltip-bottom-right">{{this.itemForm.controls['isPropDefaultValueMessage'].value}}</b>
+    </label>
+  </section>
+
   <section *ngIf="this.itemForm.controls['isLast'].value" class="col col-2">
       <br/>
       <br/>

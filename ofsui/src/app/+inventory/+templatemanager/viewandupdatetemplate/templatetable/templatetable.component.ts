@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, Input} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {TemplateAPIService} from "../../../../core/api/templateapi.service";
 import {HttpExceptionHandler} from "../../../../core/api/httpexceptionhandler";
 import {Observable} from "rxjs";
@@ -30,7 +30,6 @@ export class TemplatetableComponent implements OnInit {
   public templateId: number;
 
   @ViewChild('lgModal') public lgModal:ModalDirective;
-  @ViewChild('deleteModal') public deleteModal:ModalDirective;
 
   constructor( private templateService: TemplateAPIService,
                private httpExceptionHandler: HttpExceptionHandler,
@@ -125,12 +124,16 @@ export class TemplatetableComponent implements OnInit {
         propName: new FormControl(prop.name),
         propType: new FormControl(prop.type),
         propRequired: new FormControl(this.getRequiredValue(prop)),
+        defaultValue: new FormControl(),
         isPropNameError: new FormControl(false),
         isPropNameMessage: new FormControl(),
         isPropTypeError: new FormControl(false),
         isPropTypeMessage: new FormControl(),
         isPropRequiredError: new FormControl(false),
         isPropRequiredMessage: new FormControl(),
+        isDefaultValue: new FormControl(false),
+        isDefaultValueError:new FormControl(false),
+        isPropDefaultValueMessage:new FormControl(),
         isLast: new FormControl(this.isLast(this.resultList[templateIndex].props.length, i)),
         itemPropName: [[Validators.required]],
         itemPropType: [[Validators.required]],
@@ -272,6 +275,9 @@ export class TemplatetableComponent implements OnInit {
                   else if (errors[i].code == "props.name.duplicate") {
                     this.handleDuplicatePropName(errors[i].properties.name)
                   }
+                  else if (errors[i].code == "template.props.default_value.required_field_missing") {
+                    this.handleMissingDefaultValue(errors[i].properties.name)
+                  }
                 }
               });
     }
@@ -286,11 +292,19 @@ export class TemplatetableComponent implements OnInit {
   private generatePropList(): any {
     const arrayControl = <FormArray>this.myForm.controls['formArray']
 
-    let propList : {name: string, type: string, required: boolean} [] = []
+    let propList : {name: string, type: string, required: boolean, defaultValue: string} [] = []
 
     for(let control of arrayControl.controls) {
       const formGroup = <FormGroup>control;
-      propList.push({name: formGroup.get("propName").value, type: formGroup.get("propType").value, required:  (formGroup.get("propRequired").value == 'TRUE')})
+
+      if(formGroup.get("isDefaultValue").value) {
+        propList.push({name: formGroup.get("propName").value, type: formGroup.get("propType").value,
+          required:  (formGroup.get("propRequired").value == 'TRUE'), defaultValue: formGroup.get("defaultValue").value})
+      }
+      else {
+        propList.push({name: formGroup.get("propName").value, type: formGroup.get("propType").value,
+          required:  (formGroup.get("propRequired").value == 'TRUE'), defaultValue: ""})
+      }
     }
 
     return propList
@@ -311,6 +325,18 @@ export class TemplatetableComponent implements OnInit {
       if(formGroup.get("propName").value == duplicatePropName) {
         formGroup.get("isPropNameError").setValue(true)
         formGroup.get("isPropNameMessage").setValue("Another Template column exists with the same name. Please use a different name or delete one of the duplicates.")
+      }
+    }
+  }
+
+  private handleMissingDefaultValue(missingDefaultValue:string) {
+    const arrayControl = <FormArray>this.myForm.controls['formArray']
+
+    for(let control of arrayControl.controls) {
+      const formGroup = <FormGroup>control;
+
+      if (formGroup.get("propName").value == missingDefaultValue) {
+        formGroup.get("isDefaultValue").setValue(true)
       }
     }
   }
@@ -339,6 +365,15 @@ export class TemplatetableComponent implements OnInit {
         formGroup.get("isPropRequiredMessage").setValue("Please select if required.")
         isFormValid = false;
       }
+
+      if(formGroup.get("isDefaultValue").value){
+        if(formGroup.get("defaultValue").value == null || formGroup.get("defaultValue").value == "") {
+          formGroup.get("isDefaultValueError").setValue(true)
+          formGroup.get("isPropDefaultValueMessage").setValue("Please provide default value.")
+          isFormValid = false;
+        }
+      }
+
     }
 
     return isFormValid;

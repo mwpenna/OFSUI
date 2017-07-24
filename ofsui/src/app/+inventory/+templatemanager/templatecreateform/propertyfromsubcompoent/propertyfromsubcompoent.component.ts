@@ -22,6 +22,7 @@ export class PropertyfromsubcompoentComponent {
       propName: new FormControl(),
       propType: new FormControl(),
       propRequired: new FormControl(),
+      defaultValue: new FormControl(),
       isPropNameError: new FormControl(false),
       isPropNameMessage: new FormControl(),
       isPropTypeError: new FormControl(false),
@@ -29,6 +30,9 @@ export class PropertyfromsubcompoentComponent {
       isPropRequiredError: new FormControl(false),
       isPropRequiredMessage: new FormControl(),
       isLast: new FormControl(true),
+      isDefaultValue: new FormControl(false),
+      isDefaultValueError:new FormControl(false),
+      isPropDefaultValueMessage:new FormControl(),
       itemPropName: [[Validators.required]],
       itemPropType: [[Validators.required]],
       itemPropRequired: [[Validators.required]]
