@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ModalDirective} from "ngx-bootstrap";
 
 @Component({
   selector: 'app-inventorycreateform',
@@ -6,9 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InventorycreateformComponent implements OnInit {
 
+  @ViewChild('inventoryCreateModal') public inventoryCreateModal:ModalDirective;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  public showCreateInventoryModal() {
+    console.log("Inside show create inventory");
+    this.inventoryCreateModal.show();
+  }
+
+  public createInventory() {
+    console.log("Inside create inventory");
   }
 
 }
