@@ -20,10 +20,39 @@
       <div class="modal-body no-padding">
         <form class="smart-form">
           <fieldset>
-            <section class="col col-10">
+            <section class="col col-3">
+              <label class="label">Inventory Name</label>
               <label class="input"> <i class="icon-append fa fa-user"></i>
                 <input type="text" [(ngModel)]="name" name="name" id="name" placeholder="name"/>
-                <b class="tooltip tooltip-bottom-right">Please provide a name for the inventory</b> </label>
+                <b class="tooltip tooltip-bottom-right">Please provide a name for the new inventory item</b> </label>
+            </section>
+            <section class="col col-3">
+              <label class="label">Inventory Type</label>
+              <label class="input"> <i class="icon-append fa fa-user"></i>
+                <input type="text" [(ngModel)]="type" name="type" id="type" placeholder="type"/>
+                <b class="tooltip tooltip-bottom-right">Please select a type for the new inventory item</b> </label>
+            </section>
+            <section class="col col-3">
+              <label class="label">Inventory Price</label>
+              <label class="input"> <i class="icon-append fa fa-user"></i>
+                <input type="text" [(ngModel)]="price" name="price" id="price" placeholder="price"/>
+                <b class="tooltip tooltip-bottom-right">Please provide a price for the new inventory item</b> </label>
+            </section>
+            <section class="col col-3">
+              <label class="label">Inventory Quantity</label>
+              <label class="input"> <i class="icon-append fa fa-user"></i>
+                <input type="text" [(ngModel)]="quantity" name="quantity" id="quantity" placeholder="quantity"/>
+                <b class="tooltip tooltip-bottom-right">Please provide a quantity you have for the new inventory item</b> </label>
+            </section>
+          </fieldset>
+          <fieldset>
+            <section>
+              <label class="label">Inventory Description</label>
+              <div>
+                <label class="input"> <i class="icon-append fa fa-user"></i>
+                  <input type="text" [(ngModel)]="description" name="description" id="description" placeholder="description"/>
+                  <b class="tooltip tooltip-bottom-right">Please provide a description for the new inventory item</b> </label>
+              </div>
             </section>
           </fieldset>
           <footer>
