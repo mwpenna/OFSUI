@@ -96,6 +96,7 @@ export class InventorycreateformComponent implements OnInit {
         .subscribe(
             result => {
               console.log(result);
+              this.templateNameList.push("Default");
               for(let template of result.items) {
                 this.templateNameList.push(template.name);
                 this.templateList.push(template);
