@@ -18,18 +18,18 @@
         <h4 class="modal-title">Create Inventory</h4>
       </div>
       <div class="modal-body no-padding">
-        <form class="smart-form">
+        <form class="smart-form" [formGroup]="myForm">
           <fieldset>
             <section class="col col-3">
               <label class="label">Inventory Name</label>
               <label class="input"> <i class="icon-append fa fa-user"></i>
-                <input type="text" [(ngModel)]="name" name="name" id="name" placeholder="name"/>
+                <input type="text" formControlName="name" name="name" id="name" placeholder="name"/>
                 <b class="tooltip tooltip-bottom-right">Please provide a name for the new inventory item</b> </label>
             </section>
             <section class="col col-3">
               <label class="label">Inventory Type</label>
               <label class="input">
-                <input type="text" [(ngModel)]="Type" name="type" id="type" list="list">
+                <input type="text" formControlName="type" name="type" id="type" list="list">
                 <datalist id="list">
                   <option *ngFor="let name of templateNameList" value="{{name}}">{{name}}</option>
                 </datalist>
@@ -38,13 +38,13 @@
             <section class="col col-3">
               <label class="label">Inventory Price</label>
               <label class="input"> <i class="icon-append fa fa-user"></i>
-                <input type="text" [(ngModel)]="price" name="price" id="price" placeholder="price"/>
+                <input type="text" formControlName="price" name="price" id="price" placeholder="price"/>
                 <b class="tooltip tooltip-bottom-right">Please provide a price for the new inventory item</b> </label>
             </section>
             <section class="col col-3">
               <label class="label">Inventory Quantity</label>
               <label class="input"> <i class="icon-append fa fa-user"></i>
-                <input type="text" [(ngModel)]="quantity" name="quantity" id="quantity" placeholder="quantity"/>
+                <input type="text" formControlName="quantity" name="quantity" id="quantity" placeholder="quantity"/>
                 <b class="tooltip tooltip-bottom-right">Please provide a quantity you have for the new inventory item</b> </label>
             </section>
           </fieldset>
@@ -53,7 +53,7 @@
               <label class="label">Inventory Description</label>
               <div>
                 <label class="input"> <i class="icon-append fa fa-user"></i>
-                  <input type="text" [(ngModel)]="description" name="description" id="description" placeholder="description"/>
+                  <input type="text" formControlName="description" name="description" id="description" placeholder="description"/>
                   <b class="tooltip tooltip-bottom-right">Please provide a description for the new inventory item</b> </label>
               </div>
             </section>

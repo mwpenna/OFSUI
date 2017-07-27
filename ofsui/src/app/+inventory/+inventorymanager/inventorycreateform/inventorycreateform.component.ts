@@ -3,6 +3,7 @@ import {ModalDirective} from "ngx-bootstrap";
 import {TemplateAPIService} from "../../../core/api/templateapi.service";
 import {Observable} from "rxjs";
 import {Response} from "@angular/http";
+import {FormBuilder, FormGroup, FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-inventorycreateform',
@@ -11,18 +12,25 @@ import {Response} from "@angular/http";
 export class InventorycreateformComponent implements OnInit {
 
   @ViewChild('inventoryCreateModal') public inventoryCreateModal:ModalDirective;
-
-  public name: string;
-  public price: string;
-  public type: string;
-  public quantity: string;
-  public description: string;
+  myForm: FormGroup
 
   public templateNameList: string[] = [];
+  public templateList: any[] = [];
 
-  constructor(private templateAPI: TemplateAPIService) { }
+  constructor(private templateAPI: TemplateAPIService,
+              private fb: FormBuilder) { }
 
   ngOnInit() {
+    let newForm = this.fb.group({
+      name: new FormControl(),
+      price: new FormControl(),
+      type: new FormControl(),
+      quantity: new FormControl(),
+      description: new FormControl(),
+      formArray: this.fb.array([])
+    })
+
+    this.myForm = newForm;
   }
 
   public showCreateInventoryModal() {
@@ -33,11 +41,7 @@ export class InventorycreateformComponent implements OnInit {
 
   public createInventory() {
     console.log("Inside create inventory");
-    console.log(this.name);
-    console.log(this.price);
-    console.log(this.type);
-    console.log(this.quantity);
-    console.log(this.description);
+
   }
 
   private getTemplatesByCompanyId() {
@@ -48,7 +52,8 @@ export class InventorycreateformComponent implements OnInit {
             result => {
               console.log(result);
               for(let template of result.items) {
-                this.templateNameList.push(template.name)
+                this.templateNameList.push(template.name);
+                this.templateList.push(template);
               }
               console.log(this.templateNameList);
             },
