@@ -3,7 +3,7 @@ import {ModalDirective} from "ngx-bootstrap";
 import {TemplateAPIService} from "../../../core/api/templateapi.service";
 import {Observable} from "rxjs";
 import {Response} from "@angular/http";
-import {FormBuilder, FormGroup, FormControl} from "@angular/forms";
+import {FormBuilder, FormGroup, FormControl, FormArray} from "@angular/forms";
 
 @Component({
   selector: 'app-inventorycreateform',
@@ -30,7 +30,52 @@ export class InventorycreateformComponent implements OnInit {
       formArray: this.fb.array([])
     })
 
-    this.myForm = newForm;
+   this.myForm  = newForm;
+
+    this.myForm.valueChanges.subscribe(data => {
+      console.log('Form changes', data)
+
+      if(this.isTypePresent()) {
+        var propList = this.getListProps();
+
+        if(propList != undefined && propList != null) {
+          this.generatePropFormGroup(propList);
+        }
+        else {
+          this.myForm.controls['formArray'] = new FormArray([]);
+        }
+        console.log(this.myForm)
+      }
+      else {
+        this.myForm.controls['formArray'] = new FormArray([]);
+        console.log(this.myForm)
+      }
+    })
+  }
+
+  private generatePropFormGroup(propList: any[]) {
+    this.myForm.controls['formArray'] = new FormArray([]);
+    const arrayControl = <FormArray>this.myForm.controls['formArray'];
+
+    for(let prop of propList) {
+      let newGroup = this.fb.group({
+        propName: new FormControl(prop.name),
+        propValue: new FormControl()
+      })
+      arrayControl.push(newGroup);
+    }
+  }
+
+  private isTypePresent():boolean {
+    return this.myForm.value.type != undefined && this.myForm.value.type != "" && this.myForm.value.type!=null;
+  }
+
+  private getListProps(): any[] {
+    for(let template of this.templateList) {
+      if(template.name === this.myForm.value.type) {
+        return template.props;
+      }
+    }
   }
 
   public showCreateInventoryModal() {
