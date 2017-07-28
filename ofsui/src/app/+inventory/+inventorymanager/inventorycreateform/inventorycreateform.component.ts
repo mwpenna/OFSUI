@@ -33,7 +33,6 @@ export class InventorycreateformComponent implements OnInit {
    this.myForm  = newForm;
 
     this.myForm.valueChanges.subscribe(data => {
-      console.log('Form changes', data)
 
       if(this.isTypePresent()) {
         var propList = this.getListProps();
@@ -44,11 +43,9 @@ export class InventorycreateformComponent implements OnInit {
         else {
           this.myForm.controls['formArray'] = new FormArray([]);
         }
-        console.log(this.myForm)
       }
       else {
         this.myForm.controls['formArray'] = new FormArray([]);
-        console.log(this.myForm)
       }
     })
   }
@@ -86,7 +83,34 @@ export class InventorycreateformComponent implements OnInit {
 
   public createInventory() {
     console.log("Inside create inventory");
+    console.log(JSON.stringify(this.generateCreateInventoryRequest()));
+  }
 
+  private generateCreateInventoryRequest(): any {
+    return {
+      name: this.myForm.get("name").value,
+      type: this.myForm.get("type").value,
+      price: Number(this.myForm.get("price").value),
+      quantity: Number(this.myForm.get("quantity").value),
+      props: this.generatePropsForRequest()
+    }
+  }
+
+  private generatePropsForRequest(): any[] {
+    var props = [];
+
+    const arrayControl = <FormArray>this.myForm.controls['formArray'];
+    for(let control of arrayControl.controls) {
+      console.log(control);
+      props.push(
+          {
+            name: control.get("propName").value,
+            value: control.get("propValue").value
+          }
+      )
+    }
+
+    return props;
   }
 
   private getTemplatesByCompanyId() {
