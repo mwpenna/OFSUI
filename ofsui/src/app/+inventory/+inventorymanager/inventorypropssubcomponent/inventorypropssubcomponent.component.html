@@ -1,8 +1,26 @@
 <div [formGroup]="itemFormGroup">
-  <section class="col col-4">
+  <section class="col col-4" *ngIf="this.itemFormGroup.controls['propType'].value == 'STRING'">
     <label class="label">Inventory {{this.itemFormGroup.controls['propName'].value}}</label>
     <label class="input"> <i class="icon-append fa fa-user"></i>
       <input type="text" formControlName="propValue" placeholder="value"/>
-      <b class="tooltip tooltip-bottom-right">Please provide a value for the inventory {{this.itemFormGroup.controls['propName'].value}}</b> </label>
+      <b class="tooltip tooltip-bottom-right">Please provide a text value for the inventory {{this.itemFormGroup.controls['propName'].value}}</b> </label>
+  </section>
+
+  <section class="col col-4" *ngIf="this.itemFormGroup.controls['propType'].value == 'NUMBER'">
+    <label class="label">Inventory {{this.itemFormGroup.controls['propName'].value}}</label>
+    <label class="input"> <i class="icon-append fa fa-user"></i>
+      <input type="text" formControlName="propValue" placeholder="value"/>
+      <b class="tooltip tooltip-bottom-right">Please provide a numeric value for the inventory {{this.itemFormGroup.controls['propName'].value}}</b> </label>
+  </section>
+
+  <section class="col col-4" *ngIf="this.itemFormGroup.controls['propType'].value == 'BOOLEAN'">
+    <label class="label">Inventory {{this.itemFormGroup.controls['propName'].value}}</label>
+    <label class="select">
+      <select formControlName="propValue" name="value">
+        <option value=""> Choose Value</option>
+        <option value="TRUE">YES</option>
+        <option value="FALSE">NO</option>
+      </select> <i></i>
+    </label>
   </section>
 </div>
