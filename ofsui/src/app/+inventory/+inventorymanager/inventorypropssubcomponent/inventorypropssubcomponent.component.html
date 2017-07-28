@@ -1,0 +1,8 @@
+<div [formGroup]="itemFormGroup">
+  <section class="col col-4">
+    <label class="label">Inventory {{this.itemFormGroup.controls['propName'].value}}</label>
+    <label class="input"> <i class="icon-append fa fa-user"></i>
+      <input type="text" formControlName="propValue" placeholder="value"/>
+      <b class="tooltip tooltip-bottom-right">Please provide a value for the inventory {{this.itemFormGroup.controls['propName'].value}}</b> </label>
+  </section>
+</div>

@@ -12,6 +12,7 @@ import { InventorysearchformComponent } from './inventorysearchform/inventorysea
 import {ReactiveFormsModule} from "@angular/forms";
 import {SmartadminInputModule} from "../../shared/forms/input/smartadmin-input.module";
 import {SmartadminValidationModule} from "../../shared/forms/validation/smartadmin-validation.module";
+import { InventorypropssubcomponentComponent } from './inventorypropssubcomponent/inventorypropssubcomponent.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ import {SmartadminValidationModule} from "../../shared/forms/validation/smartadm
     SmartadminInputModule,
     ReactiveFormsModule
   ],
-  declarations: [InventorymanagerComponent, InventorypropsComponent, InventorycreateformComponent, InventoryupdateformComponent, InventorydatatableComponent, InventorysearchformComponent]
+  declarations: [InventorymanagerComponent, InventorypropsComponent, InventorycreateformComponent, InventoryupdateformComponent, InventorydatatableComponent, InventorysearchformComponent, InventorypropssubcomponentComponent]
 })
 export class InventoryManagerModule { }
 

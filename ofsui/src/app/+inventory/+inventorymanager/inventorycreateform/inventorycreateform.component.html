@@ -57,6 +57,10 @@
               </div>
             </section>
           </fieldset>
+          <fieldset>
+            <app-inventorypropssubcomponent *ngFor="let control of myForm.controls['formArray'].controls; let i = index" [itemFormGroup]="myForm.controls.formArray.controls[i]"></app-inventorypropssubcomponent>
+          </fieldset>
+
           <footer>
             <button type="submit" (click)="createInventory()" class="btn btn-primary">
               Update
