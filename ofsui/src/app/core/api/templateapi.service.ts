@@ -6,7 +6,7 @@ import {User} from "../redux/model/user.model";
 import {Observable} from "rxjs";
 
 @Injectable()
-export class TemplateAPIService{
+export class TemplateAPIService {
     private currentUser: User;
 
     constructor(private http: Http, private store: Store<UserState>) {

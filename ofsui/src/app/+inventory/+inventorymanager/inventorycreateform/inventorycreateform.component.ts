@@ -4,6 +4,8 @@ import {TemplateAPIService} from "../../../core/api/templateapi.service";
 import {Observable} from "rxjs";
 import {Response} from "@angular/http";
 import {FormBuilder, FormGroup, FormControl, FormArray} from "@angular/forms";
+import {InventoryAPIService} from "../../../core/api/inventoryapi.service";
+import {HttpExceptionHandler} from "../../../core/api/httpexceptionhandler";
 
 @Component({
   selector: 'app-inventorycreateform',
@@ -18,7 +20,9 @@ export class InventorycreateformComponent implements OnInit {
   public templateList: any[] = [];
 
   constructor(private templateAPI: TemplateAPIService,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              private inventoryAPI: InventoryAPIService,
+              private httpExceptionHandler: HttpExceptionHandler) { }
 
   ngOnInit() {
     let newForm = this.fb.group({
@@ -83,7 +87,17 @@ export class InventorycreateformComponent implements OnInit {
 
   public createInventory() {
     console.log("Inside create inventory");
-    console.log(JSON.stringify(this.generateCreateInventoryRequest()));
+    this.inventoryAPI.createInventory(this.generateCreateInventoryRequest())
+        .catch(this.handleError)
+        .subscribe(
+            result => {
+              console.log(result);
+            },
+            error => {
+              console.log(error);
+              this.httpExceptionHandler.handleException(error);
+            }
+        );
   }
 
   private generateCreateInventoryRequest(): any {
@@ -101,7 +115,6 @@ export class InventorycreateformComponent implements OnInit {
 
     const arrayControl = <FormArray>this.myForm.controls['formArray'];
     for(let control of arrayControl.controls) {
-      console.log(control);
       props.push(
           {
             name: control.get("propName").value,
@@ -119,16 +132,14 @@ export class InventorycreateformComponent implements OnInit {
         .catch(this.handleError)
         .subscribe(
             result => {
-              console.log(result);
               this.templateNameList.push("Default");
               for(let template of result.items) {
                 this.templateNameList.push(template.name);
                 this.templateList.push(template);
               }
-              console.log(this.templateNameList);
             },
             error => {
-              console.log(error);
+              this.httpExceptionHandler.handleException(error);
             }
         );
   }

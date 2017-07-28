@@ -20,6 +20,7 @@ import {HttpExceptionHandler} from "./api/httpexceptionhandler";
 import {UserSearchService} from "../+user/+updateuser/searchform/searchform.service";
 import {TemplateAPIService} from "./api/templateapi.service";
 import {TemplateSearchService} from "../+inventory/+templatemanager/viewandupdatetemplate/templatesearchform/templatesearch.service";
+import {InventoryAPIService} from "./api/inventoryapi.service";
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import {TemplateSearchService} from "../+inventory/+templatemanager/viewandupdat
     UserSearchService,
     TemplateAPIService,
     TemplateSearchService,
+    InventoryAPIService
   ]
 })
 export class CoreModule {
