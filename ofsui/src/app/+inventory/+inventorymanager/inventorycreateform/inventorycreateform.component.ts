@@ -91,13 +91,27 @@ export class InventorycreateformComponent implements OnInit {
         .catch(this.handleError)
         .subscribe(
             result => {
-              console.log(result);
+              this.defaultCreateInventoryForm();
+              this.inventoryCreateModal.hide();
             },
             error => {
               console.log(error);
               this.httpExceptionHandler.handleException(error);
             }
         );
+  }
+
+  private defaultCreateInventoryForm() {
+  let newForm = this.fb.group({
+    name: new FormControl(),
+    price: new FormControl(),
+    type: new FormControl(),
+    quantity: new FormControl(),
+    description: new FormControl(),
+    formArray: this.fb.array([])
+  })
+
+  this.myForm  = newForm;
   }
 
   private generateCreateInventoryRequest(): any {
