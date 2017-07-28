@@ -61,7 +61,8 @@ export class InventorycreateformComponent implements OnInit {
     for(let prop of propList) {
       let newGroup = this.fb.group({
         propName: new FormControl(prop.name),
-        propValue: new FormControl()
+        propValue: new FormControl(),
+        propType: new FormControl(prop.type)
       })
       arrayControl.push(newGroup);
     }
