@@ -31,7 +31,15 @@ export class InventorycreateformComponent implements OnInit {
       type: new FormControl(),
       quantity: new FormControl(),
       description: new FormControl(),
-      formArray: this.fb.array([])
+      formArray: this.fb.array([]),
+      isNameError: new FormControl(false),
+      nameErrorMessage: new FormControl(),
+      isTypeError: new FormControl(false),
+      typeErrorMessage: new FormControl(),
+      isPriceError: new FormControl(false),
+      priceErrorMessage: new FormControl(),
+      isQuantityError: new FormControl(false),
+      quantityErrorMessage: new FormControl()
     })
 
    this.myForm  = newForm;
@@ -88,18 +96,56 @@ export class InventorycreateformComponent implements OnInit {
 
   public createInventory() {
     console.log("Inside create inventory");
-    this.inventoryAPI.createInventory(this.generateCreateInventoryRequest())
-        .catch(this.handleError)
-        .subscribe(
-            result => {
-              this.defaultCreateInventoryForm();
-              this.inventoryCreateModal.hide();
-            },
-            error => {
-              console.log(error);
-              this.httpExceptionHandler.handleException(error);
-            }
-        );
+    if(this.validateCreateInventory()) {
+      console.log("Validations passed");
+      this.inventoryAPI.createInventory(this.generateCreateInventoryRequest())
+          .catch(this.handleError)
+          .subscribe(
+              result => {
+                this.defaultCreateInventoryForm();
+                this.inventoryCreateModal.hide();
+              },
+              error => {
+                console.log(error);
+                this.httpExceptionHandler.handleException(error);
+              }
+          );
+    }
+  }
+
+  private validateCreateInventory(): boolean {
+
+    var isValid = true;
+
+    if(this.myForm.get("name") == undefined || this.myForm.get("name").value == null ||
+        this.myForm.get("name").value == "" ) {
+      this.myForm.get("isNameError").setValue(true);
+      this.myForm.get("nameErrorMessage").setValue("Please provide inventory name.");
+      isValid = false;
+    }
+
+    if(this.myForm.get("type") == undefined || this.myForm.get("type").value == null ||
+        this.myForm.get("type").value == "" ) {
+      this.myForm.get("isTypeError").setValue(true);
+      this.myForm.get("typeErrorMessage").setValue("Please provide inventory type.");
+      isValid = false;
+    }
+
+    if(this.myForm.get("price") == undefined || this.myForm.get("price").value == null ||
+        this.myForm.get("price").value == "" ) {
+      this.myForm.get("isPriceError").setValue(true);
+      this.myForm.get("priceErrorMessage").setValue("Please provide inventory price.");
+      isValid = false;
+    }
+
+    if(this.myForm.get("quantity") == undefined || this.myForm.get("quantity").value == null ||
+        this.myForm.get("quantity").value == "" ) {
+      this.myForm.get("isQuantityError").setValue(true);
+      this.myForm.get("quantityErrorMessage").setValue("Please provide inventory quantity.");
+      isValid = false;
+    }
+
+    return isValid;
   }
 
   private defaultCreateInventoryForm() {
@@ -109,7 +155,15 @@ export class InventorycreateformComponent implements OnInit {
     type: new FormControl(),
     quantity: new FormControl(),
     description: new FormControl(),
-    formArray: this.fb.array([])
+    formArray: this.fb.array([]),
+    isNameError: new FormControl(false),
+    nameErrorMessage: new FormControl(),
+    isTypeError: new FormControl(false),
+    typeErrorMessage: new FormControl(),
+    isPriceError: new FormControl(false),
+    priceErrorMessage: new FormControl(),
+    isQuantityError: new FormControl(false),
+    quantityErrorMessage: new FormControl()
   })
 
   this.myForm  = newForm;
