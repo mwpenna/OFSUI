@@ -50,13 +50,16 @@ export class InventorycreateformComponent implements OnInit {
         var propList = this.getListProps();
 
         if(propList != undefined && propList != null) {
+          console.log("generating prop form group")
           this.generatePropFormGroup(propList);
         }
         else {
+          console.log("Prop LIst null or undefined to defaulting empty formArray")
           this.myForm.controls['formArray'] = new FormArray([]);
         }
       }
       else {
+        console.log("type not present defaulting empty formArray")
         this.myForm.controls['formArray'] = new FormArray([]);
       }
     })
