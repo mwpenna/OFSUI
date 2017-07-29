@@ -70,7 +70,9 @@ export class InventorycreateformComponent implements OnInit {
       let newGroup = this.fb.group({
         propName: new FormControl(prop.name),
         propValue: new FormControl(),
-        propType: new FormControl(prop.type)
+        propType: new FormControl(prop.type),
+        isPropNameError: new FormControl(false),
+        propNameErrorMessage: new FormControl()
       })
       arrayControl.push(newGroup);
     }
@@ -96,6 +98,7 @@ export class InventorycreateformComponent implements OnInit {
 
   public createInventory() {
     console.log("Inside create inventory");
+    this.clearErrors();
     if(this.validateCreateInventory()) {
       console.log("Validations passed");
       this.inventoryAPI.createInventory(this.generateCreateInventoryRequest())
@@ -110,6 +113,25 @@ export class InventorycreateformComponent implements OnInit {
                 this.httpExceptionHandler.handleException(error);
               }
           );
+    }
+  }
+
+  private clearErrors() {
+    this.myForm.get("isNameError").setValue(false);
+    this.myForm.get("nameErrorMessage").setValue("");
+    this.myForm.get("isTypeError").setValue(false);
+    this.myForm.get("typeErrorMessage").setValue("");
+    this.myForm.get("isPriceError").setValue(false);
+    this.myForm.get("priceErrorMessage").setValue("");
+    this.myForm.get("isQuantityError").setValue(false);
+    this.myForm.get("quantityErrorMessage").setValue("");
+
+    const arrayControl = <FormArray>this.myForm.controls['formArray']
+
+    for(let control of arrayControl.controls) {
+      const formGroup = <FormGroup>control;
+      formGroup.get("isPropNameError").setValue(false);
+      formGroup.get("propNameErrorMessage").setValue("")
     }
   }
 
@@ -143,6 +165,30 @@ export class InventorycreateformComponent implements OnInit {
       this.myForm.get("isQuantityError").setValue(true);
       this.myForm.get("quantityErrorMessage").setValue("Please provide inventory quantity.");
       isValid = false;
+    }
+
+    if(!this.validateProps()) {
+      isValid = false;
+    }
+
+    return isValid;
+  }
+
+  private validateProps(): boolean {
+    var isValid = true;
+
+    const arrayControl = <FormArray>this.myForm.controls['formArray']
+
+    for(let control of arrayControl.controls) {
+      const formGroup = <FormGroup>control;
+
+      if(formGroup.get("propValue") == undefined || formGroup.get("propValue").value == null ||
+          formGroup.get("propValue").value == "" ) {
+
+        formGroup.get("isPropNameError").setValue(true);
+        formGroup.get("propNameErrorMessage").setValue("Value is required.")
+        isValid = false;
+      }
     }
 
     return isValid;
