@@ -46,23 +46,18 @@ export class InventorycreateformComponent implements OnInit {
    this.myForm  = newForm;
 
     this.myForm.valueChanges.subscribe(data => {
-      console.log(data)
       if(this.isTypePresent()) {
         this.previousType = this.myForm.value.type;
         var propList = this.getListProps();
-        console.log(propList);
 
         if(propList != undefined && propList != null) {
-          console.log("generating prop form group")
           this.generatePropFormGroup(propList);
         }
         else {
-          console.log("Prop LIst null or undefined to defaulting empty formArray")
           this.myForm.controls['formArray'] = new FormArray([]);
         }
       }
       else if(this.myForm.value.type == "" || this.myForm.value.type == undefined){
-        console.log("type not present or changed to null defaulting empty formArray")
         this.myForm.controls['formArray'] = new FormArray([]);
       }
     })
@@ -98,16 +93,13 @@ export class InventorycreateformComponent implements OnInit {
   }
 
   public showCreateInventoryModal() {
-    console.log("Inside show create inventory");
     this.getTemplatesByCompanyId();
     this.inventoryCreateModal.show();
   }
 
   public createInventory() {
-    console.log("Inside create inventory");
     this.clearErrors();
     if(this.validateCreateInventory()) {
-      console.log("Validations passed");
       this.inventoryAPI.createInventory(this.generateCreateInventoryRequest())
           .catch(this.handleError)
           .subscribe(
