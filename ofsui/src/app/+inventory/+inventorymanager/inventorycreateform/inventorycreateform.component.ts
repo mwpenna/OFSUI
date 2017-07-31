@@ -118,10 +118,19 @@ export class InventorycreateformComponent implements OnInit {
                   if (errors[i].code == "inventory.type.not_valid") {
                     this.handleInvenotryTypeNotValid();
                   }
+
+                  if(errors[i].code == "inventory.name.exists") {
+                    this.handleDuplicateInventoryNameError();
+                  }
                 }
               }
           );
     }
+  }
+
+  private handleDuplicateInventoryNameError() {
+    this.myForm.get("isNameError").setValue(true);
+    this.myForm.get("nameErrorMessage").setValue("Inventory name already exists. Please choose a different name.");
   }
 
   private handleInvenotryTypeNotValid() {
