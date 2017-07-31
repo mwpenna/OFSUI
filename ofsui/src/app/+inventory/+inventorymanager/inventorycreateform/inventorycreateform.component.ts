@@ -6,6 +6,7 @@ import {Response} from "@angular/http";
 import {FormBuilder, FormGroup, FormControl, FormArray} from "@angular/forms";
 import {InventoryAPIService} from "../../../core/api/inventoryapi.service";
 import {HttpExceptionHandler} from "../../../core/api/httpexceptionhandler";
+import {isNumeric} from "rxjs/util/isNumeric";
 
 @Component({
   selector: 'app-inventorycreateform',
@@ -110,9 +111,22 @@ export class InventorycreateformComponent implements OnInit {
               error => {
                 console.log(error);
                 this.httpExceptionHandler.handleException(error);
+                var errors = error.json().errors;
+
+                for(var i = 0; i< errors.length; i++) {
+
+                  if (errors[i].code == "inventory.type.not_valid") {
+                    this.handleInvenotryTypeNotValid();
+                  }
+                }
               }
           );
     }
+  }
+
+  private handleInvenotryTypeNotValid() {
+    this.myForm.get("isTypeError").setValue(true);
+    this.myForm.get("typeErrorMessage").setValue("Inventory Type not valid. Please select one from the list.");
   }
 
   private clearErrors() {
@@ -158,11 +172,21 @@ export class InventorycreateformComponent implements OnInit {
       this.myForm.get("priceErrorMessage").setValue("Please provide inventory price.");
       isValid = false;
     }
+    else if(!isNumeric(this.myForm.get("price").value)){
+      this.myForm.get("isPriceError").setValue(true);
+      this.myForm.get("priceErrorMessage").setValue("Price must be a numeric value.");
+      isValid = false;
+    }
 
     if(this.myForm.get("quantity") == undefined || this.myForm.get("quantity").value == null ||
         this.myForm.get("quantity").value == "" ) {
       this.myForm.get("isQuantityError").setValue(true);
       this.myForm.get("quantityErrorMessage").setValue("Please provide inventory quantity.");
+      isValid = false;
+    }
+    else if(!isNumeric(this.myForm.get("quantity").value)){
+      this.myForm.get("isQuantityError").setValue(true);
+      this.myForm.get("quantityErrorMessage").setValue("Quantity must be a numeric value.");
       isValid = false;
     }
 
