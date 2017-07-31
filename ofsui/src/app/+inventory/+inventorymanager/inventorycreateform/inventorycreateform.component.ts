@@ -98,6 +98,11 @@ export class InventorycreateformComponent implements OnInit {
     this.inventoryCreateModal.show();
   }
 
+  public cancelInventoryCreate() {
+    this.defaultCreateInventoryForm();
+    this.inventoryCreateModal.hide();
+  }
+
   public createInventory() {
     this.clearErrors();
     if(this.validateCreateInventory()) {
@@ -245,24 +250,25 @@ export class InventorycreateformComponent implements OnInit {
   }
 
   private defaultCreateInventoryForm() {
-  let newForm = this.fb.group({
-    name: new FormControl(),
-    price: new FormControl(),
-    type: new FormControl(),
-    quantity: new FormControl(),
-    description: new FormControl(),
-    formArray: this.fb.array([]),
-    isNameError: new FormControl(false),
-    nameErrorMessage: new FormControl(),
-    isTypeError: new FormControl(false),
-    typeErrorMessage: new FormControl(),
-    isPriceError: new FormControl(false),
-    priceErrorMessage: new FormControl(),
-    isQuantityError: new FormControl(false),
-    quantityErrorMessage: new FormControl()
-  })
+    let newForm = this.fb.group({
+      name: new FormControl(),
+      price: new FormControl(),
+      type: new FormControl(),
+      quantity: new FormControl(),
+      description: new FormControl(),
+      formArray: this.fb.array([]),
+      isNameError: new FormControl(false),
+      nameErrorMessage: new FormControl(),
+      isTypeError: new FormControl(false),
+      typeErrorMessage: new FormControl(),
+      isPriceError: new FormControl(false),
+      priceErrorMessage: new FormControl(),
+      isQuantityError: new FormControl(false),
+      quantityErrorMessage: new FormControl()
+    })
 
-  this.myForm  = newForm;
+    this.myForm  = newForm;
+    this.previousType = undefined;
   }
 
   private generateCreateInventoryRequest(): any {
