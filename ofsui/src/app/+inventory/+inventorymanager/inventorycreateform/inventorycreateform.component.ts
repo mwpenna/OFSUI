@@ -122,9 +122,27 @@ export class InventorycreateformComponent implements OnInit {
                   if(errors[i].code == "inventory.name.exists") {
                     this.handleDuplicateInventoryNameError();
                   }
+
+                  if(errors[i].code == "prop.invalid_value") {
+                    this.handleInvalidPropValue(errors[i].properties.name);
+                  }
                 }
               }
           );
+    }
+  }
+
+  private handleInvalidPropValue(propName: string) {
+    console.log(propName);
+    const arrayControl = <FormArray>this.myForm.controls['formArray']
+
+    for(let control of arrayControl.controls) {
+      const formGroup = <FormGroup>control;
+
+      if (formGroup.get("propName").value == propName) {
+        formGroup.get("isPropNameError").setValue(true);
+        formGroup.get("propNameErrorMessage").setValue("Invalid value. Please provide a numeric value.")
+      }
     }
   }
 
