@@ -45,28 +45,6 @@ export class InventorycreateformComponent implements OnInit {
     })
 
    this.myForm  = newForm;
-
-    this.myForm.valueChanges.subscribe(data => {
-      console.log(data);
-      if(this.isTypePresent()) {
-        console.log("type is present");
-        this.previousType = this.myForm.value.type;
-        var propList = this.getListProps();
-
-        if(propList != undefined && propList != null) {
-          console.log("Prop List Present");
-          this.generatePropFormGroup(propList);
-        }
-        else {
-          console.log("Prop List not found")
-          this.myForm.controls['formArray'] = new FormArray([]);
-        }
-      }
-      else if(this.myForm.value.type == "" || this.myForm.value.type == undefined){
-        console.log("Type is not present")
-        this.myForm.controls['formArray'] = new FormArray([]);
-      }
-    })
   }
 
   private generatePropFormGroup(propList: any[]) {
@@ -99,6 +77,23 @@ export class InventorycreateformComponent implements OnInit {
   }
 
   public showCreateInventoryModal() {
+    this.myForm.valueChanges.subscribe(data => {
+      if(this.isTypePresent()) {
+        this.previousType = this.myForm.value.type;
+        var propList = this.getListProps();
+
+        if(propList != undefined && propList != null) {
+          this.generatePropFormGroup(propList);
+        }
+        else {
+          this.myForm.controls['formArray'] = new FormArray([]);
+        }
+      }
+      else if(this.myForm.value.type == "" || this.myForm.value.type == undefined){
+        this.myForm.controls['formArray'] = new FormArray([]);
+      }
+    })
+
     this.getTemplatesByCompanyId();
     this.inventoryCreateModal.show();
   }
