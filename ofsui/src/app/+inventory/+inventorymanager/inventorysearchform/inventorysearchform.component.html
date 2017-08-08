@@ -1,7 +1,7 @@
 <br/>
 <form class="smart-form">
-  <!--<fieldset>-->
-    <section class="col col-6">
+  <fieldset>
+    <section class="col col-2">
       <label class="label">Inventory Name</label>
       <label class="input"> <i class="icon-append fa fa-question-circle"></i>
         <input [(ngModel)]="name" (ngModelChange)='changed($event)' name="name" type="text" placeholder="name">
@@ -11,7 +11,7 @@
       </label>
     </section>
 
-    <section class="col col-6">
+    <section class="col col-2">
       <label class="label">Inventory Type</label>
       <label class="input"> <i class="icon-append fa fa-question-circle"></i>
         <input [(ngModel)]="type" (ngModelChange)='changed($event)' name="type" type="text" placeholder="inventory type">
@@ -20,5 +20,45 @@
           Search by inventory type</b>
       </label>
     </section>
-  <!--</fieldset>-->
+
+  <section class="col col-2">
+    <label class="label">Inventory Quantity</label>
+    <label class="input"> <i class="icon-append fa fa-question-circle"></i>
+      <input [(ngModel)]="quantity" (ngModelChange)='changed($event)' name="quantity" type="text" placeholder="inventory quantity">
+      <b class="tooltip tooltip-top-right">
+        <i class="fa fa-warning txt-color-teal"></i>
+        Search by inventory type</b>
+    </label>
+  </section>
+
+  <section class="col col-2">
+    <label class="label">Inventory Price</label>
+    <label class="input"> <i class="icon-append fa fa-question-circle"></i>
+      <input [(ngModel)]="price" (ngModelChange)='changed($event)' name="price" type="text" placeholder="inventory price">
+      <b class="tooltip tooltip-top-right">
+        <i class="fa fa-warning txt-color-teal"></i>
+        Search by inventory type</b>
+    </label>
+  </section>
+
+  <section class="col col-2">
+    <label class="label">Inventory Description</label>
+    <label class="input"> <i class="icon-append fa fa-question-circle"></i>
+      <input [(ngModel)]="description" (ngModelChange)='changed($event)' name="description" type="text" placeholder="inventory description">
+      <b class="tooltip tooltip-top-right">
+        <i class="fa fa-warning txt-color-teal"></i>
+        Search by inventory type</b>
+    </label>
+  </section>
+
+  <section class="col col-2">
+    <label class="label">Inventory Property Name</label>
+    <label class="input"> <i class="icon-append fa fa-question-circle"></i>
+      <input [(ngModel)]="propName" (ngModelChange)='changed($event)' name="propName" type="text" placeholder="inventory property name">
+      <b class="tooltip tooltip-top-right">
+        <i class="fa fa-warning txt-color-teal"></i>
+        Search by inventory type</b>
+    </label>
+  </section>
+  </fieldset>
 </form>
