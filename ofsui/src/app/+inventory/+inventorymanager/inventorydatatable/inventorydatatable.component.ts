@@ -13,7 +13,7 @@ export class InventorydatatableComponent implements OnInit {
 
   public items: any[];
   public tableColumnNames: string[] = [];
-  public propMap : Map<string, string> = new Map<string, string>();
+  public propMap : Map<string, number> = new Map<string, number>();
 
   public count = 0;
   public numPages: number[];
@@ -42,11 +42,27 @@ export class InventorydatatableComponent implements OnInit {
 
     this.inventorySearchService.searchResultAnnounced$.subscribe(
         results => {
-          console.log(results);
           this.buildTableColumnNames(results.items);
-          console.log(this.tableColumnNames);
+          this.buildItemList(results.items);
+          this.count = results.count;
+
+          if((results.count/results.limit) != Math.floor((results.count/results.limit))) {
+            this.numPages= this.setNumPages(Math.floor((results.count/results.limit))+1)
+          }
+          else {
+            this.numPages=this.setNumPages(Math.floor((results.count/results.limit)));
+          }
+          this.isInitialLoad=false;
         }
     );
+  }
+
+  private setNumPages(length:number){
+    var x=[];
+    var i=1;
+    while(x.push(i++)<length){};
+    this.maxPage = length;
+    return x
   }
 
   private buildItemList(inventoryList: any[]) {
@@ -74,7 +90,11 @@ export class InventorydatatableComponent implements OnInit {
   }
 
   private mapProps(data: any[], inventory: any) {
-
+    for(let prop of inventory.props) {
+      if(this.propMap.has(prop.name)) {
+        data[this.propMap.get(prop.name)] = prop.value;
+      }
+    }
   }
 
   private buildTableColumnNames(inventoryList: any[]) {
@@ -89,10 +109,13 @@ export class InventorydatatableComponent implements OnInit {
     columnNames[columnNames.length] = "Quantity";
     columnNames[columnNames.length] = "Description";
 
-
+    var spot = 7;
     for(let inventory of inventoryList) {
       for(let prop of inventory.props) {
-        this.propMap.set(prop.name, prop.name);
+        if(!this.propMap.has(prop.name)) {
+          this.propMap.set(prop.name, spot);
+          spot++;
+        }
       }
     }
 
