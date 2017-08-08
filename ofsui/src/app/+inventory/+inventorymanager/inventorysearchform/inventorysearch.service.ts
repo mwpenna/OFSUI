@@ -28,4 +28,5 @@ export class InventorySearchService {
     public getRequest():any {
         return this.request;
     }
+    
 }

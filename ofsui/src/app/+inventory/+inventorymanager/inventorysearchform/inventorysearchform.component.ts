@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {InventoryAPIService} from "../../../core/api/inventoryapi.service";
+import {InventorySearchService} from "./inventorysearch.service";
 
 @Component({
   selector: 'app-inventorysearchform',
@@ -13,9 +15,11 @@ export class InventorysearchformComponent implements OnInit {
   public description;
   public propName;
 
-  constructor() { }
+  constructor(private inventoryService: InventoryAPIService,
+              private inventorySearchService: InventorySearchService) { }
 
   ngOnInit() {
+    this.inventorySearchService.setPageLimit(10);
   }
 
   public changed(text: string) {

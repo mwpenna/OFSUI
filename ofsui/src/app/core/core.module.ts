@@ -21,6 +21,7 @@ import {UserSearchService} from "../+user/+updateuser/searchform/searchform.serv
 import {TemplateAPIService} from "./api/templateapi.service";
 import {TemplateSearchService} from "../+inventory/+templatemanager/viewandupdatetemplate/templatesearchform/templatesearch.service";
 import {InventoryAPIService} from "./api/inventoryapi.service";
+import {InventorySearchService} from "../+inventory/+inventorymanager/inventorysearchform/inventorysearch.service";
 
 @NgModule({
   imports: [
@@ -47,7 +48,8 @@ import {InventoryAPIService} from "./api/inventoryapi.service";
     UserSearchService,
     TemplateAPIService,
     TemplateSearchService,
-    InventoryAPIService
+    InventoryAPIService,
+    InventorySearchService
   ]
 })
 export class CoreModule {
