@@ -11,9 +11,14 @@ import {Observable} from "rxjs";
 })
 export class InventorydatatableComponent implements OnInit {
 
+  public items: any[];
   public tableColumnNames: string[] = [];
   public propMap : Map<string, string> = new Map<string, string>();
 
+  public count = 0;
+  public numPages: number[];
+  public maxPage: number;
+  public selectedPage:number=1;
   public isInitialLoad:boolean=true;
 
   constructor( private inventoryService: InventoryAPIService,
@@ -42,6 +47,34 @@ export class InventorydatatableComponent implements OnInit {
           console.log(this.tableColumnNames);
         }
     );
+  }
+
+  private buildItemList(inventoryList: any[]) {
+    var items = [];
+    var itemLocation = 0;
+
+    for(let inventory of inventoryList) {
+      var data = [];
+      data[0] = "";
+      data[1] = "";
+      data[2] = inventory.id;
+      data[3] = inventory.name;
+      data[4] = inventory.type;
+      data[5] = inventory.price;
+      data[6] = inventory.quantity;
+      data[7] = inventory.description;
+
+      this.mapProps(data, inventory);
+
+      items[itemLocation] = data
+      itemLocation++
+    }
+
+    this.items = items;
+  }
+
+  private mapProps(data: any[], inventory: any) {
+
   }
 
   private buildTableColumnNames(inventoryList: any[]) {
