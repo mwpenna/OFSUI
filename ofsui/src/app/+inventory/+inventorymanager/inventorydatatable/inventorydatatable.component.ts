@@ -311,12 +311,30 @@ export class InventorydatatableComponent implements OnInit {
       data[7] = inventory.description;
 
       this.mapProps(data, inventory);
+      this.defaultMissingFields(data);
 
       items[itemLocation] = data
       itemLocation++
     }
 
+    console.log(this.items);
+
     this.items = items;
+  }
+
+  private defaultMissingFields(data: any[]) {
+    for(var i=0; i< data.length; i++) {
+      console.log(data[i]);
+      if(data[i] == null) {
+        data[i]= "";
+      }
+    }
+
+    if(data.length<this.tableColumnNames.length) {
+      for(var i=data.length; i< this.tableColumnNames.length; i++) {
+        data[i]= "";
+      }
+    }
   }
 
   private mapProps(data: any[], inventory: any) {
