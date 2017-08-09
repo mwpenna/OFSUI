@@ -14,6 +14,7 @@ export class InventorydatatableComponent implements OnInit {
   public items: any[];
   public tableColumnNames: string[] = [];
   public propMap : Map<string, number> = new Map<string, number>();
+  public resultList: any[];
 
   public count = 0;
   public numPages: number[];
@@ -45,6 +46,7 @@ export class InventorydatatableComponent implements OnInit {
           this.buildTableColumnNames(results.items);
           this.buildItemList(results.items);
           this.count = results.count;
+          this.resultList = results.items;
 
           if((results.count/results.limit) != Math.floor((results.count/results.limit))) {
             this.numPages= this.setNumPages(Math.floor((results.count/results.limit))+1)
@@ -55,6 +57,30 @@ export class InventorydatatableComponent implements OnInit {
           this.isInitialLoad=false;
         }
     );
+  }
+
+  public deleteInventory(inventoryIndex: number) {
+    this.inventoryService.delete(this.resultList[inventoryIndex].id)
+        .map(this.extractData)
+        .catch(this.handleError)
+        .subscribe(
+            results => {
+              this.inventoryService.search(this.inventorySearchService.getRequest(), this.inventorySearchService.getPageLimit(), 0)
+                  .map(this.extractData)
+                  .catch(this.handleError)
+                  .subscribe(
+                      result => {
+                        this.inventorySearchService.announceSearchResults(result);
+                      },
+                      error => {
+                        this.httpExceptionHandler.handleException(error);
+                      }
+                  );
+            },
+            error => {
+              this.httpExceptionHandler.handleException(error);
+            }
+        );
   }
 
   public goToPage(page:number) {

@@ -14,4 +14,6 @@ export class InventorypropssubcomponentComponent implements OnInit {
   ngOnInit() {
   }
 
+
+
 }

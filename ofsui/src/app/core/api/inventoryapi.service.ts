@@ -30,4 +30,19 @@ export class InventoryAPIService {
 
         return this.http.post("http://localhost:8083/inventory/search?limit="+limit+"&start="+start, JSON.stringify(request), options);
     }
+
+    delete(id: any): Observable<any> {
+        let headers = new Headers({ "Authorization": "Bearer "+ this.currentUser.token,
+            "Content-Type" : "application/json"});
+        let options = new RequestOptions({ "headers": headers });
+
+        return this.http.delete("http://localhost:8083/inventory/id/"+id, options);
+    }
+
+    update(id: any, template: any): Observable<any> {
+        let headers = new Headers({ "Authorization": "Bearer "+ this.currentUser.token,
+            "Content-Type" : "application/json"});
+        let options = new RequestOptions({ "headers": headers });
+        return this.http.post("http://localhost:8083/inventory/id/" + id, JSON.stringify(template), options);
+    }
 }
