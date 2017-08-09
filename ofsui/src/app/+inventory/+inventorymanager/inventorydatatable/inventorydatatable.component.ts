@@ -54,6 +54,7 @@ export class InventorydatatableComponent implements OnInit {
 
     this.inventorySearchService.searchResultAnnounced$.subscribe(
         results => {
+          console.log("Serach Results received");
           this.buildTableColumnNames(results.items);
           this.buildItemList(results.items);
           this.count = results.count;
@@ -132,6 +133,7 @@ export class InventorydatatableComponent implements OnInit {
       name: this.myForm.get("name").value,
       price: Number(this.myForm.get("price").value),
       quantity: Number(this.myForm.get("quantity").value),
+      description: this.myForm.get("description").value,
       props: this.generatePropsForRequest()
     }
   }
@@ -337,7 +339,7 @@ export class InventorydatatableComponent implements OnInit {
     columnNames[columnNames.length] = "Quantity";
     columnNames[columnNames.length] = "Description";
 
-    var spot = 7;
+    var spot = 8;
     for(let inventory of inventoryList) {
       for(let prop of inventory.props) {
         if(!this.propMap.has(prop.name)) {
