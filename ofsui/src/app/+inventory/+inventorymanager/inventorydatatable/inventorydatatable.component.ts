@@ -6,6 +6,7 @@ import {Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {FormBuilder, FormGroup, FormControl, FormArray} from "@angular/forms";
 import {ModalDirective} from "ngx-bootstrap";
+import {isNumeric} from "rxjs/util/isNumeric";
 
 @Component({
   selector: 'app-inventorydatatable',
@@ -91,6 +92,106 @@ export class InventorydatatableComponent implements OnInit {
               this.httpExceptionHandler.handleException(error);
             }
         );
+  }
+
+  public updateInventory() {
+    console.log("Inside update inventory");
+    if(this.validateUpdateInventory()) {
+      console.log(this.generateUpdateInventoryRequest());
+      this.inventoryService.update(this.inventoryId,this.generateUpdateInventoryRequest())
+          .catch(this.handleError)
+          .subscribe(
+              results => {
+                this.inventoryService.search(this.inventorySearchService.getRequest(), this.inventorySearchService.getPageLimit(), 0)
+                    .map(this.extractData)
+                    .catch(this.handleError)
+                    .subscribe(
+                        result => {
+                          this.inventorySearchService.announceSearchResults(result);
+                        },
+                        error => {
+                          this.httpExceptionHandler.handleException(error);
+                        }
+                    );
+                this.lgModal.hide();
+              },
+              error => {
+                this.httpExceptionHandler.handleException(error);
+                var errors = error.json().errors;
+
+                for(var i = 0; i< errors.length; i++) {
+
+                }
+              }
+          );
+    }
+  }
+
+  private generateUpdateInventoryRequest(): any {
+    return {
+      name: this.myForm.get("name").value,
+      price: Number(this.myForm.get("price").value),
+      quantity: Number(this.myForm.get("quantity").value),
+      props: this.generatePropsForRequest()
+    }
+  }
+
+  private generatePropsForRequest(): any[] {
+    var props = [];
+
+    const arrayControl = <FormArray>this.myForm.controls['formArray'];
+    for(let control of arrayControl.controls) {
+
+      if(control.get("propValue").value != null && control.get("propValue").value != "") {
+        props.push(
+            {
+              name: control.get("propName").value,
+              value: control.get("propValue").value
+            }
+        )
+      }
+    }
+
+    return props;
+  }
+
+
+  private validateUpdateInventory(): boolean {
+
+    var isValid = true;
+
+    if(this.myForm.get("name") == undefined || this.myForm.get("name").value == null ||
+        this.myForm.get("name").value == "" ) {
+      this.myForm.get("isNameError").setValue(true);
+      this.myForm.get("nameErrorMessage").setValue("Please provide inventory name.");
+      isValid = false;
+    }
+
+    if(this.myForm.get("price") == undefined || this.myForm.get("price").value == null ||
+        this.myForm.get("price").value == "" ) {
+      this.myForm.get("isPriceError").setValue(true);
+      this.myForm.get("priceErrorMessage").setValue("Please provide inventory price.");
+      isValid = false;
+    }
+    else if(!isNumeric(this.myForm.get("price").value)){
+      this.myForm.get("isPriceError").setValue(true);
+      this.myForm.get("priceErrorMessage").setValue("Price must be a numeric value.");
+      isValid = false;
+    }
+
+    if(this.myForm.get("quantity") == undefined || this.myForm.get("quantity").value == null ||
+        this.myForm.get("quantity").value == "" ) {
+      this.myForm.get("isQuantityError").setValue(true);
+      this.myForm.get("quantityErrorMessage").setValue("Please provide inventory quantity.");
+      isValid = false;
+    }
+    else if(!isNumeric(this.myForm.get("quantity").value)){
+      this.myForm.get("isQuantityError").setValue(true);
+      this.myForm.get("quantityErrorMessage").setValue("Quantity must be a numeric value.");
+      isValid = false;
+    }
+
+    return isValid;
   }
 
   public showUpdateInventoryModal(inventoryIndex:number) {
