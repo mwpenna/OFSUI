@@ -69,24 +69,6 @@
                                 <b class="tooltip tooltip-bottom-right">{{this.myForm.controls['nameErrorMessage'].value}}</b>
                             </label>
                         </section>
-                        <section *ngIf="!this.myForm.controls['isTypeError'].value"  class="col col-3">
-                            <label class="label">Inventory Type</label>
-                            <label class="input">
-                                <input type="text" formControlName="type" name="type" id="type" list="list">
-                            </label>
-                        </section>
-                        <section *ngIf="this.myForm.controls['isTypeError'].value" class="col col-3">
-                            <label class="label">Inventory Type</label>
-                            <label class="input">
-                                <input type="text" formControlName="type"  placeholder="type" list="list"
-                                       class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="inventory-type-error">
-                                <em id="inventory-type-error" class="invalid">{{this.myForm.controls['typeErrorMessage'].value}}</em>
-                                <b class="tooltip tooltip-bottom-right">{{this.myForm.controls['typeErrorMessage'].value}}</b>
-                            </label>
-                        </section>
-                        <datalist id="list">
-                            <option *ngFor="let name of templateNameList" value="{{name}}">{{name}}</option>
-                        </datalist>
                         <section *ngIf="!this.myForm.controls['isPriceError'].value" class="col col-3">
                             <label class="label">Inventory Price</label>
                             <label class="input"> <i class="icon-append fa fa-user"></i>
@@ -120,10 +102,8 @@
                     </fieldset>
                     <fieldset>
                         <div formArrayName="formArray">
-                            <div *ngFor="let control of myForm.controls['formArray'].controls; let i = index">
-                                <app-inventorypropssubcomponent *ngFor="let control of myForm.controls['formArray'].controls; let i = index" [itemFormGroup]="myForm.controls.formArray.controls[i]"></app-inventorypropssubcomponent>
-                                <section class="col col-10"></section>
-                            </div>
+                            <app-inventorypropssubcomponent *ngFor="let control of myForm.controls['formArray'].controls; let i = index" [itemFormGroup]="myForm.controls.formArray.controls[i]"></app-inventorypropssubcomponent>
+                            <section class="col col-10"></section>
                         </div>
                     </fieldset>
                     <footer>

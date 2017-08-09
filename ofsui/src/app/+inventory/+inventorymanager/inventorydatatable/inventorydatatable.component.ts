@@ -4,7 +4,7 @@ import {HttpExceptionHandler} from "../../../core/api/httpexceptionhandler";
 import {InventorySearchService} from "../inventorysearchform/inventorysearch.service";
 import {Response} from "@angular/http";
 import {Observable} from "rxjs";
-import {FormBuilder, FormGroup, FormControl} from "@angular/forms";
+import {FormBuilder, FormGroup, FormControl, FormArray} from "@angular/forms";
 import {ModalDirective} from "ngx-bootstrap";
 
 @Component({
@@ -95,23 +95,21 @@ export class InventorydatatableComponent implements OnInit {
 
   public showUpdateInventoryModal(inventoryIndex:number) {
     this.createAndResetForm();
-    this.inventoryId = this.resultList[inventoryIndex].id;
+    this.inventory = this.resultList[inventoryIndex];
+    this.inventoryId = this.inventory.id;
     this.createUpdateForm(inventoryIndex);
     this.lgModal.show();
   }
 
   private createUpdateForm(inventoryIndex: number) {
     let newForm = this.fb.group({
-      name: new FormControl(),
-      price: new FormControl(),
-      type: new FormControl(),
-      quantity: new FormControl(),
-      description: new FormControl(),
+      name: new FormControl(this.inventory.name),
+      price: new FormControl(this.inventory.price),
+      quantity: new FormControl(this.inventory.quantity),
+      description: new FormControl(this.inventory.description),
       formArray: this.fb.array([]),
       isNameError: new FormControl(false),
       nameErrorMessage: new FormControl(),
-      isTypeError: new FormControl(false),
-      typeErrorMessage: new FormControl(),
       isPriceError: new FormControl(false),
       priceErrorMessage: new FormControl(),
       isQuantityError: new FormControl(false),
@@ -119,20 +117,35 @@ export class InventorydatatableComponent implements OnInit {
     })
 
     this.myForm = newForm;
+    this.generatePropFormGroup();
+  }
+
+  private generatePropFormGroup() {
+    this.myForm.controls['formArray'] = new FormArray([]);
+    const arrayControl = <FormArray>this.myForm.controls['formArray'];
+
+    console.log(this.inventory);
+    for(let prop of this.inventory.props) {
+      let newGroup = this.fb.group({
+        propName: new FormControl(prop.name),
+        propValue: new FormControl(prop.value),
+        propType: new FormControl(prop.type),
+        isPropNameError: new FormControl(false),
+        propNameErrorMessage: new FormControl()
+      })
+      arrayControl.push(newGroup);
+    }
   }
 
   private createAndResetForm() {
     let newForm = this.fb.group({
       name: new FormControl(),
       price: new FormControl(),
-      type: new FormControl(),
       quantity: new FormControl(),
       description: new FormControl(),
       formArray: this.fb.array([]),
       isNameError: new FormControl(false),
       nameErrorMessage: new FormControl(),
-      isTypeError: new FormControl(false),
-      typeErrorMessage: new FormControl(),
       isPriceError: new FormControl(false),
       priceErrorMessage: new FormControl(),
       isQuantityError: new FormControl(false),
