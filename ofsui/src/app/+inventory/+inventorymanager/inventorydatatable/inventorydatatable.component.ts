@@ -57,6 +57,35 @@ export class InventorydatatableComponent implements OnInit {
     );
   }
 
+  public goToPage(page:number) {
+    this.selectedPage = page;
+    this.getNextPageData(this.selectedPage);
+  }
+
+  public previous() {
+    this.selectedPage = this.selectedPage-1;
+    this.getNextPageData(this.selectedPage);
+  }
+
+  public next() {
+    this.selectedPage = this.selectedPage+1;
+    this.getNextPageData(this.selectedPage);
+  }
+
+  private getNextPageData(page:number) {
+    this.inventoryService.search(this.inventorySearchService.getRequest(), this.inventorySearchService.getPageLimit(), (this.inventorySearchService.getPageLimit()*(page-1)))
+        .map(this.extractData)
+        .catch(this.handleError)
+        .subscribe(
+            results => {
+              this.inventorySearchService.announceSearchResults(results);
+            },
+            error => {
+              this.httpExceptionHandler.handleException(error);
+            }
+        );
+  }
+
   private setNumPages(length:number){
     var x=[];
     var i=1;
