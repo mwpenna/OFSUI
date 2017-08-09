@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {InventoryAPIService} from "../../../core/api/inventoryapi.service";
 import {HttpExceptionHandler} from "../../../core/api/httpexceptionhandler";
 import {InventorySearchService} from "../inventorysearchform/inventorysearch.service";
 import {Response} from "@angular/http";
 import {Observable} from "rxjs";
+import {FormBuilder, FormGroup, FormControl} from "@angular/forms";
+import {ModalDirective} from "ngx-bootstrap";
 
 @Component({
   selector: 'app-inventorydatatable',
   templateUrl: './inventorydatatable.component.html'
 })
 export class InventorydatatableComponent implements OnInit {
+  myForm: FormGroup;
 
   public items: any[];
   public tableColumnNames: string[] = [];
@@ -22,11 +25,18 @@ export class InventorydatatableComponent implements OnInit {
   public selectedPage:number=1;
   public isInitialLoad:boolean=true;
 
+  public inventory:any;
+  public inventoryId: number;
+
+  @ViewChild('lgModal') public lgModal:ModalDirective;
+
   constructor( private inventoryService: InventoryAPIService,
                private httpExceptionHandler: HttpExceptionHandler,
-               private inventorySearchService: InventorySearchService) { }
+               private inventorySearchService: InventorySearchService,
+               private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.createAndResetForm();
     this.inventorySearchService.setRequest({})
 
     this.inventoryService.search({}, this.inventorySearchService.getPageLimit(), 0)
@@ -81,6 +91,34 @@ export class InventorydatatableComponent implements OnInit {
               this.httpExceptionHandler.handleException(error);
             }
         );
+  }
+
+  public showUpdateInventoryModal(inventoryIndex:number) {
+    this.createAndResetForm();
+    this.inventoryId = this.resultList[inventoryIndex].id;
+    this.createUpdateForm(inventoryIndex);
+    this.lgModal.show();
+  }
+
+  private createUpdateForm(inventoryIndex: number) {
+    let newForm = this.fb.group({
+      name: new FormControl(),
+      price: new FormControl(),
+      type: new FormControl(),
+      quantity: new FormControl(),
+      description: new FormControl(),
+      formArray: this.fb.array([]),
+    })
+
+    this.myForm = newForm;
+  }
+
+  private createAndResetForm() {
+    let newForm = this.fb.group({
+      formArray: this.fb.array([])
+    });
+
+    this.myForm = newForm;
   }
 
   public goToPage(page:number) {
