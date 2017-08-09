@@ -54,7 +54,71 @@
             <div class="modal-body no-padding">
                 <form class="smart-form" [formGroup]="myForm">
                     <fieldset>
-                        <label class="label">Template columns</label>
+                        <section *ngIf="!this.myForm.controls['isNameError'].value" class="col col-3">
+                            <label class="label">Inventory Name</label>
+                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                <input type="text" formControlName="name" name="name" id="name" placeholder="name"/>
+                                <b class="tooltip tooltip-bottom-right">Please provide a name for the new inventory item</b> </label>
+                        </section>
+                        <section *ngIf="this.myForm.controls['isNameError'].value" class="col col-3">
+                            <label class="label">Inventory Name</label>
+                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                <input type="text" formControlName="name"  placeholder="name"
+                                       class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="inventory-name-error">
+                                <em id="inventory-name-error" class="invalid">{{this.myForm.controls['nameErrorMessage'].value}}</em>
+                                <b class="tooltip tooltip-bottom-right">{{this.myForm.controls['nameErrorMessage'].value}}</b>
+                            </label>
+                        </section>
+                        <section *ngIf="!this.myForm.controls['isTypeError'].value"  class="col col-3">
+                            <label class="label">Inventory Type</label>
+                            <label class="input">
+                                <input type="text" formControlName="type" name="type" id="type" list="list">
+                            </label>
+                        </section>
+                        <section *ngIf="this.myForm.controls['isTypeError'].value" class="col col-3">
+                            <label class="label">Inventory Type</label>
+                            <label class="input">
+                                <input type="text" formControlName="type"  placeholder="type" list="list"
+                                       class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="inventory-type-error">
+                                <em id="inventory-type-error" class="invalid">{{this.myForm.controls['typeErrorMessage'].value}}</em>
+                                <b class="tooltip tooltip-bottom-right">{{this.myForm.controls['typeErrorMessage'].value}}</b>
+                            </label>
+                        </section>
+                        <datalist id="list">
+                            <option *ngFor="let name of templateNameList" value="{{name}}">{{name}}</option>
+                        </datalist>
+                        <section *ngIf="!this.myForm.controls['isPriceError'].value" class="col col-3">
+                            <label class="label">Inventory Price</label>
+                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                <input type="text" formControlName="price" name="price" id="price" placeholder="price"/>
+                                <b class="tooltip tooltip-bottom-right">Please provide a price for the new inventory item</b> </label>
+                        </section>
+                        <section *ngIf="this.myForm.controls['isPriceError'].value" class="col col-3">
+                            <label class="label">Inventory Type</label>
+                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                <input type="text" formControlName="price"  placeholder="price"
+                                       class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="inventory-price-error">
+                                <em id="inventory-price-error" class="invalid">{{this.myForm.controls['priceErrorMessage'].value}}</em>
+                                <b class="tooltip tooltip-bottom-right">{{this.myForm.controls['priceErrorMessage'].value}}</b>
+                            </label>
+                        </section>
+                        <section *ngIf="!this.myForm.controls['isQuantityError'].value" class="col col-3">
+                            <label class="label">Inventory Quantity</label>
+                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                <input type="text" formControlName="quantity" name="quantity" id="quantity" placeholder="quantity"/>
+                                <b class="tooltip tooltip-bottom-right">Please provide a quantity you have for the new inventory item</b> </label>
+                        </section>
+                        <section *ngIf="this.myForm.controls['isQuantityError'].value" class="col col-3">
+                            <label class="label">Inventory Type</label>
+                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                <input type="text" formControlName="quantity"  placeholder="quantity"
+                                       class="ng-pristine ng-valid ng-touched invalid" aria-required="true" aria-describedby="inventory-quantity-error">
+                                <em id="inventory-quantity-error" class="invalid">{{this.myForm.controls['quantityErrorMessage'].value}}</em>
+                                <b class="tooltip tooltip-bottom-right">{{this.myForm.controls['quantityErrorMessage'].value}}</b>
+                            </label>
+                        </section>
+                    </fieldset>
+                    <fieldset>
                         <div formArrayName="formArray">
                             <div *ngFor="let control of myForm.controls['formArray'].controls; let i = index">
                                 <app-inventorypropssubcomponent *ngFor="let control of myForm.controls['formArray'].controls; let i = index" [itemFormGroup]="myForm.controls.formArray.controls[i]"></app-inventorypropssubcomponent>

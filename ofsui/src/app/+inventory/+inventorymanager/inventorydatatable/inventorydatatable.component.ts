@@ -108,6 +108,14 @@ export class InventorydatatableComponent implements OnInit {
       quantity: new FormControl(),
       description: new FormControl(),
       formArray: this.fb.array([]),
+      isNameError: new FormControl(false),
+      nameErrorMessage: new FormControl(),
+      isTypeError: new FormControl(false),
+      typeErrorMessage: new FormControl(),
+      isPriceError: new FormControl(false),
+      priceErrorMessage: new FormControl(),
+      isQuantityError: new FormControl(false),
+      quantityErrorMessage: new FormControl()
     })
 
     this.myForm = newForm;
@@ -115,7 +123,20 @@ export class InventorydatatableComponent implements OnInit {
 
   private createAndResetForm() {
     let newForm = this.fb.group({
-      formArray: this.fb.array([])
+      name: new FormControl(),
+      price: new FormControl(),
+      type: new FormControl(),
+      quantity: new FormControl(),
+      description: new FormControl(),
+      formArray: this.fb.array([]),
+      isNameError: new FormControl(false),
+      nameErrorMessage: new FormControl(),
+      isTypeError: new FormControl(false),
+      typeErrorMessage: new FormControl(),
+      isPriceError: new FormControl(false),
+      priceErrorMessage: new FormControl(),
+      isQuantityError: new FormControl(false),
+      quantityErrorMessage: new FormControl()
     });
 
     this.myForm = newForm;
