@@ -100,6 +100,7 @@ export class InventorydatatableComponent implements OnInit {
   }
 
   public updateInventory() {
+    this.clearErrors();
     if(this.validateUpdateInventory()) {
       this.inventoryService.update(this.inventoryId,this.generateUpdateInventoryRequest())
           .catch(this.handleError)
@@ -123,10 +124,43 @@ export class InventorydatatableComponent implements OnInit {
                 var errors = error.json().errors;
 
                 for(var i = 0; i< errors.length; i++) {
-
+                  if(errors[i].code == "prop.invalid_value") {
+                    this.handleInvalidPropValue(errors[i].properties.name);
+                  }
                 }
               }
           );
+    }
+  }
+
+  private clearErrors() {
+    this.myForm.get("isNameError").setValue(false);
+    this.myForm.get("nameErrorMessage").setValue("");
+    this.myForm.get("isPriceError").setValue(false);
+    this.myForm.get("priceErrorMessage").setValue("");
+    this.myForm.get("isQuantityError").setValue(false);
+    this.myForm.get("quantityErrorMessage").setValue("");
+
+    const arrayControl = <FormArray>this.myForm.controls['formArray']
+
+    for(let control of arrayControl.controls) {
+      const formGroup = <FormGroup>control;
+      formGroup.get("isPropNameError").setValue(false);
+      formGroup.get("propNameErrorMessage").setValue("")
+    }
+  }
+
+  private handleInvalidPropValue(propName: string) {
+    console.log(propName);
+    const arrayControl = <FormArray>this.myForm.controls['formArray']
+
+    for(let control of arrayControl.controls) {
+      const formGroup = <FormGroup>control;
+
+      if (formGroup.get("propName").value == propName) {
+        formGroup.get("isPropNameError").setValue(true);
+        formGroup.get("propNameErrorMessage").setValue("Invalid value. Please provide a numeric value.")
+      }
     }
   }
 
