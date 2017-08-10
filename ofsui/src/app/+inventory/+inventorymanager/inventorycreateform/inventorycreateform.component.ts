@@ -7,6 +7,7 @@ import {FormBuilder, FormGroup, FormControl, FormArray} from "@angular/forms";
 import {InventoryAPIService} from "../../../core/api/inventoryapi.service";
 import {HttpExceptionHandler} from "../../../core/api/httpexceptionhandler";
 import {isNumeric} from "rxjs/util/isNumeric";
+import {InventorySearchService} from "../inventorysearchform/inventorysearch.service";
 
 @Component({
   selector: 'app-inventorycreateform',
@@ -24,6 +25,7 @@ export class InventorycreateformComponent implements OnInit {
   constructor(private templateAPI: TemplateAPIService,
               private fb: FormBuilder,
               private inventoryAPI: InventoryAPIService,
+              private inventorySearchService: InventorySearchService,
               private httpExceptionHandler: HttpExceptionHandler) { }
 
   ngOnInit() {
@@ -112,6 +114,7 @@ export class InventorycreateformComponent implements OnInit {
               result => {
                 this.defaultCreateInventoryForm();
                 this.inventoryCreateModal.hide();
+                this.inventorySearch();
               },
               error => {
                 console.log(error);
@@ -135,6 +138,20 @@ export class InventorycreateformComponent implements OnInit {
               }
           );
     }
+  }
+
+  private inventorySearch() {
+    this.inventoryAPI.search({}, this.inventorySearchService.getPageLimit(), 0)
+        .map(this.extractData)
+        .catch(this.handleError)
+        .subscribe(
+            result => {
+              this.inventorySearchService.announceSearchResults(result);
+            },
+            error => {
+              this.httpExceptionHandler.handleException(error);
+            }
+        );
   }
 
   private handleInvalidPropValue(propName: string) {
