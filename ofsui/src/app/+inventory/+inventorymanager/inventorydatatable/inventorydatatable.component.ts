@@ -125,7 +125,10 @@ export class InventorydatatableComponent implements OnInit {
 
                 for(var i = 0; i< errors.length; i++) {
                   if(errors[i].code == "prop.invalid_value") {
-                    this.handleInvalidPropValue(errors[i].properties.name);
+                    this.handlePropError(errors[i].properties.name, "Invalid value. Please provide a numeric value.");
+                  }
+                  if(errors[i].code == "inventory.required.prop.missing") {
+                    this.handlePropError(errors[i].properties.name, "Field is required. Please provide a valid value.")
                   }
                 }
               }
@@ -150,7 +153,7 @@ export class InventorydatatableComponent implements OnInit {
     }
   }
 
-  private handleInvalidPropValue(propName: string) {
+  private handlePropError(propName: string, message: string) {
     console.log(propName);
     const arrayControl = <FormArray>this.myForm.controls['formArray']
 
@@ -159,7 +162,7 @@ export class InventorydatatableComponent implements OnInit {
 
       if (formGroup.get("propName").value == propName) {
         formGroup.get("isPropNameError").setValue(true);
-        formGroup.get("propNameErrorMessage").setValue("Invalid value. Please provide a numeric value.")
+        formGroup.get("propNameErrorMessage").setValue(message);
       }
     }
   }
@@ -387,7 +390,16 @@ export class InventorydatatableComponent implements OnInit {
   private mapProps(data: any[], inventory: any) {
     for(let prop of inventory.props) {
       if(this.propMap.has(prop.name)) {
-        data[this.propMap.get(prop.name)] = prop.value;
+
+        if("TRUE" == prop.value) {
+          data[this.propMap.get(prop.name)] = "YES";
+        }
+        else if ("FALSE" == prop.value) {
+          data[this.propMap.get(prop.name)] = "NO";
+        }
+        else {
+          data[this.propMap.get(prop.name)] = prop.value;
+        }
       }
     }
   }
