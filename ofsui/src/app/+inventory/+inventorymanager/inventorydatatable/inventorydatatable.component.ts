@@ -7,6 +7,7 @@ import {Observable} from "rxjs";
 import {FormBuilder, FormGroup, FormControl, FormArray} from "@angular/forms";
 import {ModalDirective} from "ngx-bootstrap";
 import {isNumeric} from "rxjs/util/isNumeric";
+import {TemplateAPIService} from "../../../core/api/templateapi.service";
 
 @Component({
   selector: 'app-inventorydatatable',
@@ -29,11 +30,14 @@ export class InventorydatatableComponent implements OnInit {
   public inventory:any;
   public inventoryId: number;
 
+  public templateList: Map<string, any> = new Map<string, any>();
+
   @ViewChild('lgModal') public lgModal:ModalDirective;
 
   constructor( private inventoryService: InventoryAPIService,
                private httpExceptionHandler: HttpExceptionHandler,
                private inventorySearchService: InventorySearchService,
+               private templateService: TemplateAPIService,
                private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -54,9 +58,9 @@ export class InventorydatatableComponent implements OnInit {
 
     this.inventorySearchService.searchResultAnnounced$.subscribe(
         results => {
-          console.log("Serach Results received");
           this.buildTableColumnNames(results.items);
           this.buildItemList(results.items);
+          this.getTemplatesByCompanyId();
           this.count = results.count;
           this.resultList = results.items;
 
@@ -96,9 +100,7 @@ export class InventorydatatableComponent implements OnInit {
   }
 
   public updateInventory() {
-    console.log("Inside update inventory");
     if(this.validateUpdateInventory()) {
-      console.log(this.generateUpdateInventoryRequest());
       this.inventoryService.update(this.inventoryId,this.generateUpdateInventoryRequest())
           .catch(this.handleError)
           .subscribe(
@@ -227,16 +229,30 @@ export class InventorydatatableComponent implements OnInit {
     this.myForm.controls['formArray'] = new FormArray([]);
     const arrayControl = <FormArray>this.myForm.controls['formArray'];
 
-    console.log(this.inventory);
+    var propValues = new Map<string, any>();
+
     for(let prop of this.inventory.props) {
-      let newGroup = this.fb.group({
-        propName: new FormControl(prop.name),
-        propValue: new FormControl(prop.value),
-        propType: new FormControl(prop.type),
-        isPropNameError: new FormControl(false),
-        propNameErrorMessage: new FormControl()
-      })
-      arrayControl.push(newGroup);
+      propValues.set(prop.name, prop.value);
+    }
+
+    if(this.templateList.has(this.inventory.type)) {
+      for(let prop of this.templateList.get(this.inventory.type).props) {
+        console.log(prop);
+        var propValue = "";
+
+        if(propValues.has(prop.name)) {
+          propValue = propValues.get(prop.name);
+        }
+
+        let newGroup = this.fb.group({
+          propName: new FormControl(prop.name),
+          propValue: new FormControl(propValue),
+          propType: new FormControl(prop.type),
+          isPropNameError: new FormControl(false),
+          propNameErrorMessage: new FormControl()
+        })
+        arrayControl.push(newGroup);
+      }
     }
   }
 
@@ -317,14 +333,11 @@ export class InventorydatatableComponent implements OnInit {
       itemLocation++
     }
 
-    console.log(this.items);
-
     this.items = items;
   }
 
   private defaultMissingFields(data: any[]) {
     for(var i=0; i< data.length; i++) {
-      console.log(data[i]);
       if(data[i] == null) {
         data[i]= "";
       }
@@ -372,6 +385,22 @@ export class InventorydatatableComponent implements OnInit {
     }
 
     this.tableColumnNames = columnNames;
+  }
+
+  private getTemplatesByCompanyId() {
+    this.templateService.getTemplateByCompanyId()
+        .map(this.extractData)
+        .catch(this.handleError)
+        .subscribe(
+            result => {
+              for(let template of result.items) {
+                this.templateList.set(template.name, template);
+              }
+            },
+            error => {
+              this.httpExceptionHandler.handleException(error);
+            }
+        );
   }
 
   private extractData(res:Response) {
