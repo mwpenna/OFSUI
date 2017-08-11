@@ -402,6 +402,7 @@ export class InventorydatatableComponent implements OnInit {
   }
 
   private buildTableColumnNames(inventoryList: any[]) {
+    this.propMap = new Map<string, number>();
     var columnNames= [];
 
     columnNames[columnNames.length] = "";
