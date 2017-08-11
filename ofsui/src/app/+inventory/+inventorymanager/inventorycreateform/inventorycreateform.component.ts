@@ -294,6 +294,7 @@ export class InventorycreateformComponent implements OnInit {
       type: this.myForm.get("type").value,
       price: Number(this.myForm.get("price").value),
       quantity: Number(this.myForm.get("quantity").value),
+      description: this.myForm.get("description").value,
       props: this.generatePropsForRequest()
     }
   }

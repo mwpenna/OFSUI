@@ -154,7 +154,6 @@ export class InventorydatatableComponent implements OnInit {
   }
 
   private handlePropError(propName: string, message: string) {
-    console.log(propName);
     const arrayControl = <FormArray>this.myForm.controls['formArray']
 
     for(let control of arrayControl.controls) {
@@ -274,7 +273,6 @@ export class InventorydatatableComponent implements OnInit {
 
     if(this.templateList.has(this.inventory.type)) {
       for(let prop of this.templateList.get(this.inventory.type).props) {
-        console.log(prop);
         var propValue = "";
 
         if(propValues.has(prop.name)) {
@@ -353,6 +351,7 @@ export class InventorydatatableComponent implements OnInit {
     var itemLocation = 0;
 
     for(let inventory of inventoryList) {
+      console.log(inventory);
       var data = [];
       data[0] = "";
       data[1] = "";
@@ -369,7 +368,8 @@ export class InventorydatatableComponent implements OnInit {
       items[itemLocation] = data
       itemLocation++
     }
-
+    console.log("Build Item List");
+    console.log(items);
     this.items = items;
   }
 
