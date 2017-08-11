@@ -117,7 +117,6 @@ export class InventorycreateformComponent implements OnInit {
                 this.inventorySearch();
               },
               error => {
-                console.log(error);
                 this.httpExceptionHandler.handleException(error);
                 var errors = error.json().errors;
 
@@ -155,7 +154,6 @@ export class InventorycreateformComponent implements OnInit {
   }
 
   private handleInvalidPropValue(propName: string) {
-    console.log(propName);
     const arrayControl = <FormArray>this.myForm.controls['formArray']
 
     for(let control of arrayControl.controls) {

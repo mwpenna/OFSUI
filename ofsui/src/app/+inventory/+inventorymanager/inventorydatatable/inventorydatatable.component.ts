@@ -351,7 +351,6 @@ export class InventorydatatableComponent implements OnInit {
     var itemLocation = 0;
 
     for(let inventory of inventoryList) {
-      console.log(inventory);
       var data = [];
       data[0] = "";
       data[1] = "";
@@ -368,8 +367,6 @@ export class InventorydatatableComponent implements OnInit {
       items[itemLocation] = data
       itemLocation++
     }
-    console.log("Build Item List");
-    console.log(items);
     this.items = items;
   }
 

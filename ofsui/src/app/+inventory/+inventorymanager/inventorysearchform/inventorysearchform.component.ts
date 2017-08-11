@@ -32,14 +32,12 @@ export class InventorysearchformComponent implements OnInit {
         .distinctUntilChanged()
         .subscribe(
             request => {
-              console.log(JSON.stringify(request));
               this.inventorySearchService.setRequest(request);
               this.inventoryService.search(request, this.inventorySearchService.getPageLimit(), 0)
                   .map(this.extractData)
                   .catch(this.handleError)
                   .subscribe(
                       result => {
-                        console.log(result);
                         this.inventorySearchService.announceSearchResults(result);
                       },
                       error => {
